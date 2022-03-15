@@ -21,7 +21,7 @@ const isAuthenticatedService: IsAuthenticatedService = new IsAuthenticatedServic
 let loading = ref(true);
 const defaultRouteRedirect = '/admin/home';
 
-async function onAuthEvent(data: any): void {
+async function onAuthEvent(data: any): Promise<void> {
   switch (data.event) {
     case 'signIn':
       await router.push(defaultRouteRedirect);

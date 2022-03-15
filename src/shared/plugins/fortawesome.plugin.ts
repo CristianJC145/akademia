@@ -5,6 +5,8 @@ import {
     faHome,
     faBars,
     faExpand,
+    faUserCircle,
+    faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -12,6 +14,8 @@ export default {
         library.add(faHome);
         library.add(faBars);
         library.add(faExpand);
+        library.add(faUserCircle);
+        library.add(faSignOutAlt);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },

@@ -8,8 +8,8 @@ import {amplifyConstant} from './shared/constant/amplify.constant';
 import {translations} from '@aws-amplify/ui';
 import {I18n} from 'aws-amplify';
 
-// import "bootstrap/dist/css/bootstrap.min.css"
-// import "bootstrap"
+import 'bootstrap/scss/bootstrap.scss'
+import "bootstrap"
 
 Amplify.configure(amplifyConstant);
 I18n.putVocabularies(translations);
