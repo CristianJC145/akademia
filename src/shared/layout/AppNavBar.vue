@@ -9,7 +9,7 @@
       </button>
     </div>
     <div>
-      <button class="btn">
+      <button class="btn d-none d-md-block">
         <AppIcon icon="expand"></AppIcon>
       </button>
     </div>
@@ -43,10 +43,12 @@ export default defineComponent({
       sideBar,
     };
   },
-  emits: ['showSideBar']
+  emits: ['showSideBar'],
 });
 </script>
 
 <style scoped>
-
+.offcanvas {
+  width: 280px;
+}
 </style>
