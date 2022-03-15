@@ -14,9 +14,6 @@
       </button>
     </div>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-      <div class="offcanvas-header bg-light justify-content-end p-2">
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
       <div class="p-0 w-100 h-100">
         <AppSideBar></AppSideBar>
       </div>
