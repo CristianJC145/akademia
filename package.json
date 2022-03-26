@@ -2,7 +2,7 @@
   "name": "akademia",
   "version": "0.0.1",
   "scripts": {
-    "dev": "vite --port 8000",
+    "start": "vite --port 8000",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },

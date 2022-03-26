@@ -4,7 +4,6 @@ import {authRouting} from './modules/auth/auth.routing';
 import AppEmptyLayout from './shared/layout/AppEmptyLayout.vue';
 import AppLayout from './shared/layout/AppLayout.vue';
 import {adminRouting} from './modules/admin/admin.routing';
-import {initDataResolver} from './shared/resolvers/initData.resolver';
 
 const appRouting: RouteRecordRaw[] = [
     {
@@ -16,7 +15,6 @@ const appRouting: RouteRecordRaw[] = [
             {
                 path: '/admin',
                 component: AppLayout,
-                beforeEnter: initDataResolver,
                 children: adminRouting,
             },
 

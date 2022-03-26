@@ -1,3 +1,3 @@
 export const services = {
-    users: import.meta.env.VITE_USER_SERVICE,
+    users: import.meta.env.VITE_USERS_SERVICE,
 };

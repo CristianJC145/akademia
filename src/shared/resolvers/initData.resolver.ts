@@ -1,8 +1,10 @@
 import {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {GetInitDataService} from '../services/getInitData.service';
 import {ItemMenuType} from '../types/itemMenu.type';
+import {IsAuthenticatedService} from '../services/isAuthenticated.service';
 
 const getInitDataService = new GetInitDataService();
+const isAuthenticatedService = new IsAuthenticatedService();
 
 function convertRouteToNavigation(route: string): { route: string | null; externalLink: boolean } {
     if (!route) {
@@ -28,6 +30,12 @@ function convertRouteToNavigation(route: string): { route: string | null; extern
 }
 
 async function initDataResolver(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+    const isAuth = !isAuthenticatedService.run();
+
+    if (!isAuth) {
+        return next();
+    }
+
     const {
         items,
     } = await getInitDataService.run();
@@ -67,9 +75,7 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
         }
     });
 
-    console.log(itemsMenu);
-
-    next();
+    return next();
 }
 
 export {

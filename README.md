@@ -1,3 +1,15 @@
+# Instalación
+
+1. Instalar las dependencias
+
+`npm install`
+
+2. Crear el archivo .env a partir del .env.example 
+
+3. Correr el servidor en desarrollo
+
+`npm start`
+
 # Vue 3 + Typescript + Vite
 
 This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.

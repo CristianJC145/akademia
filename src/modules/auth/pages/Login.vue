@@ -7,21 +7,36 @@
     <div class="card login-container shadow-sm w-100">
       <div class="card-body px-4 py-5">
         <form @submit.prevent="login">
-          <div class="mb-3" :class="{ error: v$.form.username.$errors.length }">
+          <AppFormField>
             <label for="username">Nombre de usuario</label>
-            <input type="text" class="form-control" id="username" v-model="v$.form.username.$model"/>
-
-          </div>
+            <input type="text" class="form-control" :class="{ 'is-invalid': v$.form.username.$error }" id="username"
+                   v-model="v$.form.username.$model"/>
+            <!--            <small class="text-danger" v-if="formControl.$errors.length">
+                          {{ formControl.$errors[0].$message }}
+                        </small>-->
+          </AppFormField>
+          <!--          <div class="mb-3 ">
+                      <label for="username">Nombre de usuario</label>
+                      <input type="text" class="form-control" :class="{ 'is-invalid': v$.form.username.$error }" id="username" v-model="v$.form.username.$model"/>
+                      <small class="text-danger" v-if="v$.form.username.$errors.length">
+                        {{ v$.form.username.$errors[0].$message }}
+                      </small>
+                    </div>-->
 
           <div class="mb-3">
             <label for="password">Contraseña</label>
             <div class="input-group">
-              <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password"
+              <input :type="showPassword ? 'text' : 'password'" class="form-control"
+                     :class="{ 'is-invalid': v$.form.password.$error }" id="password"
                      v-model="v$.form.password.$model">
               <button class="btn btn-outline-secondary" type="button" @click="showPassword = !showPassword">
                 <AppIcon :icon="showPassword ? 'eye-slash' : 'eye'"></AppIcon>
               </button>
             </div>
+
+            <small class="text-danger" v-if="v$.form.password.$errors.length">
+              {{ v$.form.password.$errors[0].$message }}
+            </small>
 
           </div>
 
@@ -38,61 +53,65 @@
 </template>
 
 <script lang="ts">
-import {onMounted, ref, defineComponent, reactive} from 'vue';
-import {useRouter} from 'vue-router';
-import {useVuelidate} from '@vuelidate/core';
-import {required, minLength} from '@vuelidate/validators';
+import {ref, defineComponent} from 'vue';
+import useVuelidate from '@vuelidate/core';
+import {required} from '@vuelidate/validators';
 import {IsAuthenticatedService} from '../../../shared/services/isAuthenticated.service';
 import AppIcon from '../../../shared/components/AppIcon.vue';
+import AppFormField from '../../../shared/components/AppFormField.vue';
+import {LoginService} from '../services/login.service';
 
 const isAuthenticatedService: IsAuthenticatedService = new IsAuthenticatedService();
 const defaultRouteRedirect = '/admin/home';
+const loginService = new LoginService();
 
 export default defineComponent({
   name: 'Login',
-  components: {AppIcon},
+  components: {AppFormField, AppIcon},
   setup() {
-    let loading = ref(true);
-    let showPassword = ref(false);
-
-    const router = useRouter();
-
-    onMounted(async () => {
-      const isAuthenticated = await isAuthenticatedService.run();
-      if (isAuthenticated) {
-        // await router.push(defaultRouteRedirect);
-      }
-
-      loading.value = false;
-    });
-
-    const login = () => {
-      console.log('aqui');
+    return {
+      showPassword: ref(false),
+      v$: useVuelidate(),
     };
-
-    const form = reactive({
+  },
+  data() {
+    return {
       form: {
         username: '',
         password: '',
       },
-    });
-
-    const rules = {
-      form: {
-        username: {required},
-        password: {required, min: minLength(6)},
-      },
-    };
-
-    return {
-      loading,
-      showPassword,
-      login,
-      form,
-      v$: useVuelidate(rules, form),
     };
   },
-});
+  validations() {
+    return {
+      form: {
+        username: {required},
+        password: {required},
+      },
+    };
+  },
+  methods: {
+    async login() {
+      const formIsValid = await this.v$.$validate();
+
+      if (!formIsValid) {
+        return false;
+      }
+
+      try {
+        await loginService.run({
+          username: this.form.username,
+          password: this.form.password,
+        });
+
+        await this.$router.push(defaultRouteRedirect);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+})
+;
 </script>
 
 <style scoped>

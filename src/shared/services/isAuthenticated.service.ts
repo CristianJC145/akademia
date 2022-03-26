@@ -1,6 +1,7 @@
 export class IsAuthenticatedService {
-    async run() {
-        return false;
-        // return Auth.currentAuthenticatedUser().then(user => user).catch(() => false);
+    run() {
+        const token = localStorage.getItem('token');
+
+        return !!token;
     }
 }

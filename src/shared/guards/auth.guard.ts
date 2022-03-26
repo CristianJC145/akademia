@@ -4,7 +4,7 @@ import {IsAuthenticatedService} from '../services/isAuthenticated.service';
 const isAuthenticatedService = new IsAuthenticatedService();
 
 async function check(redirectURL: string): Promise<boolean> {
-    const isAuth = await isAuthenticatedService.run();
+    const isAuth = isAuthenticatedService.run();
 
     if (isAuth) {
         return true;
@@ -29,8 +29,8 @@ export async function authGuard(to: RouteLocationNormalized, from: RouteLocation
     const isCheck = await check(redirectUrl);
     
     if (!isCheck) {
-        next('/auth/login');
+       return next('/auth/login');
     }
 
-    next();
+    return next();
 }
