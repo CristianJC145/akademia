@@ -1,8 +1,8 @@
 {
-  "name": "vue",
-  "version": "0.0.0",
+  "name": "akademia",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 8000",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
@@ -11,6 +11,8 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
+    "@vuelidate/core": "^2.0.0-alpha.35",
+    "@vuelidate/validators": "^2.0.0-alpha.27",
     "aws-amplify": "^4.3.11",
     "axios": "^0.24.0",
     "bootstrap": "^5.1.3",

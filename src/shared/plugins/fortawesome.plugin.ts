@@ -7,6 +7,8 @@ import {
     faExpand,
     faUserCircle,
     faSignOutAlt,
+    faEye,
+    faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -16,6 +18,8 @@ export default {
         library.add(faExpand);
         library.add(faUserCircle);
         library.add(faSignOutAlt);
+        library.add(faEye);
+        library.add(faEyeSlash);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },

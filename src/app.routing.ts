@@ -11,12 +11,12 @@ const appRouting: RouteRecordRaw[] = [
         path: '/',
         component: AppEmptyLayout,
         redirect: '/admin/home',
-        beforeEnter: initDataResolver,
         children: [
             // Admin Module
             {
                 path: '/admin',
                 component: AppLayout,
+                beforeEnter: initDataResolver,
                 children: adminRouting,
             },
 
