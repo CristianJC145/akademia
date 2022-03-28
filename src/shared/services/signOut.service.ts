@@ -1,14 +1,12 @@
 import {TokenService} from './token.service';
 
-export class IsAuthenticatedService {
+export class SignOutService {
     constructor(
         private tokenService = new TokenService(),
     ) {
     }
 
     run() {
-        const token = this.tokenService.get();
-
-        return !!token;
+        this.tokenService.delete();
     }
 }
