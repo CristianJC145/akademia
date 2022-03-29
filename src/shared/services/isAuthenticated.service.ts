@@ -6,9 +6,9 @@ export class IsAuthenticatedService {
     ) {
     }
 
-    run() {
+    run(): string | boolean {
         const token = this.tokenService.get();
 
-        return !!token;
+        return (token ? token : false);
     }
 }
