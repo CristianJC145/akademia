@@ -9,6 +9,9 @@ import {
     faSignOutAlt,
     faEye,
     faEyeSlash,
+    faShoppingCart,
+    faSearch,
+    faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -20,6 +23,9 @@ export default {
         library.add(faSignOutAlt);
         library.add(faEye);
         library.add(faEyeSlash);
+        library.add(faShoppingCart);
+        library.add(faSearch);
+        library.add(faFilter);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },

@@ -7,13 +7,10 @@
     <div class="card login-container shadow-sm w-100">
       <div class="card-body px-4 py-5">
         <form @submit.prevent="login">
-          <AppFormField>
+          <AppFormField :form-control="v$.form.username">
             <label for="username">Nombre de usuario</label>
-            <input type="text" class="form-control" :class="{ 'is-invalid': v$.form.username.$error }" id="username"
+            <input type="text" class="form-control" id="username"
                    v-model="v$.form.username.$model"/>
-            <!--            <small class="text-danger" v-if="formControl.$errors.length">
-                          {{ formControl.$errors[0].$message }}
-                        </small>-->
           </AppFormField>
           <!--          <div class="mb-3 ">
                       <label for="username">Nombre de usuario</label>
@@ -23,22 +20,16 @@
                       </small>
                     </div>-->
 
-          <div class="mb-3">
+          <AppFormField :form-control="v$.form.password">
             <label for="password">Contraseña</label>
             <div class="input-group">
-              <input :type="showPassword ? 'text' : 'password'" class="form-control"
-                     :class="{ 'is-invalid': v$.form.password.$error }" id="password"
+              <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password"
                      v-model="v$.form.password.$model">
               <button class="btn btn-outline-secondary" type="button" @click="showPassword = !showPassword">
                 <AppIcon :icon="showPassword ? 'eye-slash' : 'eye'"></AppIcon>
               </button>
             </div>
-
-            <small class="text-danger" v-if="v$.form.password.$errors.length">
-              {{ v$.form.password.$errors[0].$message }}
-            </small>
-
-          </div>
+          </AppFormField>
 
           <div class="d-grid">
             <button class="btn btn-primary text-white btn-block">
@@ -62,7 +53,6 @@ import AppFormField from '../../../shared/components/AppFormField.vue';
 import {LoginService} from '../services/login.service';
 
 const isAuthenticatedService: IsAuthenticatedService = new IsAuthenticatedService();
-const defaultRouteRedirect = '/admin/home';
 const loginService = new LoginService();
 
 export default defineComponent({
@@ -74,12 +64,20 @@ export default defineComponent({
       v$: useVuelidate(),
     };
   },
+  async mounted(): Promise<void> {
+    const isAuth = isAuthenticatedService.run();
+
+    if (isAuth) {
+      await this.redirect();
+    }
+  },
   data() {
     return {
       form: {
         username: '',
         password: '',
       },
+      defaultRouteRedirect: '/admin/home',
     };
   },
   validations() {
@@ -91,11 +89,11 @@ export default defineComponent({
     };
   },
   methods: {
-    async login() {
+    async login(): Promise<void> {
       const formIsValid = await this.v$.$validate();
 
       if (!formIsValid) {
-        return false;
+        return;
       }
 
       try {
@@ -104,10 +102,13 @@ export default defineComponent({
           password: this.form.password,
         });
 
-        await this.$router.push(defaultRouteRedirect);
+        await this.redirect();
       } catch (e) {
         console.log(e);
       }
+    },
+    async redirect(): Promise<void> {
+      await this.$router.push(this.defaultRouteRedirect);
     },
   },
 })

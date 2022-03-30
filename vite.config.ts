@@ -1,5 +1,6 @@
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
+import * as path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,6 +10,10 @@ export default defineConfig({
             {
                 find: './runtimeConfig',
                 replacement: './runtimeConfig.browser',
+            },
+            {
+                find: '@',
+                replacement: path.resolve(__dirname, './src'),
             },
         ],
     },

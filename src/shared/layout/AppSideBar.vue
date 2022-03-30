@@ -91,8 +91,4 @@ export default defineComponent({
   width: 5rem;
   height: 5rem;
 }
-
-.nav-item .nav-link:not(.active):hover {
-  background-color: rgba(128, 128, 128, 0.1);
-}
 </style>
