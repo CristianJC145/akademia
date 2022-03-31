@@ -25,21 +25,55 @@
           <template v-else>
             <small>Búsqueda avanzada</small>
 
-            <AppStepper></AppStepper>
+            <AppStepper class="mt-3" v-model="currentStep">
+              <template v-slot:header>
+                <AppStepperStep step="1">
+                  Nivel Academico
+                </AppStepperStep>
 
-            <div class="row g-2 mt-2">
-              <div class="col-12 col-md-4 col-lg-3" v-for="level in levels">
-                <div class="card">
-                  <img :src="level.thumbnail" class="card-img-top img-filters" :alt="level.name" @error="imageError">
-                  <div class="card-body d-flex justify-content-center">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" :id="`levelCheck-${level.id}`">
-                      <label class="form-check-label" :for="`levelCheck-${level.id}`">{{ level.name }}</label>
+                <AppStepperStep step="2">
+                  Grados
+                </AppStepperStep>
+
+                <AppStepperStep step="3">
+                  Áreas
+                </AppStepperStep>
+
+                <AppStepperStep step="4">
+                  Asignaturas
+                </AppStepperStep>
+              </template>
+
+              <template v-slot:items>
+                <AppStepperContent step="1">
+                  <div class="row g-2 mt-2">
+                    <div class="col-12 col-md-4 col-lg-3" v-for="level in levels">
+                      <div class="card">
+                        <img :src="level.thumbnail" class="card-img-top img-filters" :alt="level.name" @error="imageError">
+                        <div class="card-body d-flex justify-content-center">
+                          <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" :id="`levelCheck-${level.id}`">
+                            <label class="form-check-label" :for="`levelCheck-${level.id}`">{{ level.name }}</label>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </AppStepperContent>
+
+                <AppStepperContent step="2">
+                  Grados
+                </AppStepperContent>
+
+                <AppStepperContent step="3">
+                  Áreas
+                </AppStepperContent>
+
+                <AppStepperContent step="4">
+                  Asignaturas
+                </AppStepperContent>
+              </template>
+            </AppStepper>
           </template>
 
         </div>
@@ -58,19 +92,22 @@ import {LevelDto} from '../dtos/level.dto';
 import {AreaDto} from '../dtos/area.dto';
 import ImageNotAvailable from '../../../assets/images/image-not-available.png';
 import AppLoading from '../../../shared/components/AppLoading.vue';
-import AppStepper from '../../../shared/components/AppStepper.vue';
+import AppStepper from '../../../shared/components/Stepper/AppStepper.vue';
+import AppStepperStep from '../../../shared/components/Stepper/AppStepperStep.vue';
+import AppStepperContent from '../../../shared/components/Stepper/AppStepperContent.vue';
 
 const catalogueRelatedDataService = new CatalogueRelatedDataService();
 
 export default defineComponent({
   name: 'HomePage',
-  components: {AppStepper, AppLoading, NavBar, AppIcon},
-  data(): { showFilters: Boolean, levels: LevelDto[], areas: AreaDto[], loadingFilters: boolean } {
+  components: {AppStepperContent, AppStepperStep, AppStepper, AppLoading, NavBar, AppIcon},
+  data(): { showFilters: Boolean, levels: LevelDto[], areas: AreaDto[], loadingFilters: boolean, currentStep: number } {
     return {
       showFilters: true,
       levels: [],
       areas: [],
       loadingFilters: false,
+      currentStep: 3,
     };
   },
   async mounted() {
