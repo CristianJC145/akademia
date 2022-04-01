@@ -1,0 +1,43 @@
+<template>
+  <div class="card">
+    <img :src="thumbnail" class="card-img-top img-filters" :alt="name">
+    <div class="card-body d-flex justify-content-center py-2">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" :id="`cardFilterCheck-${customId}`"
+               v-model="check">
+        <label class="form-check-label" :for="`cardFilterCheck-${customId}`">{{ name }}</label>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import {defineComponent} from 'vue';
+
+export default defineComponent({
+  name: 'CardFilter',
+  props: ['thumbnail', 'name', 'id', 'modelValue'],
+  data() {
+    return {
+      check: this.modelValue,
+      customId: this.id,
+    };
+  },
+  mounted() {
+    this.customId = `${this.customId}-${Date.now()}-${Math.round(Math.random() * 100000)}`;
+    console.log(this.customId);
+  },
+  watch: {
+    check(value) {
+      this.$emit('update:modelValue', value);
+    },
+  },
+});
+</script>
+
+<style scoped>
+.img-filters {
+  max-height: 190px;
+  object-fit: contain;
+}
+</style>

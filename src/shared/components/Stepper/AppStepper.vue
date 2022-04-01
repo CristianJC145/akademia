@@ -11,9 +11,11 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
+import AppEventListener from '../AppEventListener.vue';
 
 export default defineComponent({
   name: 'AppStepper',
+  components: {AppEventListener},
   props: ['modelValue'],
   data() {
     return {
@@ -21,13 +23,18 @@ export default defineComponent({
       step: this.modelValue,
     };
   },
+  watch: {
+    modelValue(value) {
+      this.step = value;
+    },
+  },
   mounted() {
     this.id = 'stepper_' + Date.now().toString() + Math.round(Math.random() * 10000);
-    this.step = this.modelValue;
+    // this.step = this.modelValue;
   },
   methods: {
     changeStep(step: number) {
-      this.$emit('update:modelValue', this.step);
+      this.$emit('update:modelValue', parseInt(this.step));
       this.step = step;
     },
   },

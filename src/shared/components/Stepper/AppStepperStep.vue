@@ -22,12 +22,11 @@ export default defineComponent({
       return parent.step;
     },
   },
-  mounted() {
-    console.log(this.$parent.step);
-  },
   methods: {
     changeStep() {
       const parent: any = this.$parent;
+
+      parent.changeStep(this.step);
       parent.changeStep(this.step);
     },
   },
