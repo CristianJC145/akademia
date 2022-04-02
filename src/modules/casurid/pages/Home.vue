@@ -48,7 +48,7 @@
                 <template v-slot:items>
                   <AppStepperContent step="1">
                     <div class="row g-2 mt-2">
-                      <div class="col-12 col-md-4 col-lg-3" v-for="level in levels">
+                      <div class="col-12 col-md-4 col-lg-3" v-for="level in levels" :key="level.id">
                         <CardFilter
                             :name="level.name"
                             :thumbnail="level.thumbnail"
@@ -61,7 +61,7 @@
 
                   <AppStepperContent step="2">
                     <div class="row g-2 mt-2">
-                      <div class="col-12 col-md-4 col-lg-2" v-for="degree in degrees">
+                      <div class="col-12 col-md-4 col-lg-2" v-for="degree in degrees" :key="degree.id">
                         <CardFilter
                             :name="degree.name"
                             :thumbnail="degree.thumbnail"
@@ -74,7 +74,7 @@
 
                   <AppStepperContent step="3">
                     <div class="row g-2 mt-2">
-                      <div class="col-12 col-md-4 col-lg-3" v-for="area in areas">
+                      <div class="col-12 col-md-4 col-lg-3" v-for="area in areas" :key="area.id">
                         <CardFilter
                             :name="area.name"
                             :thumbnail="area.thumbnail"
@@ -87,7 +87,7 @@
 
                   <AppStepperContent step="4">
                     <div class="row g-2 mt-2">
-                      <div class="col-12 col-md-4 col-lg-2" v-for="subject in subjects">
+                      <div class="col-12 col-md-4 col-lg-2" v-for="subject in subjects" :key="subject.id">
                         <CardFilter
                             :name="subject.name"
                             :thumbnail="subject.thumbnail"
@@ -101,6 +101,9 @@
               </AppStepper>
 
               <div class="d-flex justify-content-end gap-2 mt-3">
+                <button class="btn" @click="removeFilters()">
+                  Quitar Filtros
+                </button>
                 <button class="btn" :disabled="currentStep == 1" @click="currentStep -= 1">
                   Atras
                 </button>
@@ -137,8 +140,10 @@ import AppStepperContent from '../../../shared/components/Stepper/AppStepperCont
 import {DegreeDto} from '../dtos/degree.dto';
 import CardFilter from '../components/CardFilter.vue';
 import {SubjectDto} from '../dtos/subject.dto';
+import {SearchProductsCatalogueService} from '../services/searchProductsCatalogue.service';
 
 const catalogueRelatedDataService = new CatalogueRelatedDataService();
+const searchProductsCatalogueService = new SearchProductsCatalogueService();
 
 interface ILevel extends LevelDto {
   isSelected: boolean;
@@ -171,7 +176,7 @@ export default defineComponent({
   components: {CardFilter, AppStepperContent, AppStepperStep, AppStepper, AppLoading, NavBar, AppIcon},
   data(): IHome {
     return {
-      showFilters: true,
+      showFilters: false,
       levels: [],
       degrees: [],
       areas: [],
@@ -199,6 +204,8 @@ export default defineComponent({
         isSelected: false,
       };
     });
+
+    await this.searchProducts();
 
     this.loadingFilters = false;
   },
@@ -260,6 +267,33 @@ export default defineComponent({
     },
     nextStep() {
       this.currentStep += 1;
+    },
+    removeFilters() {
+      this.levels = this.levels.map((level) => {
+        level.isSelected = false;
+        return level;
+      });
+      this.degrees.forEach((degree) => {
+        degree.isSelected = false;
+      });
+      this.areas.forEach((area) => {
+        area.isSelected = false;
+      });
+      this.subjects.forEach((subject) => {
+        subject.isSelected = false;
+      });
+    },
+    async searchProducts() {
+      const response = await searchProductsCatalogueService.run({
+        page: 1,
+        perPage: 10,
+        levelsIds: this.levels.map((level) => level.id),
+        degreesIds: this.degrees.map((degree) => degree.id),
+        areasIds: this.areas.map((area) => area.id),
+        subjectsIds: this.subjects.map((subject) => subject.id),
+      });
+
+      console.log(response);
     },
   },
 });

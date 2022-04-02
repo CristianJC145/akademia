@@ -1,10 +1,7 @@
 <template>
-  <Transition name="slide-fade">
-    <div v-show="step == currentStep">
-      <slot></slot>
-    </div>
-  </Transition>
-
+  <div v-show="step == currentStep">
+    <slot></slot>
+  </div>
 </template>
 
 <script lang="ts">

@@ -25,9 +25,11 @@ export default defineComponent({
   },
   mounted() {
     this.customId = `${this.customId}-${Date.now()}-${Math.round(Math.random() * 100000)}`;
-    console.log(this.customId);
   },
   watch: {
+    modelValue(value) {
+      this.check = value;
+    },
     check(value) {
       this.$emit('update:modelValue', value);
     },
