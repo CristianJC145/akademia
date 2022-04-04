@@ -1,8 +1,9 @@
 import axios from '../../../shared/utils/axios';
 import {services} from '../../../shared/constant/services';
 import {ParamsPaginationDto} from '../../../shared/dto/paramsPagination.dto';
-import {TimestampDto} from '../../../shared/dto/timestamp.dto';
 import {ResponsePaginationDto} from '../../../shared/dto/responsePagination.dto';
+import ImageNotAvailable from '../../../assets/images/image-not-available.png';
+import {ProductCatalogueDto} from '../dtos/productCatalogue.dto';
 
 interface IParams extends ParamsPaginationDto {
     levelsIds: number[];
@@ -11,27 +12,18 @@ interface IParams extends ParamsPaginationDto {
     subjectsIds: number[];
 }
 
-interface IData extends TimestampDto{
-    id: number;
-    institutionId: number;
-    thumbnail?: string;
-    title: string;
-    levelId: number;
-    degreeId: number;
-    subjectId: number;
-    description?: string;
-    index?: string;
-    productTypeId: number;
-    defaultUnitValue: number;
-    validityPeriod: number;
-    DegreeName: string;
-    subjectName: string;
-}
-
 export class SearchProductsCatalogueService {
     async run(params: IParams) {
-        return axios.get<ResponsePaginationDto<IData>>(`${services.casurid}/catalogue/products`, {
+        return axios.get<ResponsePaginationDto<ProductCatalogueDto>>(`${services.casurid}/catalogue/products`, {
             params,
-        }).then((response) => response.data);
+        }).then((response) => {
+            const data = response.data;
+
+            data.data.forEach((products) => {
+                products.thumbnail = products.thumbnail ?? ImageNotAvailable;
+            });
+
+            return data;
+        });
     }
 }
