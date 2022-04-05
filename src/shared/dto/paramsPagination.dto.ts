@@ -1,5 +1,5 @@
 export interface ParamsPaginationDto {
     perPage?: number;
-    search?: number;
+    search?: string;
     page?: number;
 }

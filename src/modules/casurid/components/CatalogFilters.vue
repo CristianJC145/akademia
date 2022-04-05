@@ -3,98 +3,95 @@
     <div class="card">
 
       <div class="card-body">
-        <AppLoading v-if="loading"/>
 
-        <template v-else>
-          <small>Búsqueda avanzada</small>
+        <small>Búsqueda avanzada</small>
 
-          <AppStepper class="mt-3" v-model.lazy="currentStep">
-            <template v-slot:header>
-              <AppStepperStep step="1">
-                Nivel Academico
-              </AppStepperStep>
+        <AppStepper class="mt-3" v-model.lazy="currentStep">
+          <template v-slot:header>
+            <AppStepperStep step="1">
+              Nivel Academico
+            </AppStepperStep>
 
-              <AppStepperStep step="2">
-                Grados
-              </AppStepperStep>
+            <AppStepperStep step="2">
+              Grados
+            </AppStepperStep>
 
-              <AppStepperStep step="3">
-                Áreas
-              </AppStepperStep>
+            <AppStepperStep step="3">
+              Áreas
+            </AppStepperStep>
 
-              <AppStepperStep step="4">
-                Asignaturas
-              </AppStepperStep>
-            </template>
+            <AppStepperStep step="4">
+              Asignaturas
+            </AppStepperStep>
+          </template>
 
-            <template v-slot:items>
-              <AppStepperContent step="1">
-                <div class="row g-2 mt-2">
-                  <div class="col-12 col-md-4 col-lg-3" v-for="level in currentLevels" :key="level.id">
-                    <CardFilter
-                        :name="level.name"
-                        :thumbnail="level.thumbnail"
-                        :id="level.id"
-                        v-model="level.isSelected"
-                    ></CardFilter>
-                  </div>
+          <template v-slot:items>
+            <AppStepperContent step="1">
+              <div class="row g-2 mt-2">
+                <div class="col-12 col-md-4 col-lg-3" v-for="level in currentLevels" :key="level.id">
+                  <CardFilter
+                      :name="level.name"
+                      :thumbnail="level.thumbnail"
+                      :id="level.id"
+                      v-model="level.isSelected"
+                  ></CardFilter>
                 </div>
-              </AppStepperContent>
+              </div>
+            </AppStepperContent>
 
-              <AppStepperContent step="2">
-                <div class="row g-2 mt-2">
-                  <div class="col-12 col-md-4 col-lg-2" v-for="degree in currentDegrees" :key="degree.id">
-                    <CardFilter
-                        :name="degree.name"
-                        :thumbnail="degree.thumbnail"
-                        :id="degree.id"
-                        v-model="degree.isSelected"
-                    ></CardFilter>
-                  </div>
+            <AppStepperContent step="2">
+              <div class="row g-2 mt-2">
+                <div class="col-12 col-md-4 col-lg-2" v-for="degree in currentDegrees" :key="degree.id">
+                  <CardFilter
+                      :name="degree.name"
+                      :thumbnail="degree.thumbnail"
+                      :id="degree.id"
+                      v-model="degree.isSelected"
+                  ></CardFilter>
                 </div>
-              </AppStepperContent>
+              </div>
+            </AppStepperContent>
 
-              <AppStepperContent step="3">
-                <div class="row g-2 mt-2">
-                  <div class="col-12 col-md-4 col-lg-3" v-for="area in currentAreas" :key="area.id">
-                    <CardFilter
-                        :name="area.name"
-                        :thumbnail="area.thumbnail"
-                        :id="area.id"
-                        v-model="area.isSelected"
-                    ></CardFilter>
-                  </div>
+            <AppStepperContent step="3">
+              <div class="row g-2 mt-2">
+                <div class="col-12 col-md-4 col-lg-3" v-for="area in currentAreas" :key="area.id">
+                  <CardFilter
+                      :name="area.name"
+                      :thumbnail="area.thumbnail"
+                      :id="area.id"
+                      v-model="area.isSelected"
+                  ></CardFilter>
                 </div>
-              </AppStepperContent>
+              </div>
+            </AppStepperContent>
 
-              <AppStepperContent step="4">
-                <div class="row g-2 mt-2">
-                  <div class="col-12 col-md-4 col-lg-2" v-for="subject in currentSubjects" :key="subject.id">
-                    <CardFilter
-                        :name="subject.name"
-                        :thumbnail="subject.thumbnail"
-                        :id="subject.id"
-                        v-model="subject.isSelected"
-                    ></CardFilter>
-                  </div>
+            <AppStepperContent step="4">
+              <div class="row g-2 mt-2">
+                <div class="col-12 col-md-4 col-lg-2" v-for="subject in currentSubjects" :key="subject.id">
+                  <CardFilter
+                      :name="subject.name"
+                      :thumbnail="subject.thumbnail"
+                      :id="subject.id"
+                      v-model="subject.isSelected"
+                  ></CardFilter>
                 </div>
-              </AppStepperContent>
-            </template>
-          </AppStepper>
+              </div>
+            </AppStepperContent>
+          </template>
+        </AppStepper>
 
-          <div class="d-flex justify-content-end gap-2 mt-3">
-            <button class="btn" @click="removeFilters()">
-              Quitar Filtros
-            </button>
-            <button class="btn" :disabled="currentStep == 1" @click="currentStep -= 1">
-              Atras
-            </button>
-            <button class="btn btn-primary text-white" @click="nextStep()" :disabled="currentStep == 4">
-              Siguiente
-            </button>
-          </div>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn" @click="removeFilters()">
+            Quitar Filtros
+          </button>
+          <button class="btn" :disabled="currentStep == 1" @click="currentStep -= 1">
+            Atras
+          </button>
+          <button class="btn btn-primary text-white" @click="nextStep()">
+            {{ currentStep < 4 ? 'Siguiente' : 'Aplicar' }}
+          </button>
+        </div>
 
-        </template>
       </div>
     </div>
   </div>
@@ -139,7 +136,7 @@ interface ICatalogueFilters {
 export default defineComponent({
   name: 'CatalogFilters',
   components: {CardFilter, AppStepperContent, AppStepperStep, AppStepper, AppLoading},
-  props: ['levels', 'areas', 'loading'],
+  props: ['levels', 'areas'],
   data(): ICatalogueFilters {
     return {
       currentStep: 1,
@@ -171,7 +168,32 @@ export default defineComponent({
       } else if (value == 4) {
         this.getSubjects();
       }
+      this.changeFilters();
     },
+    /*currentLevels: {
+      deep: true,
+      handler() {
+        this.changeFilters();
+      },
+    },
+    currentDegrees: {
+      deep: true,
+      handler() {
+        this.changeFilters();
+      },
+    },
+    currentAreas: {
+      deep: true,
+      handler() {
+        this.changeFilters();
+      },
+    },
+    currentSubjects: {
+      deep: true,
+      handler() {
+        this.changeFilters();
+      },
+    },*/
   },
   methods: {
     getDegrees() {
@@ -219,7 +241,12 @@ export default defineComponent({
       });
     },
     nextStep() {
-      this.currentStep += 1;
+      if (this.currentStep == 4) {
+        this.changeFilters();
+      } else {
+        this.currentStep += 1;
+      }
+
     },
     removeFilters() {
       this.currentLevels = this.currentLevels.map((level) => {
@@ -235,6 +262,17 @@ export default defineComponent({
       this.currentSubjects.forEach((subject) => {
         subject.isSelected = false;
       });
+      this.changeFilters();
+    },
+    changeFilters() {
+      const filters: FiltersType = {
+        currentLevels: this.currentLevels.filter((level) => level.isSelected).map(level => level.id),
+        currentAreas: this.currentAreas.filter((area) => area.isSelected).map(area => area.id),
+        currentDegrees: this.currentDegrees.filter((degree) => degree.isSelected).map(degree => degree.id),
+        currentSubjects: this.currentSubjects.filter((subject) => subject.isSelected).map(subject => subject.id),
+      };
+
+      this.$emit('changeFilters', filters);
     },
   },
 });
