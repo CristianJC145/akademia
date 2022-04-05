@@ -48,14 +48,86 @@
           </a>
         </li>
 
+        <!------------------------------------------->
         <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
           Configuración institucional
         </li>
 
         <li class="nav-item mt-2">
           <a href="#" class="nav-link text-secondary" aria-current="page">
-            <AppIcon class="me-2" icon="home"></AppIcon>
+            <AppIcon class="me-2" icon="calendar-minus"></AppIcon>
             Información Auxiliar
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="building"></AppIcon>
+            Información Institucional
+          </a>
+        </li>
+        <!------------------------------------------->
+        <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
+          Programas Académicos
+        </li>
+
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="book-open"></AppIcon>
+            Áreas y asignaturas
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="graduation-cap"></AppIcon>
+            Niveles y grados
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="chart-line"></AppIcon>
+            Plan de estudios
+          </a>
+        </li>
+        <!------------------------------------------->
+        <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
+          Planeación Académica
+        </li>
+
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="calendar-week"></AppIcon>
+            Ciclos académicos
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="user-friends"></AppIcon>
+            Oferta académica
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="users"></AppIcon>
+            Especialistas
+          </a>
+        </li>
+        <!------------------------------------------->
+
+
+        <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
+          Administración Académica
+        </li>
+
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="user-friends"></AppIcon>
+            Administración de cursos
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="clipboard-list"></AppIcon>
+            Matricular estudiante
           </a>
         </li>
       </ul>

@@ -7,7 +7,9 @@ import Amplify from 'aws-amplify';
 import {amplifyConstant} from './shared/constant/amplify.constant';
 import {translations} from '@aws-amplify/ui';
 import {I18n} from 'aws-amplify';
+import VueToast from 'vue-toast-notification';
 
+import 'vue-toast-notification/dist/theme-sugar.css';
 import './assets/theme/index.scss';
 import 'bootstrap';
 
@@ -19,5 +21,6 @@ const app = createApp(App);
 
 app.use(plugins.fortawesomePlugin);
 app.use(router);
+app.use(VueToast);
 
 app.mount('#app');

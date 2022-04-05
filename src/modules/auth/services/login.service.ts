@@ -10,7 +10,6 @@ export class LoginService {
     async run(data: ILogin) {
         return axios.post(`${services.users}/access/users/login`, data).then((response) => {
             localStorage.setItem('token', response.data.token);
-
             return response;
         });
     }

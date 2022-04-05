@@ -9,6 +9,16 @@ import {
     faSignOutAlt,
     faEye,
     faEyeSlash,
+    faExclamationTriangle,
+    faUserFriends,
+    faClipboardList,
+    faCalendarMinus,
+    faBuilding,
+    faBookOpen,
+    faGraduationCap,
+    faChartLine,
+    faCalendarWeek,
+    faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -20,6 +30,16 @@ export default {
         library.add(faSignOutAlt);
         library.add(faEye);
         library.add(faEyeSlash);
+        library.add(faExclamationTriangle);
+        library.add(faUserFriends);
+        library.add(faClipboardList);
+        library.add(faCalendarMinus);
+        library.add(faBuilding);
+        library.add(faBookOpen);
+        library.add(faGraduationCap);
+        library.add(faChartLine);
+        library.add(faCalendarWeek);
+        library.add(faUsers);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },
