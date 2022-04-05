@@ -40,9 +40,9 @@
           <div class="card-body">
             <h2 class="h6">{{ content.title }}</h2>
             <p>{{ content.description }}</p>
-            <button class="btn btn-primary fa-pull-right text-white">
+            <router-link v-if="content.index" :to="content.index" class="btn btn-primary fa-pull-right text-white">
               Ver indice
-            </button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default defineComponent({
 
     try {
       const {product, contents} = await getProductCatalogueBySlugService.run(this.slug);
-      console.log(contents);
+
       this.product = product;
       this.contents = contents;
     } catch (e) {
@@ -97,7 +97,7 @@ export default defineComponent({
 
 <style scoped>
 .card img {
-  max-height: 450px;
+  max-height: 400px;
   object-fit: contain;
 }
 </style>
