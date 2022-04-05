@@ -47,9 +47,9 @@
                     <button class="btn">
                       <AppIcon icon="shopping-cart"></AppIcon>
                     </button>
-                    <button class="btn btn-primary text-white">
+                    <router-link :to="`/${product.id}`" class="btn btn-primary text-white">
                       Ver detalle
-                    </button>
+                    </router-link>
                   </div>
                 </div>
               </div>
