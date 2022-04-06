@@ -1,6 +1,14 @@
-@import "colors";
+/*TailwindCSS*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@import "colors";
+@import "effects";
+
+/*Bootstrap 5*/
 @import 'bootstrap/scss/bootstrap.scss';
+
 
 body {
   background-color: #F1F5F9;

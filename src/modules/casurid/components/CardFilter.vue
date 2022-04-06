@@ -1,13 +1,15 @@
 <template>
-  <div class="card">
-    <img :src="thumbnail" class="card-img-top img-filters" :alt="name">
-    <div class="card-body d-flex justify-content-center py-2">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" :id="`cardFilterCheck-${customId}`"
-               v-model="check">
-        <label class="form-check-label" :for="`cardFilterCheck-${customId}`">{{ name }}</label>
+  <div class="card card-hover tw-cursor-pointer">
+    <label class="form-check-label" :for="`cardFilterCheck-${customId}`">
+      <img :src="thumbnail" class="card-img-top img-filters" :alt="name">
+      <div class="card-body d-flex justify-content-center py-2">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" :id="`cardFilterCheck-${customId}`"
+                 v-model="check">
+          {{ name }}
+        </div>
       </div>
-    </div>
+    </label>
   </div>
 </template>
 

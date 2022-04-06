@@ -32,8 +32,8 @@
         <div class="card-body row gy-2">
           <AppLoading v-if="loadingProducts"></AppLoading>
           <template v-else>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="product in productsCatalogue" :key="product.id">
-              <div class="card">
+            <div class="col-12 col-md-4 col-lg-3" v-for="product in productsCatalogue" :key="product.id">
+              <div class="card card-hover">
                 <img class="card-img-top img-product" :src="product.thumbnail" :alt="product.title">
                 <div class="card-body d-flex flex-column gap-2">
                   <div class="d-flex flex-column">
@@ -204,5 +204,9 @@ export default defineComponent({
 .img-product {
   max-height: 250px;
   object-fit: contain;
+}
+
+.card {
+  min-height: 460px;
 }
 </style>

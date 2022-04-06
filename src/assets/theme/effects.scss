@@ -1,0 +1,8 @@
+@layer components {
+  /*Cards*/
+  .card-hover:hover {
+    @apply tw-shadow-xl;
+  }
+
+  /*End Cards*/
+}
