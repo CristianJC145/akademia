@@ -5,6 +5,8 @@
 <script setup>
 </script>
 
-<style scoped>
-
+<style>
+html, body, #app {
+  height: 100%;
+}
 </style>
