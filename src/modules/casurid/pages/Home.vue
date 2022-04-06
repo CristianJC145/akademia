@@ -98,7 +98,7 @@ export default defineComponent({
       showFilters: false,
       levels: [],
       areas: [],
-      loadingFilters: false,
+      loadingFilters: true,
       loadingProducts: true,
       productsCatalogue: [],
       currentLevels: [],
@@ -117,6 +117,8 @@ export default defineComponent({
   },
   async mounted() {
     this.loadingFilters = true;
+    this.searchValue = this.$route.query.search?.toString() ?? '';
+
     const relatedData = await catalogueRelatedDataService.run();
 
     this.levels = relatedData.levels;
@@ -126,7 +128,7 @@ export default defineComponent({
     // this.changeFilters = debounce(this.changeFilters, 800);
     this.searchProducts = debounce(this.searchProducts, 600);
 
-    await this.searchProducts();
+    // await this.searchProducts();
 
     this.loadingFilters = false;
   },
@@ -141,6 +143,22 @@ export default defineComponent({
     },
     async searchProducts() {
       this.loadingProducts = true;
+
+      if (this.searchValue && this.searchValue != '') {
+        await this.$router.push({
+          query: {
+            ...this.$route.query,
+            search: this.searchValue,
+          },
+        });
+      } else {
+        const query = this.$route.query;
+        delete query.search;
+
+        await this.$router.push({
+          query,
+        });
+      }
 
       const response = await searchProductsCatalogueService.run({
         page: this.page,

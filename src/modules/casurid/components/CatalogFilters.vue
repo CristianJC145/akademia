@@ -147,19 +147,39 @@ export default defineComponent({
     };
   },
   mounted() {
+    const {levelsIds, areasIds, degreesIds, subjectsIds} = this.$route.query;
+
     this.currentLevels = this.levels.map((level: LevelDto) => {
+
+      level.degrees.forEach((degree) => {
+        this.currentDegrees.push({
+          ...degree,
+          isSelected: degreesIds?.includes(degree.id.toString()) ?? false,
+        });
+      });
+
       return {
         ...level,
-        isSelected: false,
+        isSelected: levelsIds?.includes(level.id.toString()),
       };
     });
 
     this.currentAreas = this.areas.map((area: AreaDto) => {
+
+      area.subjects.forEach((subject) => {
+        this.currentSubjects.push({
+          ...subject,
+          isSelected: subjectsIds?.includes(subject.id.toString()) ?? false,
+        });
+      });
+
       return {
         ...area,
-        isSelected: false,
+        isSelected: areasIds?.includes(area.id.toString()),
       };
     });
+
+    this.changeFilters();
   },
   watch: {
     currentStep(value) {
@@ -198,6 +218,7 @@ export default defineComponent({
   methods: {
     getDegrees() {
       this.currentDegrees = [];
+      const {degreesIds} = this.$route.query;
 
       let allSelected = true;
 
@@ -212,7 +233,7 @@ export default defineComponent({
           this.currentDegrees.push(...level.degrees.map(degree => {
             return {
               ...degree,
-              isSelected: false,
+              isSelected: degreesIds?.includes(degree.id.toString()) ?? false,
             };
           }));
         }
@@ -220,6 +241,7 @@ export default defineComponent({
     },
     getSubjects() {
       this.currentSubjects = [];
+      const {subjectsIds} = this.$route.query;
 
       let allSelected = true;
 
@@ -234,7 +256,7 @@ export default defineComponent({
           this.currentSubjects.push(...area.subjects.map((subject) => {
             return {
               ...subject,
-              isSelected: false,
+              isSelected: subjectsIds?.includes(subject.id.toString()) ?? false,
             };
           }));
         }
@@ -262,15 +284,31 @@ export default defineComponent({
       this.currentSubjects.forEach((subject) => {
         subject.isSelected = false;
       });
-      this.changeFilters();
+
+      this.$router.push({
+        path: this.$route.path,
+        query: {},
+      });
+
+      // this.changeFilters();
     },
-    changeFilters() {
+    async changeFilters() {
       const filters: FiltersType = {
         currentLevels: this.currentLevels.filter((level) => level.isSelected).map(level => level.id),
         currentAreas: this.currentAreas.filter((area) => area.isSelected).map(area => area.id),
         currentDegrees: this.currentDegrees.filter((degree) => degree.isSelected).map(degree => degree.id),
         currentSubjects: this.currentSubjects.filter((subject) => subject.isSelected).map(subject => subject.id),
       };
+
+      await this.$router.push({
+        query: {
+          ...this.$route.query,
+          levelsIds: filters.currentLevels,
+          degreesIds: filters.currentDegrees,
+          areasIds: filters.currentAreas,
+          subjectsIds: filters.currentSubjects,
+        },
+      });
 
       this.$emit('changeFilters', filters);
     },
