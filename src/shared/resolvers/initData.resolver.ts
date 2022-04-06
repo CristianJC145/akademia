@@ -30,7 +30,7 @@ function convertRouteToNavigation(route: string): { route: string | null; extern
 }
 
 async function initDataResolver(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
-    const isAuth = !isAuthenticatedService.run();
+    const isAuth = isAuthenticatedService.run();
 
     if (!isAuth) {
         return next();

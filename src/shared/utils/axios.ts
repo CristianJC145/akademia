@@ -1,10 +1,10 @@
 import axios from 'axios';
-import {GetTokenService} from '../services/getToken.service';
+import {TokenService} from '../services/token.service';
 
-const getTokenService = new GetTokenService();
+const getTokenService = new TokenService();
 
 axios.interceptors.request.use(async (config) => {
-    const token = await getTokenService.run();
+    const token = await getTokenService.get();
 
     if (!config.headers) {
         config.headers = {};

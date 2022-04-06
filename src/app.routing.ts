@@ -6,13 +6,20 @@ import AppLayout from './shared/layout/AppLayout.vue';
 import {adminRouting} from './modules/admin/admin.routing';
 import courseAdministration from "./modules/academic-administration/pages/CourseAdministration.vue";
 import {academicAdministrationRouting} from "./modules/academic-administration/academic-administration.routing";
+import {casuridRouting} from './modules/casurid/casurid.routing';
 
 const appRouting: RouteRecordRaw[] = [
     {
         path: '/',
         component: AppEmptyLayout,
-        redirect: '/admin/home',
         children: [
+            //Casurid Module
+            {
+                path: '',
+                component: AppEmptyLayout,
+                children: casuridRouting,
+            },
+
             // Admin Module
             {
                 path: '/admin',

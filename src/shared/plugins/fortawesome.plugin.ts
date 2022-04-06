@@ -19,6 +19,9 @@ import {
     faChartLine,
     faCalendarWeek,
     faUsers,
+    faShoppingCart,
+    faSearch,
+    faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -30,6 +33,9 @@ export default {
         library.add(faSignOutAlt);
         library.add(faEye);
         library.add(faEyeSlash);
+        library.add(faShoppingCart);
+        library.add(faSearch);
+        library.add(faFilter);
         library.add(faExclamationTriangle);
         library.add(faUserFriends);
         library.add(faClipboardList);

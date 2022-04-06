@@ -24,10 +24,10 @@
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item" href="#">
+              <button class="dropdown-item" type="button" @click="signOut">
                 <AppIcon class="me-2" icon="sign-out-alt"></AppIcon>
                 Cerrar sesión
-              </a>
+              </button>
             </li>
           </ul>
         </div>
@@ -138,9 +138,18 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import AppIcon from '../components/AppIcon.vue';
+import {SignOutService} from '../services/signOut.service';
+
+const signOutService = new SignOutService();
 
 export default defineComponent({
   components: {AppIcon},
+  methods: {
+    signOut() {
+      signOutService.run();
+      window.location.reload();
+    },
+  },
 });
 
 </script>
@@ -153,9 +162,5 @@ export default defineComponent({
 .main-avatar {
   width: 5rem;
   height: 5rem;
-}
-
-.nav-item .nav-link:not(.active):hover {
-  background-color: rgba(128, 128, 128, 0.1);
 }
 </style>
