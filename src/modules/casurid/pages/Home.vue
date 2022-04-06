@@ -29,11 +29,11 @@
 
     <div class="col-12 mt-4">
       <div class="card">
-        <div class="card-body row gy-2">
+        <div class="card-body row g-3">
           <AppLoading v-if="loadingProducts"></AppLoading>
           <template v-else>
             <div class="col-12 col-md-4 col-lg-3" v-for="product in productsCatalogue" :key="product.id">
-              <div class="card card-hover">
+              <div class="card product-catalogue card-hover">
                 <img class="card-img-top img-product" :src="product.thumbnail" :alt="product.title">
                 <div class="card-body d-flex flex-column gap-2">
                   <div class="d-flex flex-column">
@@ -206,7 +206,7 @@ export default defineComponent({
   object-fit: contain;
 }
 
-.card {
+.product-catalogue {
   min-height: 460px;
 }
 </style>
