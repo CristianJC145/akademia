@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "start": "vite --port 8000",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
+    "build-tsc": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

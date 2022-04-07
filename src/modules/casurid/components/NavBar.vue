@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <AppModal v-model="showLogin">
+    <AppModal v-model="showLogin" @close="showLogin = false">
       <LoginCasurid></LoginCasurid>
     </AppModal>
   </nav>
@@ -86,7 +86,6 @@ export default defineComponent({
       return route == this.$route.path;
     },
     openModalLogin() {
-      console.log(this.showLogin);
       this.showLogin = true;
     },
   },

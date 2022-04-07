@@ -52,9 +52,6 @@ export default defineComponent({
     },
   },
   methods: {
-    close(){
-      console.log('cerrando modal');
-    },
     actionModal() {
       if (this.showModal) {
         this.modal.show();

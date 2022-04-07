@@ -16,6 +16,10 @@ import {defineComponent} from 'vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import AppLogin from '../../../shared/components/AppLogin.vue';
 
+interface ComponentPublicInstance {
+  $parent: any;
+}
+
 export default defineComponent({
   name: 'LoginCasurid',
   components: {AppLogin, AppFormModal},
@@ -26,7 +30,7 @@ export default defineComponent({
   },
   methods: {
     successLogin() {
-      // this.$parent?.close();
+      this.$parent?.$emit('close');
     },
   },
 });

@@ -57,7 +57,6 @@ export default defineComponent({
   },
   methods: {
     async login(): Promise<void> {
-      console.log('enviando al login');
       const formIsValid = await this.v$.$validate();
 
       if (!formIsValid) {

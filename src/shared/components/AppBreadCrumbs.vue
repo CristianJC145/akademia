@@ -9,9 +9,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, defineProps} from 'vue';
-import {IconSizeTypeStrings} from '../types/iconSize.type';
-import {BreadCrumbsType} from '../types/breadCrumbs.type';
+import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: 'AppBreadCrumbs',

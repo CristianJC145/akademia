@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject} from 'vue';
+import {computed, defineComponent, inject} from 'vue';
 import AppIcon from './AppIcon.vue';
 import errorAlertStore from '../stores/errorAlert.store';
 
@@ -28,19 +28,14 @@ export default defineComponent<{
   setup() {
     const state = inject('state', errorAlertStore.state);
 
+    const message = computed(() => state.message);
+    const validationErrors = computed(() => state.validationErrors);
+
     return {
       state,
+      message,
+      validationErrors
     };
-  },
-  computed: {
-    message() {
-      return this.state.message;
-    },
-    validationErrors() {
-      return this.state.validationErrors ?? [];
-    },
-  },
-  mounted() {
   },
 });
 </script>
