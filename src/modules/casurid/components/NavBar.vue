@@ -12,7 +12,7 @@
       </button>
 
       <template v-for="(item, key) in items">
-        <router-link v-if="key > 0" :to="item.route" class="d-none d-md-block btn" :key="key">
+        <router-link v-if="key > 0" :to="item.route" class="d-none d-md-block btn" :key="key" v-tooltip="item.name">
           <AppIcon :icon="item.icon" size="lg"/>
         </router-link>
       </template>

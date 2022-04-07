@@ -13,6 +13,7 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 import './index.css';
 import './assets/theme/index.scss';
 import 'bootstrap';
+import {TooltipDirective} from './shared/directives/tooltip.directive';
 
 Amplify.configure(amplifyConstant);
 I18n.putVocabularies(translations);
@@ -23,5 +24,8 @@ const app = createApp(App);
 app.use(plugins.fortawesomePlugin);
 app.use(router);
 app.use(VueToast);
+
+/*Akademia Directives*/
+app.directive('tooltip', TooltipDirective);
 
 app.mount('#app');
