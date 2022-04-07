@@ -1,4 +1,4 @@
-<AppLoadingPage v-if="loading"></AppLoadingPage>
+<!--<AppLoadingPage v-if="loading"></AppLoadingPage>-->
 <template>
   <app-base-list
     v-if="!loading"
@@ -11,10 +11,10 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import AppBaseList from '../../../shared/components/AppBaseList.vue'
-import AppLoadingPage from "../../../shared/components/AppLoadingPage.vue";
+// import AppLoadingPage from "../../../shared/components/AppLoadingPage.vue";
 
 export default defineComponent ({
-  components: { AppBaseList, AppLoadingPage },
+  components: { AppBaseList },
   name: 'CourseAdministration',
   data() {
     return {

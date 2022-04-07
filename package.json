@@ -19,12 +19,10 @@
     "ts-debounce": "^4.0.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12",
-    "vue-spinner": "^1.0.4",
-    "vue-toast-notification": "^3.0.0",
-    "vue-toasted": "^1.1.28",
-    "vuex": "^4.0.2"
+    "vue-toast-notification": "^3.0.0"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.1.9",
     "@vitejs/plugin-vue": "^2.0.0",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
