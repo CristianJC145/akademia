@@ -29,15 +29,6 @@
             </button>
           </div>
 
-          <div class="toast show bg-light" role="alert" aria-live="assertive" aria-atomic="true" v-if="messageWelcome">
-            <div class="toast-header">
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-              {{ messageWelcome }}
-            </div>
-          </div>
-
         </form>
       </div>
     </div>
@@ -81,6 +72,7 @@ export default defineComponent({
       },
       messageWelcome: '',
       defaultRouteRedirect: '/admin/home',
+      showModal: false,
     };
   },
   validations() {
