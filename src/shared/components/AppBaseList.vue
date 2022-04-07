@@ -41,6 +41,4 @@ export default defineComponent({
   props: ['routes', 'title', 'subtitle'],
   components: {AppBreadCrumbs}
 })
-
-
 </script>

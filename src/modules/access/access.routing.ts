@@ -1,8 +1,12 @@
-import LoginPage from './pages/Login.vue';
+import RolesPage from './pages/Roles.vue';
+import {RouteRecordRaw} from 'vue-router';
+import {authGuard} from '../../shared/guards/auth.guard';
+import {initDataResolver} from '../../shared/resolvers/initData.resolver';
 
-export const accessRouting = [
+export const accessRouting: RouteRecordRaw[] = [
     {
         path: 'roles',
-        component: LoginPage,
+        component: RolesPage,
+        beforeEnter: [authGuard, initDataResolver],
     },
 ];
