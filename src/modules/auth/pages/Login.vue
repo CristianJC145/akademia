@@ -7,103 +7,45 @@
 
     <div class="card login-container shadow-sm w-100">
       <div class="card-body p-4">
-        <form @submit.prevent="login">
-          <AppFormField :form-control="v$.form.username"><label for="username">Nombre de usuario</label>
-            <input type="text" class="form-control" id="username" v-model="v$.form.username.$model"/>
-          </AppFormField>
+        <AppLogin :redirect="defaultRouteRedirect" ref="login"></AppLogin>
 
-          <AppFormField :form-control="v$.form.password">
-            <label for="password">Contraseña</label>
-            <div class="input-group">
-              <input v-on:keydown="c = 0" :type="showPassword ? 'text' : 'password'" class="form-control" id="password"
-                     v-model="v$.form.password.$model"/>
-              <button class="btn btn-outline-secondary" type="button" @click="showPassword = !showPassword">
-                <AppIcon :icon="showPassword ? 'eye-slash' : 'eye'"></AppIcon>
-              </button>
-            </div>
-          </AppFormField>
-
-          <div class="d-grid">
-            <button class="btn btn-primary text-white btn-block">
-              Iniciar sesión
-            </button>
-          </div>
-
-        </form>
+        <div class="d-grid">
+          <button class="btn btn-primary text-white btn-block" @click="$refs.login.login">
+            Iniciar sesión
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {ref, defineComponent} from 'vue';
-import useVuelidate from '@vuelidate/core';
-import {required} from '@vuelidate/validators';
+import {defineComponent} from 'vue';
 import {IsAuthenticatedService} from '../../../shared/services/isAuthenticated.service';
 import AppIcon from '../../../shared/components/AppIcon.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
 import {LoginService} from '../services/login.service';
 import AppErrorAlert from '../../../shared/components/AppErrorAlert.vue';
+import AppLogin from '../../../shared/components/AppLogin.vue';
 
 const isAuthenticatedService: IsAuthenticatedService = new IsAuthenticatedService();
 const loginService = new LoginService();
 
 export default defineComponent({
   name: 'Login',
-  components: {AppErrorAlert, AppFormField, AppIcon},
-  setup() {
-    return {
-      showPassword: ref(false),
-      v$: useVuelidate(),
-    };
-  },
+  components: {AppLogin, AppErrorAlert, AppFormField, AppIcon},
   async mounted(): Promise<void> {
     const isAuth = isAuthenticatedService.run();
 
     if (isAuth) {
-      await this.redirect();
+      // await this.redirect();
     }
   },
   data() {
     return {
-      form: {
-        username: '',
-        password: '',
-      },
-      messageWelcome: '',
       defaultRouteRedirect: '/admin/home',
       showModal: false,
     };
-  },
-  validations() {
-    return {
-      form: {
-        username: {required},
-        password: {required},
-      },
-    };
-  },
-  methods: {
-    async login(): Promise<void> {
-      const formIsValid = await this.v$.$validate();
-
-      if (!formIsValid) {
-        return;
-      }
-
-      try {
-        await loginService.run({
-          username: this.form.username,
-          password: this.form.password,
-        });
-
-        await this.redirect();
-      } catch (e) {
-      }
-    },
-    async redirect(): Promise<void> {
-      await this.$router.push(this.defaultRouteRedirect);
-    },
   },
 });
 </script>

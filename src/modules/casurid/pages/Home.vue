@@ -126,6 +126,7 @@ export default defineComponent({
     this.areas = relatedData.areas;
 
     // this.changeFilters = debounce(this.changeFilters, 800);
+    // @ts-ignore
     this.searchProducts = debounce(this.searchProducts, 600);
 
     // await this.searchProducts();

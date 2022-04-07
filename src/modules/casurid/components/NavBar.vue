@@ -18,7 +18,7 @@
         </router-link>
 
         <button v-else-if="item.click" class="d-none d-md-block btn" :key="item.name" v-tooltip="item.name"
-                @click="item.click">
+                @click="item.click()">
           <AppIcon :icon="item.icon" size="lg"/>
         </button>
       </template>
@@ -35,8 +35,7 @@
               {{ item.name }}
             </router-link>
 
-            <button v-else-if="item.click" class="nav-link" :key="item.name"
-                    :class="{ active: isActive(item.route), 'text-secondary': !isActive(item.route)}">
+            <button v-else-if="item.click" class="nav-link" :key="item.name">
               <AppIcon :icon="item.icon" size="lg" class="me-2"/>
               {{ item.name }}
             </button>

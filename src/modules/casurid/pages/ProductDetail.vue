@@ -2,7 +2,7 @@
   <div v-if="loading">
     <AppLoading></AppLoading>
   </div>
-  <div v-else class="row gy-4">
+  <div v-else-if="product" class="row gy-4">
     <div class="col-12 col-sm-12 col-md-6">
       <h1 class="h5">Detalle</h1>
 

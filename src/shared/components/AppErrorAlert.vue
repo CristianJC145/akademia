@@ -37,7 +37,7 @@ export default defineComponent<{
       return this.state.message;
     },
     validationErrors() {
-      return this.state.validationErrors;
+      return this.state.validationErrors ?? [];
     },
   },
   mounted() {

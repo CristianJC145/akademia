@@ -26,6 +26,7 @@ export class LoginService {
     async run(data: ILogin) {
         return axios.post<ILoginDto>(`${services.users}/access/users/login`, data).then((response) => {
             //localStorage.setItem('token', response.data.token);this.tokenService.set(response.data.token);
+            this.tokenService.set(response.data.token);
             this.authenticatedUserService.set(response.data.user);
             return response;
         });
