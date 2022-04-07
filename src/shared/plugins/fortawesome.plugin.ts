@@ -22,6 +22,7 @@ import {
     faShoppingCart,
     faSearch,
     faFilter,
+    faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -46,6 +47,7 @@ export default {
         library.add(faChartLine);
         library.add(faCalendarWeek);
         library.add(faUsers);
+        library.add(faSignInAlt);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },

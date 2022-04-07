@@ -12,9 +12,15 @@
       </button>
 
       <template v-for="(item, key) in items">
-        <router-link v-if="key > 0" :to="item.route" class="d-none d-md-block btn" :key="key" v-tooltip="item.name">
+        <router-link v-if="key > 0 && item.route" :to="item.route" class="d-none d-md-block btn" :key="item.name"
+                     v-tooltip="item.name">
           <AppIcon :icon="item.icon" size="lg"/>
         </router-link>
+
+        <button v-else-if="item.click" class="d-none d-md-block btn" :key="item.name" v-tooltip="item.name"
+                @click="item.click">
+          <AppIcon :icon="item.icon" size="lg"/>
+        </button>
       </template>
 
     </div>
@@ -23,29 +29,40 @@
 
         <ul class="nav nav-pills flex-column mb-auto px-3 pt-4">
           <li class="nav-item mt-2" v-for="(item, key) in items">
-            <router-link :to="item.route" class="nav-link"
+            <router-link v-if="item.route" :to="item.route" class="nav-link"
                          :class="{ active: isActive(item.route), 'text-secondary': !isActive(item.route)}" :key="key">
               <AppIcon :icon="item.icon" size="lg" class="me-2"/>
               {{ item.name }}
             </router-link>
+
+            <button v-else-if="item.click" class="nav-link" :key="item.name"
+                    :class="{ active: isActive(item.route), 'text-secondary': !isActive(item.route)}">
+              <AppIcon :icon="item.icon" size="lg" class="me-2"/>
+              {{ item.name }}
+            </button>
           </li>
         </ul>
-
       </div>
     </div>
+
+    <AppModal v-model="showLogin">
+      <LoginCasurid></LoginCasurid>
+    </AppModal>
   </nav>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
 import AppIcon from '../../../shared/components/AppIcon.vue';
-import NavBar from '../components/NavBar.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
+import LoginCasurid from './LoginCasurid.vue';
 
 export default defineComponent({
   name: 'NavBar',
-  components: {AppIcon},
+  components: {LoginCasurid, AppModal, AppIcon},
   data() {
     return {
+      showLogin: false,
       items: [
         {
           name: 'Inicio',
@@ -57,16 +74,21 @@ export default defineComponent({
           route: '/shopping-cart',
           icon: 'shopping-cart',
         },
+        {
+          name: 'Iniciar sesión',
+          click: this.openModalLogin,
+          icon: 'sign-in-alt',
+        },
       ],
     };
   },
   methods: {
     isActive(route: string) {
-      if (route == this.$route.path) {
-        return true;
-      }
-
-      return false;
+      return route == this.$route.path;
+    },
+    openModalLogin() {
+      console.log(this.showLogin);
+      this.showLogin = true;
     },
   },
 });

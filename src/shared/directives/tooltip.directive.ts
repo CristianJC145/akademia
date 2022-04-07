@@ -27,12 +27,6 @@ export const TooltipDirective = {
             el.setAttribute('data-bs-placement', place);
         }
 
-        console.log(binding);
-
         bootstrap.Tooltip.getOrCreateInstance(el);
-        /*var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });*/
     },
 };
