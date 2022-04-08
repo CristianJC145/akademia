@@ -16,6 +16,7 @@ axios.interceptors.request.use(async (config) => {
 
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+        config.headers.institution_id = '10';
     }
 
     /* ErrorAlert */

@@ -5,9 +5,10 @@ import {AuthenticatedUserService} from '../services/authenticatedUser.service';
 const isAuthenticated = new IsAuthenticatedService();
 const authenticatedUserService = new AuthenticatedUserService();
 
-export async function loadAuthenticatedUserGuard(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+export async function loadInitialInformationGuard(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     const isAuth = isAuthenticated.run();
 
+    /*Guardando el usuario en el store*/
     if (isAuth) {
         authenticatedUserService.setOnStore();
     }

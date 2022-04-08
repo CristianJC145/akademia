@@ -7,13 +7,13 @@ import {adminRouting} from './modules/admin/admin.routing';
 import courseAdministration from './modules/academic-administration/pages/CourseAdministration.vue';
 import {academicAdministrationRouting} from './modules/academic-administration/academic-administration.routing';
 import {casuridRouting} from './modules/casurid/casurid.routing';
-import {loadAuthenticatedUserGuard} from './shared/guards/loadAuthenticatedUser.guard';
+import {loadInitialInformationGuard} from './shared/guards/loadInitialInformation.guard';
 
 const appRouting: RouteRecordRaw[] = [
     {
         path: '/',
         component: AppEmptyLayout,
-        beforeEnter: [loadAuthenticatedUserGuard],
+        beforeEnter: [loadInitialInformationGuard],
         children: [
             //Casurid Module
             {

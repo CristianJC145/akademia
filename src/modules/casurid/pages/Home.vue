@@ -43,13 +43,18 @@
                     <span>Duración: <span class="badge bg-secondary">{{ product.validityPeriod }} meses</span></span>
                   </div>
 
-                  <div class="d-flex justify-content-between">
-                    <button class="btn">
-                      <AppIcon icon="shopping-cart"></AppIcon>
-                    </button>
-                    <router-link :to="`/${product.id}`" class="btn btn-primary text-white">
-                      Ver detalle
-                    </router-link>
+                  <div class="row g-2 align-items-center">
+                    <div class="col-12 col-md-6 col-lg-4">
+                      <AddToCart :product="product"></AddToCart>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-8">
+                      <div class="d-grid d-md-flex justify-content-md-end align-items-md-center">
+                        <router-link :to="`/${product.id}`" class="btn btn-primary text-white btn-detail">
+                          Ver detalle
+                        </router-link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -74,6 +79,7 @@ import {ProductCatalogueDto} from '../dtos/productCatalogue.dto';
 import CatalogFilters from '../components/CatalogFilters.vue';
 import AppLoading from '../../../shared/components/AppLoading.vue';
 import {debounce} from 'ts-debounce';
+import AddToCart from '../components/addToCart.vue';
 
 const catalogueRelatedDataService = new CatalogueRelatedDataService();
 const searchProductsCatalogueService = new SearchProductsCatalogueService();
@@ -92,7 +98,7 @@ interface IHome extends FiltersType {
 
 export default defineComponent({
   name: 'HomePage',
-  components: {CatalogFilters, NavBar, AppIcon, AppLoading},
+  components: {AddToCart, CatalogFilters, NavBar, AppIcon, AppLoading},
   data(): IHome {
     return {
       showFilters: false,
@@ -209,5 +215,9 @@ export default defineComponent({
 
 .product-catalogue {
   min-height: 460px;
+}
+
+.btn-detail {
+  height: 40px;
 }
 </style>
