@@ -7,38 +7,62 @@
 
     </div>
     <div class="d-flex gap-2">
-      <button class="d-block d-md-none btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">
+      <button class="d-block d-md-none btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" v-if="user">
         <AppIcon icon="bars"/>
       </button>
 
-      <template v-for="(item, key) in items">
-        <router-link v-if="key > 0 && item.route" :to="item.route" class="d-none d-md-block btn" :key="item.name"
-                     v-tooltip="item.name">
-          <AppIcon :icon="item.icon" size="lg"/>
-        </router-link>
+      <router-link to="/shopping-cart" class="d-none d-md-block btn"
+                   v-tooltip="'Carrito de compras'">
+        <AppIcon icon="shopping-cart" size="lg"/>
+      </router-link>
 
-        <button v-else-if="item.click" class="d-none d-md-block btn" :key="item.name" v-tooltip="item.name"
-                @click="item.click()">
-          <AppIcon :icon="item.icon" size="lg"/>
-        </button>
-      </template>
+      <button v-if="!user" class="btn" @click="openModalLogin"
+              v-tooltip="'Iniciar sesión'"
+              type="button">
+        <AppIcon icon="sign-in-alt" class="me-2" size="lg"/>
+      </button>
+
+      <button v-if="!user" class="btn btn-primary text-white" @click="openModalLogin" type="button">
+        <!--        <AppIcon icon="sign-in-alt" class="me-2" size="lg"/>-->
+        Registrarse
+      </button>
+
+      <AppDropdown v-else>
+        <template v-slot:button>
+          <button type="button" class="btn">
+            <AppIcon icon="user-circle" size="lg"/>
+          </button>
+        </template>
+        <template v-slot:items>
+          <li>
+            <button class="dropdown-item" type="button" @click="signOut">
+              <AppIcon icon="sign-out-alt"></AppIcon>
+              Cerrar sesión
+            </button>
+          </li>
+        </template>
+      </AppDropdown>
 
     </div>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
       <div class="d-flex flex-column flex-shrink-0 pb-3 bg-light h-100">
 
         <ul class="nav nav-pills flex-column mb-auto px-3 pt-4">
-          <li class="nav-item mt-2" v-for="(item, key) in items">
-            <router-link v-if="item.route" :to="item.route" class="nav-link"
-                         :class="{ active: isActive(item.route), 'text-secondary': !isActive(item.route)}" :key="key">
-              <AppIcon :icon="item.icon" size="lg" class="me-2"/>
-              {{ item.name }}
-            </router-link>
 
-            <button v-else-if="item.click" class="nav-link" :key="item.name">
-              <AppIcon :icon="item.icon" size="lg" class="me-2"/>
-              {{ item.name }}
-            </button>
+          <li class="nav-item mt-2">
+            <router-link to="/home" class="nav-link"
+                         :class="{ active: isActive('/'), 'text-secondary': !isActive('/')}">
+              <AppIcon icon="home" size="lg" class="me-2"/>
+              Inicio
+            </router-link>
+          </li>
+
+          <li class="nav-item mt-2">
+            <router-link to="/shopping-cart" class="nav-link"
+                         :class="{ active: isActive('/shopping-cart'), 'text-secondary': !isActive('/shopping-cart')}">
+              <AppIcon icon="shopping-cart" size="lg" class="me-2"/>
+              Carrito de compras
+            </router-link>
           </li>
         </ul>
       </div>
@@ -51,34 +75,32 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {computed, defineComponent, inject} from 'vue';
 import AppIcon from '../../../shared/components/AppIcon.vue';
 import AppModal from '../../../shared/components/AppModal.vue';
 import LoginCasurid from './LoginCasurid.vue';
+import AuthenticatedUserStore from '../../../shared/stores/authenticatedUser.store';
+import AppDropdown from '../../../shared/components/AppDropdown.vue';
+import {SignOutService} from '../../../shared/services/signOut.service';
+
+const signOutService = new SignOutService();
 
 export default defineComponent({
   name: 'NavBar',
-  components: {LoginCasurid, AppModal, AppIcon},
+  components: {AppDropdown, LoginCasurid, AppModal, AppIcon},
+  setup() {
+    const store = inject('store', AuthenticatedUserStore.state);
+
+    const user = computed(() => store.user);
+
+    return {
+      store,
+      user,
+    };
+  },
   data() {
     return {
       showLogin: false,
-      items: [
-        {
-          name: 'Inicio',
-          route: '/',
-          icon: 'home',
-        },
-        {
-          name: 'Carrito de compras',
-          route: '/shopping-cart',
-          icon: 'shopping-cart',
-        },
-        {
-          name: 'Iniciar sesión',
-          click: this.openModalLogin,
-          icon: 'sign-in-alt',
-        },
-      ],
     };
   },
   methods: {
@@ -87,6 +109,10 @@ export default defineComponent({
     },
     openModalLogin() {
       this.showLogin = true;
+    },
+    signOut() {
+      signOutService.run();
+      window.location.reload();
     },
   },
 });

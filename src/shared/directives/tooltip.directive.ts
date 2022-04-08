@@ -2,7 +2,7 @@ import * as bootstrap from 'bootstrap';
 
 export const TooltipDirective = {
     mounted(el: any, binding: any) {
-        let place = null;
+        let place = 'bottom';
 
         if (binding.modifiers.right) {
             place = 'right';

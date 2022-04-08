@@ -1,4 +1,5 @@
 import {UserDto} from '../dto/user.dto';
+import AuthenticatedUserStore from '../stores/authenticatedUser.store';
 
 export class AuthenticatedUserService {
     private key = 'user';
@@ -15,5 +16,14 @@ export class AuthenticatedUserService {
 
     set(user: any): void {
         localStorage.setItem(this.key, JSON.stringify(user));
+        this.setOnStore();
+    }
+
+    setOnStore() {
+        const user = this.get();
+
+        if (user) {
+            AuthenticatedUserStore.methods.set(user);
+        }
     }
 }
