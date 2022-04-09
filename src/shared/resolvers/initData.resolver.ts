@@ -2,9 +2,13 @@ import {NavigationGuardNext, RouteLocationNormalized} from 'vue-router';
 import {GetInitDataService} from '../services/getInitData.service';
 import {ItemMenuType} from '../types/itemMenu.type';
 import {IsAuthenticatedService} from '../services/isAuthenticated.service';
+import {InstitutionsService} from '../services/institutions.service';
+import {AuthenticatedUserService} from '../services/authenticatedUser.service';
 
 const getInitDataService = new GetInitDataService();
 const isAuthenticatedService = new IsAuthenticatedService();
+const institutionsService = new InstitutionsService();
+const authenticatedUserService = new AuthenticatedUserService();
 
 function convertRouteToNavigation(route: string): { route: string | null; externalLink: boolean } {
     if (!route) {
@@ -38,7 +42,13 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
 
     const {
         items,
+        userInstitutions,
+        user,
     } = await getInitDataService.run();
+
+    authenticatedUserService.set(user);
+
+    //Agregando los items para el menu
 
     const itemsMenu: ItemMenuType[] = [];
 
@@ -74,6 +84,13 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
             });
         }
     });
+
+    // Agregando las Instituciones
+    const institutions = userInstitutions.map((userInstitution) => userInstitution.institution);
+
+    institutionsService.setInstitutions(institutions);
+
+    institutionsService.setDefaultSelectedInstitution();
 
     return next();
 }

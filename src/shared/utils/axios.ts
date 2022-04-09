@@ -2,21 +2,30 @@ import axios from 'axios';
 import {TokenService} from '../services/token.service';
 import {ErrorAlertService} from '../services/errorAlert.service';
 import {ToastService} from '../services/toast.service';
+import {InstitutionsService} from '../services/institutions.service';
 
 const getTokenService = new TokenService();
 const errorAlertService = new ErrorAlertService();
 const toastService = new ToastService();
+const institutionsService = new InstitutionsService();
 
 axios.interceptors.request.use(async (config) => {
-    const token = await getTokenService.get();
+
 
     if (!config.headers) {
         config.headers = {};
     }
 
+    // Agregando Token
+    const token = await getTokenService.get();
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-        config.headers.institution_id = '10';
+    }
+
+    // Agregando la Institucion
+    const institution = institutionsService.getSelectedInstitution();
+    if (institution) {
+        config.headers.institution_id = institution.id.toString();
     }
 
     /* ErrorAlert */
