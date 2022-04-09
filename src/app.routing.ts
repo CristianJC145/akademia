@@ -4,15 +4,16 @@ import {authRouting} from './modules/auth/auth.routing';
 import AppEmptyLayout from './shared/layout/AppEmptyLayout.vue';
 import AppLayout from './shared/layout/AppLayout.vue';
 import {adminRouting} from './modules/admin/admin.routing';
+import courseAdministration from './modules/academic-administration/pages/CourseAdministration.vue';
 import {academicAdministrationRouting} from './modules/academic-administration/academic-administration.routing';
 import {casuridRouting} from './modules/casurid/casurid.routing';
-import {initDataResolver} from './shared/resolvers/initData.resolver';
+import {loadInitialInformationGuard} from './shared/guards/loadInitialInformation.guard';
 
 const appRouting: RouteRecordRaw[] = [
     {
         path: '/',
         component: AppEmptyLayout,
-        beforeEnter: [initDataResolver],
+        beforeEnter: [loadInitialInformationGuard],
         children: [
             //Casurid Module
             {

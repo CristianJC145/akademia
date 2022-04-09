@@ -1,11 +1,20 @@
 <template>
   <div
-      class="targetContainer
-      d-flex
-      flex-row
-      text-hint
-      ease-in-out
-      h-100"
+      class="
+        tw-flex
+        tw-flex-row
+        tw-items-center
+        tw-justify-center
+        tw-rounded-lg
+        tw-cursor-pointer
+        tw-border-2
+        tw-border-gray-300
+        tw-border-dashed
+        hover:tw-bg-gray-200
+        tw-transition-colors
+        tw-duration-150
+        tw-ease-in-out
+        tw-h-full"
   >
     <AppIcon
         class="icon-size-8 align-items-lg-center m-1"
@@ -20,25 +29,12 @@ import AppIcon from './AppIcon.vue';
 
 export default defineComponent({
   name: 'AppContainerNewRecord',
-  props: ['routes', 'title', 'subtitle', 'text'],
+  props: ['text'],
   components: {AppIcon}
 })
 </script>
 
 <style scoped>
-.targetContainer{
-  align-content: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 15px;
-  border-color: darkgray;
-  text-decoration-color: darkgray;
-  transition: color;
-  transition-duration: 150s;
-  height: 100px;
-  borde: dashed;
-  borde: 2px;
-  hover: bg-hover;
-}
+
 
 </style>
