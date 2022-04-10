@@ -7,6 +7,7 @@ import {adminRouting} from './modules/admin/admin.routing';
 import courseAdministration from "./modules/academic-administration/pages/CourseAdministration.vue";
 import {academicAdministrationRouting} from "./modules/academic-administration/academic-administration.routing";
 import {casuridRouting} from './modules/casurid/casurid.routing';
+import {accessRouting} from "./modules/access/access.routing";
 
 const appRouting: RouteRecordRaw[] = [
     {
@@ -39,6 +40,13 @@ const appRouting: RouteRecordRaw[] = [
                 path: '/academic-administration',
                 component: AppLayout,
                 children: academicAdministrationRouting,
+            },
+
+            // Access Module
+            {
+                path: '/access',
+                component: AppLayout,
+                children: accessRouting,
             },
         ],
     },
