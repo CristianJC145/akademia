@@ -88,17 +88,31 @@ export default defineComponent ({
   methods: {
     async getAllRoles(): Promise<void> {
       return getAllRolesService.run().then((roles) => {
-        this.roles = roles;
+        //this.roles = roles;
       });
     },
     async getRelatedDataForm(): Promise<void> {
       return getRoleRelatedDataFormService.run().then((response) => {
-        this.profiles = response.profiles;
+        //this.profiles = response.profiles;
       });
     },
     deleteRole(id: any): Promise<any> {
       return deleteRoleService.run(id);
     }
+  },
+  openFormRole(role: RoleDto = null): void {
+    const dialogRef = this.open(RoleFormComponent, {
+      panelClass: ['w-full', 'sm:w-120'],
+      data: {
+        role,
+        profiles: this.profiles,
+      },
+    });
+
+
+    dialogRef.componentInstance.newRecord.subscribe(async () => {
+      await this.getAllRoles();
+    });
   }
 })
 

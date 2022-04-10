@@ -7,6 +7,6 @@ export const accessRouting: RouteRecordRaw[] = [
     {
         path: 'roles',
         component: RolesPage,
-        beforeEnter: [authGuard, initDataResolver],
+        //beforeEnter: [authGuard, initDataResolver],
     },
 ];
