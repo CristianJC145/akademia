@@ -27,6 +27,20 @@ import {
     faKey,
     faPencilAlt,
     faTrash,
+    faWindowClose,
+    faPoll,
+    faUser,
+    faFileMedical,
+    faHouseUser,
+    faSchool,
+    faArrowCircleUp,
+    faCalendar,
+    faTasks,
+    faAddressCard,
+    faBan,
+    faLayerGroup,
+    faChartBar,
+
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -56,6 +70,19 @@ export default {
         library.add(faKey);
         library.add(faPencilAlt);
         library.add(faTrash);
+        library.add(faWindowClose);
+        library.add(faPoll);
+        library.add(faUser);
+        library.add(faFileMedical);
+        library.add(faHouseUser);
+        library.add(faSchool);
+        library.add(faArrowCircleUp);
+        library.add(faCalendar);
+        library.add(faTasks);
+        library.add(faAddressCard);
+        library.add(faBan);
+        library.add(faLayerGroup);
+        library.add(faChartBar);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },

@@ -71,6 +71,8 @@ import {GetRoleRelatedDataFormService} from "../services/getRoleRelateDataForm.s
 import {DeleteRoleService} from "../services/deleteRole.service";
 import {RoleDto} from "../../../shared/dto/role.dto";
 import {ProfileDto} from "../../../shared/dto/profile.dto";
+import {ProductCatalogueDto} from "../../casurid/dtos/productCatalogue.dto";
+import {ProductContentDto} from "../../casurid/dtos/productContent.dto";
 
 const getAllRolesService = new GetAllRolesService();
 const getRoleRelatedDataFormService = new GetRoleRelatedDataFormService();
@@ -79,41 +81,27 @@ const deleteRoleService = new DeleteRoleService();
 export default defineComponent ({
   components: {AppIcon, AppBackButton, AppBaseList, AppContainerNewRecord },
   name: 'Roles',
-  data() {
+  data(): IRoles {
     return {
-      roles: [],
+      loading: false,
       profiles: [],
+      roles: [],
     }
   },
+  async mounted() {
+    this.loading = true;
+    const roles = await getAllRolesService.run();
+    this.roles =  roles.data;
+
+    const profiles = await getRoleRelatedDataFormService.run();
+    this.profiles = profiles.data;
+    this.loading = false;
+  },
   methods: {
-    async getAllRoles(): Promise<void> {
-      return getAllRolesService.run().then((roles) => {
-        //this.roles = roles;
-      });
-    },
-    async getRelatedDataForm(): Promise<void> {
-      return getRoleRelatedDataFormService.run().then((response) => {
-        //this.profiles = response.profiles;
-      });
-    },
     deleteRole(id: any): Promise<any> {
       return deleteRoleService.run(id);
     }
   },
-  openFormRole(role: RoleDto = null): void {
-    const dialogRef = this.open(RoleFormComponent, {
-      panelClass: ['w-full', 'sm:w-120'],
-      data: {
-        role,
-        profiles: this.profiles,
-      },
-    });
-
-
-    dialogRef.componentInstance.newRecord.subscribe(async () => {
-      await this.getAllRoles();
-    });
-  }
 })
 
 </script>

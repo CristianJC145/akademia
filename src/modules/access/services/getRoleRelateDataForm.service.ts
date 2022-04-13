@@ -8,7 +8,7 @@ interface RoleRelatedDataForm {
 
 export class GetRoleRelatedDataFormService {
     async run(){
-        return axios.get<RoleRelatedDataForm>(`${services.users}/access/roles-related-data-form`).then((response) => {
+        return axios.get<RoleRelatedDataForm[]>(`${services.users}/access/roles-related-data-form`).then((response) => {
             return response;
         });
     }

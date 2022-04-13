@@ -112,8 +112,6 @@
           </a>
         </li>
         <!------------------------------------------->
-
-
         <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
           Administración Académica
         </li>
@@ -128,6 +126,104 @@
           <a href="#" class="nav-link text-secondary" aria-current="page">
             <AppIcon class="me-2" icon="clipboard-list"></AppIcon>
             Matricular estudiante
+          </a>
+        </li>
+        <!------------------------------------------->
+        <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
+          Administración de usuarios
+        </li>
+
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="users"></AppIcon>
+            Roles
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="user"></AppIcon>
+            Usuarios
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="file-medical"></AppIcon>
+            Historias clínicas
+          </a>
+        </li>
+        <!------------------------------------------->
+        <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
+          Salón de clases
+        </li>
+
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="school"></AppIcon>
+            Inicio (Profesores)
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="arrow-circle-up"></AppIcon>
+            Sincronizar cursos
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="house-user"></AppIcon>
+            Inicio (Estudiantes)
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="calendar"></AppIcon>
+            Horario
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="tasks"></AppIcon>
+            Actividades
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="calendar-minus"></AppIcon>
+            Configurar horario
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="address-card"></AppIcon>
+            Perfil Estudiantes
+          </a>
+        </li>
+        <!------------------------------------------->
+        <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
+          Control disciplinario
+        </li>
+
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="layer-group"></AppIcon>
+            Ofensas
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="ban"></AppIcon>
+            Faltas disciplinarias
+          </a>
+        </li>
+        <!------------------------------------------->
+        <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
+          Reportes
+        </li>
+
+        <li class="nav-item mt-2">
+          <a href="#" class="nav-link text-secondary" aria-current="page">
+            <AppIcon class="me-2" icon="chart-bar"></AppIcon>
+            Reportes
           </a>
         </li>
       </ul>
