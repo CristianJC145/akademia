@@ -1,4 +1,5 @@
 <template>
+  <AppBreadCrumbs :routes="routes"></AppBreadCrumbs>
   <div v-if="loading">
     <AppLoading></AppLoading>
   </div>
@@ -57,6 +58,8 @@ import {ProductCatalogueDto} from '../dtos/productCatalogue.dto';
 import {ProductContentDto} from '../dtos/productContent.dto';
 import AppLoading from '../../../shared/components/AppLoading.vue';
 import AppIcon from '../../../shared/components/AppIcon.vue';
+import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
+import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
 
 const getProductCatalogueBySlugService = new GetProductCatalogueBySlugService();
 
@@ -65,17 +68,24 @@ interface IProductDetail {
   loading: boolean,
   product: ProductCatalogueDto | null,
   contents: ProductContentDto[],
+  routes: BreadCrumbsType[],
 }
 
 export default defineComponent({
   name: 'ProductDetail',
-  components: {AppLoading, AppIcon},
+  components: {AppBreadCrumbs, AppLoading, AppIcon},
   data(): IProductDetail {
     return {
       slug: '',
       loading: true,
       product: null,
       contents: [],
+      routes: [
+        {
+          name: 'Inicio',
+          url: '/',
+        },
+      ],
     };
   },
   async mounted() {
@@ -87,6 +97,10 @@ export default defineComponent({
 
       this.product = product;
       this.contents = contents;
+
+      this.routes.push({
+        name: this.product.title,
+      });
     } catch (e) {
     }
 
