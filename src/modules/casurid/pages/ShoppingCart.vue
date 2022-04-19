@@ -19,6 +19,7 @@
                   <th style="width: 55%">Plan</th>
                   <th style="width: 15%">Cantidad</th>
                   <th style="width: 30%;">Total</th>
+                  <th></th>
                 </tr>
                 </thead>
 
@@ -36,19 +37,26 @@
                   </td>
                   <td>
                     <div class="d-flex align-items-center gap-2 justify-content-center">
-                      <button class="btn btn-outline-primary" :disabled="product.quantity <= 1"
+                      <button class="btn btn-outline-primary btn-sm btn-increase-decrease"
+                              :disabled="product.quantity <= 1"
                               @click="increaseOrDecreaseAmounts(product, 'decrease')">
                         -
                       </button>
                       <input type="number" class="form-control input-amount" v-model="product.quantity"
                              @change="updateShoppingCart(product)">
-                      <button class="btn btn-outline-primary" @click="increaseOrDecreaseAmounts(product, 'increase')">
+                      <button class="btn btn-outline-primary btn-sm btn-increase-decrease"
+                              @click="increaseOrDecreaseAmounts(product, 'increase')">
                         +
                       </button>
                     </div>
                   </td>
                   <td class="tw-text-right">
                     {{ product.defaultUnitValue * product.quantity }}
+                  </td>
+                  <td>
+                    <button class="btn btn-outline-primary btn-sm" @click="deleteShoppingCart(product.id)">
+                      <AppIcon icon="trash"></AppIcon>
+                    </button>
                   </td>
                 </tr>
                 </tbody>
@@ -94,19 +102,23 @@ import {
   LevelsProduct,
 } from '../services/getShoppingCart.service';
 import {UpdateProductCatalogueToCartService} from '../services/updateProductCatalogueToCart.service';
+import AppIcon from '../../../shared/components/AppIcon.vue';
+import {DeleteProductCatalogueToCartService} from '../services/deleteProductCatalogueToCart.service';
 
 const getShoppingCartService = new GetShoppingCartService();
 const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
+const deleteProductCatalogueToCartService = new DeleteProductCatalogueToCartService();
 
 export default defineComponent({
   name: 'ShoppingCart',
+  components: {AppIcon},
   setup() {
     let shoppingCart: { value: LevelsProduct[] } = reactive({
       value: [],
     });
 
     onMounted(async () => {
-      shoppingCart.value = (await getShoppingCartService.run()).levelsProducts;
+      await getShoppingCart();
     });
 
     const total = computed(() => {
@@ -120,6 +132,10 @@ export default defineComponent({
 
       return total;
     });
+
+    const getShoppingCart = async () => {
+      shoppingCart.value = (await getShoppingCartService.run()).levelsProducts;
+    };
 
     const increaseOrDecreaseAmounts = async (cart: CartProductDto, action = 'increase') => {
       if (action === 'increase') {
@@ -142,11 +158,21 @@ export default defineComponent({
       }
     };
 
+    const deleteShoppingCart = async (shoppingCartId: number) => {
+      try {
+        await deleteProductCatalogueToCartService.run(shoppingCartId);
+        await getShoppingCart();
+      } catch (e) {
+
+      }
+    };
+
     return {
       shoppingCart,
       total,
       updateShoppingCart,
       increaseOrDecreaseAmounts,
+      deleteShoppingCart,
     };
   },
 });
@@ -155,11 +181,16 @@ export default defineComponent({
 <style scoped>
 .input-amount {
   width: 50px;
+  height: 30px;
   -moz-appearance: textfield;
 }
 
 .input-amount::-webkit-outer-spin-button,
 .input-amount::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+
+.btn-increase-decrease {
+  width: 40px;
 }
 </style>
