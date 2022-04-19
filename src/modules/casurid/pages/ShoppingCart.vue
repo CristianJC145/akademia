@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <AppLoading v-if="loading"></AppLoading>
+  <div class="container" v-else>
     <div class="row">
       <div class="col-12">
         <AppBreadCrumbs :routes="routes"></AppBreadCrumbs>
       </div>
     </div>
-
 
     <div class="row">
       <div class="col-12">
@@ -13,7 +13,24 @@
       </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row" v-if="!shoppingCart.value.length">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <AppEmptyResponse
+                size="sm"
+                title="No tienes productos agregados en el carrito"
+                :subtitle="false"
+                :show-image="true"
+                go="/"
+                go-text="Comprar"
+            ></AppEmptyResponse>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4" v-else>
       <div class="col-12 col-lg-8">
         <div class="card">
           <div class="card-body d-flex flex-column gap-4">
@@ -102,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, onMounted, reactive} from 'vue';
+import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
 import {
   CartProductDto,
   GetShoppingCartService,
@@ -113,6 +130,8 @@ import AppIcon from '../../../shared/components/AppIcon.vue';
 import {DeleteProductCatalogueToCartService} from '../services/deleteProductCatalogueToCart.service';
 import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
 import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
+import AppEmptyResponse from '../../../shared/components/AppEmptyResponse.vue';
+import AppLoading from '../../../shared/components/AppLoading.vue';
 
 const getShoppingCartService = new GetShoppingCartService();
 const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
@@ -120,11 +139,13 @@ const deleteProductCatalogueToCartService = new DeleteProductCatalogueToCartServ
 
 export default defineComponent({
   name: 'ShoppingCart',
-  components: {AppBreadCrumbs, AppIcon},
+  components: {AppLoading, AppEmptyResponse, AppBreadCrumbs, AppIcon},
   setup() {
     const shoppingCart: { value: LevelsProduct[] } = reactive({
       value: [],
     });
+
+    const loading = ref(true);
 
     const routes: BreadCrumbsType[] = [
       {
@@ -137,7 +158,9 @@ export default defineComponent({
     ];
 
     onMounted(async () => {
+      loading.value = true;
       await getShoppingCart();
+      loading.value = false;
     });
 
     const total = computed(() => {
@@ -189,10 +212,11 @@ export default defineComponent({
     return {
       shoppingCart,
       total,
+      routes,
+      loading,
       updateShoppingCart,
       increaseOrDecreaseAmounts,
       deleteShoppingCart,
-      routes,
     };
   },
 });
