@@ -2,7 +2,14 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h1 class="h3">Mi carrito</h1>
+        <AppBreadCrumbs :routes="routes"></AppBreadCrumbs>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <h1 class="h3">Carrito de compras</h1>
       </div>
     </div>
 
@@ -104,6 +111,8 @@ import {
 import {UpdateProductCatalogueToCartService} from '../services/updateProductCatalogueToCart.service';
 import AppIcon from '../../../shared/components/AppIcon.vue';
 import {DeleteProductCatalogueToCartService} from '../services/deleteProductCatalogueToCart.service';
+import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
+import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
 
 const getShoppingCartService = new GetShoppingCartService();
 const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
@@ -111,11 +120,21 @@ const deleteProductCatalogueToCartService = new DeleteProductCatalogueToCartServ
 
 export default defineComponent({
   name: 'ShoppingCart',
-  components: {AppIcon},
+  components: {AppBreadCrumbs, AppIcon},
   setup() {
-    let shoppingCart: { value: LevelsProduct[] } = reactive({
+    const shoppingCart: { value: LevelsProduct[] } = reactive({
       value: [],
     });
+
+    const routes: BreadCrumbsType[] = [
+      {
+        name: 'Inicio',
+        url: '/',
+      },
+      {
+        name: 'Carrito de compras',
+      },
+    ];
 
     onMounted(async () => {
       await getShoppingCart();
@@ -173,6 +192,7 @@ export default defineComponent({
       updateShoppingCart,
       increaseOrDecreaseAmounts,
       deleteShoppingCart,
+      routes,
     };
   },
 });

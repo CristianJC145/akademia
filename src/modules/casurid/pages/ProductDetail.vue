@@ -82,7 +82,7 @@ export default defineComponent({
       contents: [],
       routes: [
         {
-          name: 'Inicio',
+          name: 'Volver al listado',
           url: '/',
         },
       ],
