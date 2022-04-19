@@ -23,7 +23,7 @@
                 </thead>
 
                 <tbody>
-                <tr v-for="product in cart.products">
+                <tr v-for="product in cart.products" :key="product.id">
                   <td>
                     <div class="d-flex flex-column">
                       <span>
@@ -37,13 +37,12 @@
                   <td>
                     <div class="d-flex align-items-center gap-2 justify-content-center">
                       <button class="btn btn-outline-primary" :disabled="product.quantity <= 1"
-                              @click="product.quantity --">
+                              @click="increaseOrDecreaseAmounts(product, 'decrease')">
                         -
                       </button>
-                      <span>
-                      {{ product.quantity }}
-                    </span>
-                      <button class="btn btn-outline-primary" @click="product.quantity ++">
+                      <input type="number" class="form-control input-amount" v-model="product.quantity"
+                             @change="updateShoppingCart(product)">
+                      <button class="btn btn-outline-primary" @click="increaseOrDecreaseAmounts(product, 'increase')">
                         +
                       </button>
                     </div>
@@ -89,14 +88,20 @@
 
 <script lang="ts">
 import {computed, defineComponent, onMounted, reactive} from 'vue';
-import {GetShoppingCartService} from '../services/getShoppingCart.service';
+import {
+  CartProductDto,
+  GetShoppingCartService,
+  LevelsProduct,
+} from '../services/getShoppingCart.service';
+import {UpdateProductCatalogueToCartService} from '../services/updateProductCatalogueToCart.service';
 
 const getShoppingCartService = new GetShoppingCartService();
+const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
 
 export default defineComponent({
   name: 'ShoppingCart',
   setup() {
-    let shoppingCart = reactive({
+    let shoppingCart: { value: LevelsProduct[] } = reactive({
       value: [],
     });
 
@@ -116,14 +121,45 @@ export default defineComponent({
       return total;
     });
 
+    const increaseOrDecreaseAmounts = async (cart: CartProductDto, action = 'increase') => {
+      if (action === 'increase') {
+        cart.quantity++;
+      } else {
+        cart.quantity--;
+      }
+
+      await updateShoppingCart(cart);
+    };
+
+    const updateShoppingCart = async (cart: CartProductDto) => {
+      try {
+        await updateProductCatalogueToCartService.run(cart.id, {
+          productId: cart.productId,
+          quantity: cart.quantity,
+        });
+      } catch (e) {
+
+      }
+    };
+
     return {
       shoppingCart,
       total,
+      updateShoppingCart,
+      increaseOrDecreaseAmounts,
     };
   },
 });
 </script>
 
 <style scoped>
+.input-amount {
+  width: 50px;
+  -moz-appearance: textfield;
+}
 
+.input-amount::-webkit-outer-spin-button,
+.input-amount::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
 </style>
