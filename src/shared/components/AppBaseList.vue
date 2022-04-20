@@ -7,7 +7,7 @@
       <AppBreadCrumbs :routes="routes"></AppBreadCrumbs>
 
       <!-- Title -->
-      <div class="tw-mt-2 tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-gap-4 sm:tw-gap-2">
+      <div class="tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-gap-4 sm:tw-gap-2">
         <div>
           <h2 class="tw-text-3xl md:tw-text-4xl tw-tracking-tight tw-leading-7 sm:tw-leading-10 tw-truncate">
             <span>{{ title }}</span> <!--Texto plano-->
