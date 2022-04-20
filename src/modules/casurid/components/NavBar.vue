@@ -35,8 +35,13 @@
         </template>
         <template v-slot:items>
           <li>
+            <router-link class="dropdown-item" type="button" to="/shopping">
+              <AppIcon icon="shopping-bag" class="me-2"></AppIcon>
+              Mis compras
+            </router-link>
+            <hr>
             <button class="dropdown-item" type="button" @click="signOut">
-              <AppIcon icon="sign-out-alt"></AppIcon>
+              <AppIcon icon="sign-out-alt" class="me-2"></AppIcon>
               Cerrar sesión
             </button>
           </li>

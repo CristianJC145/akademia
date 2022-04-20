@@ -1,18 +1,18 @@
 <template>
-  <div class="flex flex-col flex-auto min-w-0">
+  <div class="tw-flex tw-flex-col tw-flex-auto tw-min-w-0">
     <!-- Header -->
     <div
-        class="flex flex-col flex-0 p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        class="tw-flex tw-flex-col tw-flex-0 p-4 sm:tw-py-4 sm:tw-px-6 tw-border-b tw-bg-white">
       <!-- Breadcrumbs -->
       <AppBreadCrumbs :routes="routes"></AppBreadCrumbs>
 
       <!-- Title -->
-      <div class="mt-2 flex flex-col sm:flex-row justify-between gap-4 sm:gap-2">
+      <div class="tw-mt-2 tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-gap-4 sm:tw-gap-2">
         <div>
-          <h2 class="text-3xl md:text-4xl tracking-tight leading-7 sm:leading-10 truncate">
+          <h2 class="tw-text-3xl md:tw-text-4xl tw-tracking-tight tw-leading-7 sm:tw-leading-10 tw-truncate">
             <span>{{ title }}</span> <!--Texto plano-->
           </h2>
-          <div class="mt-1.5 text-lg text-secondary">
+          <div class="tw-mt-1.5 tw-text-lg tw-text-secondary">
             <span>{{ subtitle }}</span>
           </div>
         </div>
@@ -22,23 +22,20 @@
     </div>
 
     <!--  Content  -->
-    <div class="flex-auto p-6 sm:p-10">
-      <!--        <div class="prose prose-sm max-w-5xl">-->
+    <div class="tw-flex-auto tw-p-4 sm:tw-p-6">
       <slot name="content"></slot>
-      <!--        </div>-->
     </div>
-
 
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
-import AppBreadCrumbs from "./AppBreadCrumbs.vue";
+import {defineComponent} from 'vue';
+import AppBreadCrumbs from './AppBreadCrumbs.vue';
 
 export default defineComponent({
   name: 'AppBaseList',
   props: ['routes', 'title', 'subtitle'],
-  components: {AppBreadCrumbs}
-})
+  components: {AppBreadCrumbs},
+});
 </script>

@@ -2,6 +2,7 @@ import CasuridLayout from './layouts/CasuridLayout.vue';
 import HomePage from './pages/Home.vue';
 import ShoppingCartPage from './pages/ShoppingCart.vue';
 import ProductDetailPage from './pages/ProductDetail.vue';
+import ShoppingPage from './pages/Shopping.vue';
 
 export const casuridRouting = [
     {
@@ -17,8 +18,12 @@ export const casuridRouting = [
                 component: ShoppingCartPage,
             },
             {
-                path: ':slug',
+                path: 'detail/:slug',
                 component: ProductDetailPage,
+            },
+            {
+                path: 'shopping',
+                component: ShoppingPage,
             },
         ],
     },

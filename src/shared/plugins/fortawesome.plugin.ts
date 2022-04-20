@@ -40,7 +40,7 @@ import {
     faBan,
     faLayerGroup,
     faChartBar,
-
+    faShoppingBag,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -83,6 +83,7 @@ export default {
         library.add(faBan);
         library.add(faLayerGroup);
         library.add(faChartBar);
+        library.add(faShoppingBag);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },

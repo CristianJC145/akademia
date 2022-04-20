@@ -1,8 +1,8 @@
 <template>
   <NavBar></NavBar>
-  <div class="mt-3 container-fluid">
-    <router-view></router-view>
-  </div>
+
+  <router-view></router-view>
+
 </template>
 
 <script lang="ts">

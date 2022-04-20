@@ -50,7 +50,7 @@
 
                     <div class="col-12 col-md-6 col-lg-8">
                       <div class="d-grid d-md-flex justify-content-md-end align-items-md-center">
-                        <router-link :to="`/${product.slug}`" class="btn btn-primary text-white btn-detail">
+                        <router-link :to="`/detail/${product.slug}`" class="btn btn-primary text-white btn-detail">
                           Ver detalle
                         </router-link>
                       </div>
