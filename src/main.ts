@@ -8,6 +8,7 @@ import plugins from './shared/plugins';
 import {router} from './app.routing';
 import {amplifyConstant} from './shared/constant/amplify.constant';
 import VueToast from 'vue-toast-notification';
+import i18n from './shared/plugins/i18n.plugin';
 
 import 'vue-toast-notification/dist/theme-sugar.css';
 import './index.css';
@@ -21,6 +22,7 @@ I18n.setLanguage('es');
 
 const app = createApp(App);
 
+app.use(i18n);
 app.use(plugins.fortawesomePlugin);
 app.use(router);
 app.use(VueToast);

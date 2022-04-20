@@ -4,11 +4,14 @@ import {ItemMenuType} from '../types/itemMenu.type';
 import {IsAuthenticatedService} from '../services/isAuthenticated.service';
 import {InstitutionsService} from '../services/institutions.service';
 import {AuthenticatedUserService} from '../services/authenticatedUser.service';
+import i18n from '../plugins/i18n.plugin';
+import {GetTranslationsByLanguageService} from '../services/getTranslationsByLanguage.service';
 
 const getInitDataService = new GetInitDataService();
 const isAuthenticatedService = new IsAuthenticatedService();
 const institutionsService = new InstitutionsService();
 const authenticatedUserService = new AuthenticatedUserService();
+const getTranslationsByLanguageService = new GetTranslationsByLanguageService();
 
 function convertRouteToNavigation(route: string): { route: string | null; externalLink: boolean } {
     if (!route) {
@@ -34,6 +37,13 @@ function convertRouteToNavigation(route: string): { route: string | null; extern
 }
 
 async function initDataResolver(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+    // Agregando traducciones
+    const language = 'es';
+
+    const messages = await getTranslationsByLanguageService.run(language);
+    
+    i18n.global.setLocaleMessage(language, messages);
+
     const isAuth = isAuthenticatedService.run();
 
     if (!isAuth) {

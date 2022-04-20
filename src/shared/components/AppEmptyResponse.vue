@@ -125,7 +125,7 @@
 
       <div v-if="go && goText" class="tw-mt-3">
         <router-link :to="go" class="btn btn-primary text-white">
-          {{ 'core.goTo' }} {{ goText }}
+          {{ t('core.goTo') }} {{ goText }}
         </router-link>
       </div>
     </div>
@@ -134,11 +134,13 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, Ref, ref} from 'vue';
+import {useI18n} from 'vue-i18n';
 
 export default defineComponent({
   name: 'AppEmptyResponse',
   props: ['title', 'subtitle', 'showImage', 'size', 'go', 'goText'],
   setup(props) {
+    const {t} = useI18n();
     const title = ref('core.emptyResponse.title');
     const subtitle: Ref<string | boolean> = ref('core.emptyResponse.subtitle');
     const size = ref('sm');
@@ -180,6 +182,7 @@ export default defineComponent({
       subtitle,
       go,
       goText,
+      t,
     };
   },
 });
