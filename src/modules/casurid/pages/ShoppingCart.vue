@@ -1,124 +1,126 @@
 <template>
-  <AppLoading v-if="loading"></AppLoading>
-  <div class="container" v-else>
-    <div class="row">
-      <div class="col-12">
-        <AppBreadCrumbs :routes="routes"></AppBreadCrumbs>
+  <div class="container mt-4">
+    <AppLoading v-if="loading"></AppLoading>
+    <template v-else>
+      <div class="row">
+        <div class="col-12">
+          <AppBreadCrumbs :routes="routes"></AppBreadCrumbs>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12">
-        <h1 class="h3">Carrito de compras</h1>
+      <div class="row">
+        <div class="col-12">
+          <h1 class="h3">Carrito de compras</h1>
+        </div>
       </div>
-    </div>
 
-    <div class="row" v-if="!shoppingCart.value.length">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <AppEmptyResponse
-                size="sm"
-                title="No tienes productos agregados en el carrito"
-                :subtitle="false"
-                :show-image="true"
-                go="/"
-                go-text="Comprar"
-            ></AppEmptyResponse>
+      <div class="row" v-if="!shoppingCart.value.length">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <AppEmptyResponse
+                  size="sm"
+                  title="No tienes productos agregados en el carrito"
+                  :subtitle="false"
+                  :show-image="true"
+                  go="/"
+                  go-text="Comprar"
+              ></AppEmptyResponse>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row g-4" v-else>
-      <div class="col-12 col-lg-8">
-        <div class="card">
-          <div class="card-body d-flex flex-column gap-4">
-            <div v-for="cart in shoppingCart.value">
-              <h2 class="lead">{{ cart.name }}</h2>
+      <div class="row g-4" v-else>
+        <div class="col-12 col-lg-8">
+          <div class="card">
+            <div class="card-body d-flex flex-column gap-4">
+              <div v-for="cart in shoppingCart.value">
+                <h2 class="lead">{{ cart.name }}</h2>
 
-              <table class="table">
-                <thead>
-                <tr class="text-center">
-                  <th style="width: 55%">Plan</th>
-                  <th style="width: 15%">Cantidad</th>
-                  <th style="width: 30%;">Total</th>
-                  <th></th>
-                </tr>
-                </thead>
+                <table class="table">
+                  <thead>
+                  <tr class="text-center">
+                    <th style="width: 55%">Plan</th>
+                    <th style="width: 15%">Cantidad</th>
+                    <th style="width: 30%;">Total</th>
+                    <th></th>
+                  </tr>
+                  </thead>
 
-                <tbody>
-                <tr v-for="product in cart.products" :key="product.id">
-                  <td>
-                    <div class="d-flex flex-column">
+                  <tbody>
+                  <tr v-for="product in cart.products" :key="product.id">
+                    <td>
+                      <div class="d-flex flex-column">
                       <span>
                       {{ product.productTitle }}
                     </span>
-                      <span>
+                        <span>
                       $ {{ product.defaultUnitValue }}
                     </span>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="d-flex align-items-center gap-2 justify-content-center">
-                      <button class="btn btn-outline-primary btn-sm btn-increase-decrease"
-                              :disabled="product.quantity <= 1"
-                              @click="increaseOrDecreaseAmounts(product, 'decrease')">
-                        -
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2 justify-content-center">
+                        <button class="btn btn-outline-primary btn-sm btn-increase-decrease"
+                                :disabled="product.quantity <= 1"
+                                @click="increaseOrDecreaseAmounts(product, 'decrease')">
+                          -
+                        </button>
+                        <input type="number" class="form-control input-amount" v-model="product.quantity"
+                               @change="updateShoppingCart(product)">
+                        <button class="btn btn-outline-primary btn-sm btn-increase-decrease"
+                                @click="increaseOrDecreaseAmounts(product, 'increase')">
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td class="tw-text-right">
+                      {{ product.defaultUnitValue * product.quantity }}
+                    </td>
+                    <td>
+                      <button class="btn btn-outline-primary btn-sm" @click="deleteShoppingCart(product.id)">
+                        <AppIcon icon="trash"></AppIcon>
                       </button>
-                      <input type="number" class="form-control input-amount" v-model="product.quantity"
-                             @change="updateShoppingCart(product)">
-                      <button class="btn btn-outline-primary btn-sm btn-increase-decrease"
-                              @click="increaseOrDecreaseAmounts(product, 'increase')">
-                        +
-                      </button>
-                    </div>
-                  </td>
-                  <td class="tw-text-right">
-                    {{ product.defaultUnitValue * product.quantity }}
-                  </td>
-                  <td>
-                    <button class="btn btn-outline-primary btn-sm" @click="deleteShoppingCart(product.id)">
-                      <AppIcon icon="trash"></AppIcon>
-                    </button>
-                  </td>
-                </tr>
-                </tbody>
+                    </td>
+                  </tr>
+                  </tbody>
 
-              </table>
+                </table>
+
+              </div>
 
             </div>
-
           </div>
         </div>
-      </div>
 
-      <div class="col-12 col-lg-4">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="h6">Resumen de la compra</h3>
-            <div class="d-flex justify-content-between lead">
+        <div class="col-12 col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="h6">Resumen de la compra</h3>
+              <div class="d-flex justify-content-between lead">
               <span>
                 Total
               </span>
-              <span>
+                <span>
                 {{ total }}
               </span>
-            </div>
+              </div>
 
-            <div class="d-grid">
-              <button class="btn btn-primary text-white" @click="showModalPayment = !showModalPayment">
-                PAGAR
-              </button>
+              <div class="d-grid">
+                <button class="btn btn-primary text-white" @click="showModalPayment = !showModalPayment">
+                  PAGAR
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <AppModal v-model="showModalPayment" @close="showModalPayment = false">
-      <Payment v-if="showModalPayment" :total="total"></Payment>
-    </AppModal>
+      <AppModal v-model="showModalPayment" @close="showModalPayment = false">
+        <Payment v-if="showModalPayment" :total="total"></Payment>
+      </AppModal>
+    </template>
   </div>
 </template>
 

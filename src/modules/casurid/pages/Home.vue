@@ -1,69 +1,70 @@
 <template>
-  <div class="row">
-    <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
-      <div class="input-group mb-3">
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-12 col-md-8 col-lg-6 offset-md-2 offset-lg-3">
+        <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">
           <AppIcon icon="search"></AppIcon>
         </span>
-        <input type="text" placeholder="Buscar un contenido..." class="form-control" v-model="searchValue">
-        <button class="input-group-text btn btn-primary d-flex text-white" id="basic-addon2"
-                @click="showFilters = !showFilters">
-          <AppIcon icon="filter" class="me-2"></AppIcon>
-          <span class="d-none d-md-block">
+          <input type="text" placeholder="Buscar un contenido..." class="form-control" v-model="searchValue">
+          <button class="input-group-text btn btn-primary d-flex text-white" id="basic-addon2"
+                  @click="showFilters = !showFilters">
+            <AppIcon icon="filter" class="me-2"></AppIcon>
+            <span class="d-none d-md-block">
             Búsqueda Avanzada
           </span>
-        </button>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <Transition name="slide-fade">
-      <div v-show="showFilters">
-        <AppLoading v-if="loadingFilters"></AppLoading>
-        <CatalogFilters
-            v-else
-            :levels="levels"
-            :areas="areas"
-            @changeFilters="changeFilters"></CatalogFilters>
-      </div>
-    </Transition>
+      <Transition name="slide-fade">
+        <div v-show="showFilters">
+          <AppLoading v-if="loadingFilters"></AppLoading>
+          <CatalogFilters
+              v-else
+              :levels="levels"
+              :areas="areas"
+              @changeFilters="changeFilters"></CatalogFilters>
+        </div>
+      </Transition>
 
-    <div class="col-12 mt-4">
-      <div class="card">
-        <div class="card-body row g-3">
-          <AppLoading v-if="loadingProducts"></AppLoading>
-          <template v-else>
-            <div class="col-12 col-md-4 col-lg-3" v-for="product in productsCatalogue" :key="product.id">
-              <div class="card product-catalogue card-hover">
-                <img class="card-img-top img-product" :src="product.thumbnail" :alt="product.title">
-                <div class="card-body d-flex flex-column gap-2">
-                  <div class="d-flex flex-column">
-                    <h1 class="h5 lead">{{ product.title }}</h1>
-                    <span>{{ product.subjectName }}</span>
-                    <span>{{ product.DegreeName }}</span>
-                    <span>Duración: <span class="badge bg-secondary">{{ product.validityPeriod }} meses</span></span>
-                  </div>
-
-                  <div class="row g-2 align-items-center">
-                    <div class="col-12 col-md-6 col-lg-4">
-                      <AddToCart :product="product"></AddToCart>
+      <div class="col-12 mt-4">
+        <div class="card">
+          <div class="card-body row g-3">
+            <AppLoading v-if="loadingProducts"></AppLoading>
+            <template v-else>
+              <div class="col-12 col-md-4 col-lg-3" v-for="product in productsCatalogue" :key="product.id">
+                <div class="card product-catalogue card-hover">
+                  <img class="card-img-top img-product" :src="product.thumbnail" :alt="product.title">
+                  <div class="card-body d-flex flex-column gap-2">
+                    <div class="d-flex flex-column">
+                      <h1 class="h5 lead">{{ product.title }}</h1>
+                      <span>{{ product.subjectName }}</span>
+                      <span>{{ product.DegreeName }}</span>
+                      <span>Duración: <span class="badge bg-secondary">{{ product.validityPeriod }} meses</span></span>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-8">
-                      <div class="d-grid d-md-flex justify-content-md-end align-items-md-center">
-                        <router-link :to="`/detail/${product.slug}`" class="btn btn-primary text-white btn-detail">
-                          Ver detalle
-                        </router-link>
+                    <div class="row g-2 align-items-center">
+                      <div class="col-12 col-md-6 col-lg-4">
+                        <AddToCart :product="product"></AddToCart>
+                      </div>
+
+                      <div class="col-12 col-md-6 col-lg-8">
+                        <div class="d-grid d-md-flex justify-content-md-end align-items-md-center">
+                          <router-link :to="`/detail/${product.slug}`" class="btn btn-primary text-white btn-detail">
+                            Ver detalle
+                          </router-link>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </template>
+            </template>
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
