@@ -107,14 +107,18 @@
             </div>
 
             <div class="d-grid">
-              <button class="btn btn-primary text-white">
-                CONTINUAR
+              <button class="btn btn-primary text-white" @click="showModalPayment = !showModalPayment">
+                PAGAR
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <AppModal v-model="showModalPayment" @close="showModalPayment = false">
+      <Payment></Payment>
+    </AppModal>
   </div>
 </template>
 
@@ -132,6 +136,8 @@ import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
 import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
 import AppEmptyResponse from '../../../shared/components/AppEmptyResponse.vue';
 import AppLoading from '../../../shared/components/AppLoading.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
+import Payment from '../components/Payment.vue';
 
 const getShoppingCartService = new GetShoppingCartService();
 const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
@@ -139,7 +145,7 @@ const deleteProductCatalogueToCartService = new DeleteProductCatalogueToCartServ
 
 export default defineComponent({
   name: 'ShoppingCart',
-  components: {AppLoading, AppEmptyResponse, AppBreadCrumbs, AppIcon},
+  components: {Payment, AppModal, AppLoading, AppEmptyResponse, AppBreadCrumbs, AppIcon},
   setup() {
     const shoppingCart: { value: LevelsProduct[] } = reactive({
       value: [],
@@ -209,6 +215,8 @@ export default defineComponent({
       }
     };
 
+    const showModalPayment = ref(false);
+
     return {
       shoppingCart,
       total,
@@ -217,6 +225,7 @@ export default defineComponent({
       updateShoppingCart,
       increaseOrDecreaseAmounts,
       deleteShoppingCart,
+      showModalPayment,
     };
   },
 });
