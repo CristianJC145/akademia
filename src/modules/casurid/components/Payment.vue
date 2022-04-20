@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, ref} from 'vue';
+import {computed, defineComponent, ref, watch} from 'vue';
 import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
@@ -77,16 +77,16 @@ import AppFormModal from '../../../shared/components/AppFormModal.vue';
 export default defineComponent({
   name: 'Payment.vue',
   components: {AppFormModal, AppBreadCrumbs, AppFormField},
-  setup() {
+  props: ['total'],
+  setup({total}) {
     const DEFAULT_METHOD_CREDIT = 'Crédito';
     const DEFAULT_METHOD_COUNTED = 'Contado';
 
-    const total = 4000000;
     const term = ref(6);
     const initialFee = ref(0);
     const payDay = ref(5);
     const feeValue = computed(() => Math.ceil(balance.value / term.value));
-    const balance = computed(() => total - initialFee.value);
+    const balance = computed(() => total.value - initialFee.value);
     const paymentMethod = ref(DEFAULT_METHOD_COUNTED);
 
     const paymentMethods = [
@@ -97,6 +97,10 @@ export default defineComponent({
     const terms = [
       3, 6, 12,
     ];
+
+    watch(() => total, () => {
+      console.log('cambiando total');
+    });
 
     const payDays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 

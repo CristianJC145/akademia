@@ -117,7 +117,7 @@
     </div>
 
     <AppModal v-model="showModalPayment" @close="showModalPayment = false">
-      <Payment></Payment>
+      <Payment v-if="showModalPayment" :total="total"></Payment>
     </AppModal>
   </div>
 </template>
