@@ -108,7 +108,7 @@
             'md:tw-text-5xl': size === 'md',
           }"
           v-if="title">
-        {{ title }}
+        {{ t(title) }}
       </div>
 
       <div class="tw-mt-2 tw-font-medium tw-tracking-tight tw-text-center tw-text-secondary"
@@ -120,12 +120,12 @@
             'md:tw-text-xl': size === 'md',
            }"
            v-if="subtitle">
-        {{ subtitle }}
+        {{ t(subtitle) }}
       </div>
 
       <div v-if="go && goText" class="tw-mt-3">
         <router-link :to="go" class="btn btn-primary text-white">
-          {{ t('core.goTo') }} {{ goText }}
+          {{ t('core.goTo') }} {{ t(goText) }}
         </router-link>
       </div>
     </div>
