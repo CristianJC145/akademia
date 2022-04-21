@@ -56,7 +56,7 @@
                       {{ product.productTitle }}
                     </span>
                         <span>
-                      $ {{ product.defaultUnitValue }}
+                      {{ n(product.defaultUnitValue, 'currency') }}
                     </span>
                       </div>
                     </td>
@@ -76,7 +76,7 @@
                       </div>
                     </td>
                     <td class="tw-text-right">
-                      {{ product.defaultUnitValue * product.quantity }}
+                      {{ n(product.defaultUnitValue * product.quantity, 'currency') }}
                     </td>
                     <td>
                       <button class="btn btn-outline-primary btn-sm" @click="deleteShoppingCart(product.id)">
@@ -102,8 +102,8 @@
               <span>
                 Total
               </span>
-                <span>
-                {{ total }}
+              <span>
+                {{ n(total, 'currency') }}
               </span>
               </div>
 
@@ -140,6 +140,7 @@ import AppEmptyResponse from '../../../shared/components/AppEmptyResponse.vue';
 import AppLoading from '../../../shared/components/AppLoading.vue';
 import AppModal from '../../../shared/components/AppModal.vue';
 import Payment from '../components/Payment.vue';
+import {useI18n} from 'vue-i18n';
 
 const getShoppingCartService = new GetShoppingCartService();
 const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
@@ -152,6 +153,8 @@ export default defineComponent({
     const shoppingCart: { value: LevelsProduct[] } = reactive({
       value: [],
     });
+
+    const {n} = useI18n();
 
     const loading = ref(true);
 
@@ -228,6 +231,7 @@ export default defineComponent({
       increaseOrDecreaseAmounts,
       deleteShoppingCart,
       showModalPayment,
+      n,
     };
   },
 });

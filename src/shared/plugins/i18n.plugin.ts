@@ -4,10 +4,15 @@ const i18n = createI18n({
     legacy: false,
     locale: 'es',
     fallbackLocale: 'es',
-    /*messages: {
-        en,
-        fr,
-    },*/
+    numberFormats: {
+        'es': {
+            currency: {
+                style: 'currency',
+                currency: 'COP',
+                currencyDisplay: 'symbol',
+            },
+        },
+    },
 });
 
 export default i18n;

@@ -55,7 +55,7 @@
         <ul class="nav nav-pills flex-column mb-auto px-3 pt-4">
 
           <li class="nav-item mt-2">
-            <router-link to="/home" class="nav-link"
+            <router-link to="/" class="nav-link"
                          :class="{ active: isActive('/'), 'text-secondary': !isActive('/')}">
               <AppIcon icon="home" size="lg" class="me-2"/>
               Inicio

@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12 col-md-6">
           <span>Valor a pagar: </span>
-          <h2>{{ total }}</h2>
+          <h2>{{ n(total, 'currency') }}</h2>
         </div>
         <div class="col-12 col-md-6">
           <AppFormField>
@@ -30,7 +30,7 @@
           </div>
           <div class="col-12 col-md-6">
             <span class="tw-text-right">Saldo a financiar:</span>
-            <h3>{{ balance }}</h3>
+            <h3 class="h4">{{ n(balance, 'currency') }}</h3>
           </div>
         </div>
 
@@ -44,9 +44,9 @@
             </AppFormField>
           </div>
 
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-5">
             <span>Valor de la cuota:</span>
-            <h3>{{ feeValue }}</h3>
+            <h3 class="h4">{{ n(feeValue, 'currency') }}</h3>
           </div>
 
           <div class="col-12 col-md-3">
@@ -73,6 +73,7 @@ import {computed, defineComponent, ref} from 'vue';
 import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
+import {useI18n} from 'vue-i18n';
 
 export default defineComponent({
   name: 'Payment.vue',
@@ -88,6 +89,7 @@ export default defineComponent({
     const feeValue = computed(() => Math.ceil(balance.value / term.value));
     const balance = computed(() => total - initialFee.value);
     const paymentMethod = ref(DEFAULT_METHOD_COUNTED);
+    const {n} = useI18n();
 
     const paymentMethods = [
       DEFAULT_METHOD_COUNTED,
@@ -112,6 +114,7 @@ export default defineComponent({
       balance,
       payDay,
       payDays,
+      n,
     };
   },
 });

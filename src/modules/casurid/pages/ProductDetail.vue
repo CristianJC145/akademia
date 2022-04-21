@@ -20,8 +20,8 @@
               <span>
                 Duración: <span class="badge bg-secondary">{{ product.validityPeriod }} meses</span>
               </span>
-                <span>
-                $ {{ product.defaultUnitValue }}
+              <span class="h4">
+                {{ $n(product.defaultUnitValue, 'currency') }}
               </span>
               </div>
             </div>

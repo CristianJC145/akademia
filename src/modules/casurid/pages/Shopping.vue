@@ -4,7 +4,30 @@
       :routes="routes"
   >
     <template v-slot:content>
-      <h1>Aqui</h1>
+      <div class="card">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
+            <span>
+              Filtros:
+            </span>
+
+            <select class="form-select">
+              <option value="" selected disabled>Nivel</option>
+            </select>
+
+            <select class="form-select">
+              <option value="" selected disabled>Grado</option>
+            </select>
+
+            <select class="form-select">
+              <option value="" selected disabled>Asignatura</option>
+            </select>
+          </div>
+          <div>
+            Tabla
+          </div>
+        </div>
+      </div>
     </template>
   </AppBaseList>
 </template>
