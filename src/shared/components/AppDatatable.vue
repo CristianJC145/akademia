@@ -3,25 +3,9 @@
     <table class="table table-hover table-bordered">
       <thead>
       <slot name="head"></slot>
-      <!--      <tr>
-              <th scope="col">Plan</th>
-              <th scope="col">Nivel</th>
-              <th scope="col">Grado</th>
-              <th scope="col">Asignatura</th>
-              <th scope="col">Cantidad</th>
-              <th scope="col">Vigencia</th>
-            </tr>-->
       </thead>
       <tbody>
       <slot name="body" :data="data.value"></slot>
-      <!--      <tr v-for="shop in shopping.value">
-              <th>{{ shop.productName }}</th>
-              <td>{{ shop.levelName }}</td>
-              <td>{{ shop.DegreeName }}</td>
-              <td>{{ shop.subjectName }}</td>
-              <td>{{ shop.quantity }}</td>
-              <td>{{ shop.validUntil }}</td>
-            </tr>-->
       </tbody>
     </table>
 
@@ -63,7 +47,7 @@ export default defineComponent({
       currentPage,
       total,
       perPage,
-      data
+      data,
     };
   },
 });
