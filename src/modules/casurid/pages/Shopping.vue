@@ -51,11 +51,21 @@
                   <td>{{ shop.levelName }}</td>
                   <td>{{ shop.DegreeName }}</td>
                   <td>{{ shop.subjectName }}</td>
-                  <td>{{ shop.quantity }}</td>
+                  <td>
+                    <div class="d-flex justify-content-center">
+                      <button class="btn btn-link btn-sm" @click="showUsedLicenses(shop.id)" v-tooltip="'Ver licencias usadas'">
+                        {{ shop.quantityUsed }} / {{ shop.quantity }}
+                      </button>
+                    </div>
+                  </td>
                   <td>{{ shop.validUntil }}</td>
                 </tr>
               </template>
             </AppDatatable>
+
+            <AppModal v-model="showUsedLicensesModal">
+              <UsedLicenses v-if="showUsedLicensesModal" :product-id="productId"></UsedLicenses>
+            </AppModal>
 
           </div>
         </div>
@@ -65,7 +75,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive} from 'vue';
+import {defineComponent, onMounted, reactive, ref} from 'vue';
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
 import AppPagination from '../../../shared/components/AppPagination.vue';
 import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
@@ -76,13 +86,15 @@ import {DegreeDto} from '../dtos/degree.dto';
 import {SubjectDto} from '../dtos/subject.dto';
 import {ShoppingDto} from '../dtos/shopping.dto';
 import AppDatatable from '../../../shared/components/AppDatatable.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
+import AppFormModal from '../../../shared/components/AppFormModal.vue';
+import UsedLicenses from '../components/usedLicenses.vue';
 
 const getFiltersShoppingService = new GetFiltersShoppingService();
 
-
 export default defineComponent({
   name: 'Shopping',
-  components: {AppDatatable, AppPagination, AppBaseList},
+  components: {UsedLicenses, AppFormModal, AppModal, AppDatatable, AppPagination, AppBaseList},
   setup() {
     const title = 'Mis Compras';
     const routes: BreadCrumbsType[] = [
@@ -119,6 +131,14 @@ export default defineComponent({
       subjects.value = filters.subjects;
     });
 
+    const showUsedLicensesModal = ref(false);
+    const productId = ref(0);
+
+    const showUsedLicenses = async (proId: number) => {
+      productId.value = proId;
+      showUsedLicensesModal.value = true;
+    };
+
     const getShoppingService = new GetShoppingService();
 
     return {
@@ -129,6 +149,9 @@ export default defineComponent({
       subjects,
       shopping,
       getShoppingService,
+      showUsedLicensesModal,
+      showUsedLicenses,
+      productId,
     };
   },
 });
