@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref} from 'vue';
+import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
 import {ResponsePaginationDto} from '../dto/responsePagination.dto';
 import AppPagination from './AppPagination.vue';
 
@@ -34,8 +34,26 @@ export default defineComponent({
       value: [],
     });
 
+    const params = computed(() => {
+      let params = {
+        perPage: perPage.value,
+        page: currentPage.value,
+      };
+
+      // TODO: Agregar search
+      console.log(props.params);
+      if (props.params) {
+        params = {
+          ...params,
+          ...props.params,
+        };
+      }
+
+      return params;
+    });
+
     onMounted(async () => {
-      const response: ResponsePaginationDto<any> = await props.service.run();
+      const response: ResponsePaginationDto<any> = await props.service.run(params.value);
 
       data.value = response.data;
       total.value = response.total;
