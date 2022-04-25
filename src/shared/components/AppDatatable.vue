@@ -41,7 +41,6 @@ export default defineComponent({
       };
 
       // TODO: Agregar search
-      console.log(props.params);
       if (props.params) {
         params = {
           ...params,
