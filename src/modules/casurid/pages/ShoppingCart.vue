@@ -102,7 +102,7 @@
               <span>
                 Total
               </span>
-              <span>
+                <span>
                 {{ n(total, 'currency') }}
               </span>
               </div>
@@ -118,7 +118,7 @@
       </div>
 
       <AppModal v-model="showModalPayment" @close="showModalPayment = false">
-        <Payment v-if="showModalPayment" :total="total"></Payment>
+        <Payment v-if="showModalPayment" :total="total" @close="showModalPayment = false"></Payment>
       </AppModal>
     </template>
   </div>

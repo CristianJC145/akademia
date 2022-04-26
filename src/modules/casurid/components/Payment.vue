@@ -61,7 +61,7 @@
       </template>
     </template>
     <template v-slot:actions>
-      <AppButtonLoading class="btn-primary text-white" @click="toPay">
+      <AppButtonLoading class="btn-primary text-white" @click="toPay" :loading="loading">
         Pagar
       </AppButtonLoading>
     </template>
@@ -84,7 +84,8 @@ export default defineComponent({
   name: 'Payment.vue',
   components: {AppButtonLoading, AppFormModal, AppBreadCrumbs, AppFormField},
   props: ['total'],
-  setup({total}) {
+  emits: ['close'],
+  setup({total}, {emit}) {
     const DEFAULT_METHOD_CREDIT = 'Crédito';
     const DEFAULT_METHOD_COUNTED = 'Contado';
 
@@ -128,7 +129,7 @@ export default defineComponent({
           valueQuote: paymentMethod.value === DEFAULT_METHOD_CREDIT ? feeValue.value : null,
           payDay: paymentMethod.value === DEFAULT_METHOD_CREDIT ? payDay.value : null,
         });
-        
+        await emit('close');
         await router.push('/shopping');
       } catch (e) {
       }
