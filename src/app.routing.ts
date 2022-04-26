@@ -8,6 +8,7 @@ import {academicAdministrationRouting} from './modules/academic-administration/a
 import {casuridRouting} from './modules/casurid/casurid.routing';
 import {accessRouting} from './modules/access/access.routing';
 import {initDataResolver} from './shared/resolvers/initData.resolver';
+import {ltiRouting} from "./modules/lti-provider/lti.routing";
 
 const appRouting: RouteRecordRaw[] = [
     {
@@ -48,6 +49,12 @@ const appRouting: RouteRecordRaw[] = [
                 path: '/access',
                 component: AppLayout,
                 children: accessRouting,
+            },
+            // Auth Module
+            {
+                path: '/lti',
+                component: AppEmptyLayout,
+                children: ltiRouting,
             },
         ],
     },
