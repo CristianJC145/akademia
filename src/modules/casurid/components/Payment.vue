@@ -2,11 +2,11 @@
   <AppFormModal title="Método de pago">
     <template v-slot:content>
       <div class="row">
-        <div class="col-12 col-md-6">
+        <div class="col-12">
           <span>Valor a pagar: </span>
           <h2>{{ n(total, 'currency') }}</h2>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12">
           <AppFormField>
             <label for="paymentMethod">Método de pago</label>
             <select id="paymentMethod" class="form-select" placeholder="Seleccione..." v-model="paymentMethod">
@@ -61,9 +61,9 @@
       </template>
     </template>
     <template v-slot:actions>
-      <button class="btn btn-primary text-white">
+      <AppButtonLoading class="btn-primary text-white" @click="toPay">
         Pagar
-      </button>
+      </AppButtonLoading>
     </template>
   </AppFormModal>
 </template>
@@ -74,10 +74,15 @@ import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import {useI18n} from 'vue-i18n';
+import {PaymentRegisterService} from '../services/paymentRegister.service';
+import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
+import {useRouter} from 'vue-router';
+
+const paymentRegisterService = new PaymentRegisterService();
 
 export default defineComponent({
   name: 'Payment.vue',
-  components: {AppFormModal, AppBreadCrumbs, AppFormField},
+  components: {AppButtonLoading, AppFormModal, AppBreadCrumbs, AppFormField},
   props: ['total'],
   setup({total}) {
     const DEFAULT_METHOD_CREDIT = 'Crédito';
@@ -89,7 +94,9 @@ export default defineComponent({
     const feeValue = computed(() => Math.ceil(balance.value / term.value));
     const balance = computed(() => total - initialFee.value);
     const paymentMethod = ref(DEFAULT_METHOD_COUNTED);
+    const loading = ref(false);
     const {n} = useI18n();
+    const router = useRouter();
 
     const paymentMethods = [
       DEFAULT_METHOD_COUNTED,
@@ -101,6 +108,32 @@ export default defineComponent({
     ];
 
     const payDays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+
+    const toPay = async () => {
+      loading.value = true;
+      try {
+        await paymentRegisterService.run({
+          invoice: {
+            // TODO: Quitar
+            totalValue: total,
+            // TODO: Quitar
+            totalDiscount: 0,
+            // TODO: Quitar
+            totalPurchase: total,
+            isCredit: paymentMethod.value === DEFAULT_METHOD_CREDIT,
+            isQuote: false,
+            totalPaid: paymentMethod.value === DEFAULT_METHOD_CREDIT ? initialFee.value : total,
+          },
+          quotes: paymentMethod.value === DEFAULT_METHOD_CREDIT ? term.value : null,
+          valueQuote: paymentMethod.value === DEFAULT_METHOD_CREDIT ? feeValue.value : null,
+          payDay: paymentMethod.value === DEFAULT_METHOD_CREDIT ? payDay.value : null,
+        });
+        
+        await router.push('/shopping');
+      } catch (e) {
+      }
+      loading.value = false;
+    };
 
     return {
       paymentMethods,
@@ -115,6 +148,8 @@ export default defineComponent({
       payDay,
       payDays,
       n,
+      loading,
+      toPay,
     };
   },
 });
