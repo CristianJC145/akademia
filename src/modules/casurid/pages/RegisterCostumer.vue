@@ -85,6 +85,7 @@ import {GetMunicipalitiesService} from '../services/getMunicipalities.service';
 import {MunicipalityDto} from '../../../shared/dto/municipality.dto';
 import {RegisterCustomerService} from '../services/registerCustomer.service';
 import AppErrorAlert from '../../../shared/components/AppErrorAlert.vue';
+import {useRouter} from 'vue-router';
 
 const getMunicipalitiesService = new GetMunicipalitiesService();
 const registerCustomerService = new RegisterCustomerService();
@@ -94,6 +95,7 @@ export default defineComponent({
   components: {AppErrorAlert, AppButtonLoading, AppLoading, AppBaseList, AppFormField},
   setup() {
     const loading = ref(false);
+    const router = useRouter();
 
     const form = reactive({
       institution: {
@@ -139,6 +141,7 @@ export default defineComponent({
 
       try {
         await registerCustomerService.run(form);
+        await router.push('/');
       } catch (e) {
 
       }
