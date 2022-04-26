@@ -3,6 +3,7 @@ import HomePage from './pages/Home.vue';
 import ShoppingCartPage from './pages/ShoppingCart.vue';
 import ProductDetailPage from './pages/ProductDetail.vue';
 import ShoppingPage from './pages/Shopping.vue';
+import RegisterCostumerPage from './pages/RegisterCostumer.vue';
 
 export const casuridRouting = [
     {
@@ -24,6 +25,10 @@ export const casuridRouting = [
             {
                 path: 'shopping',
                 component: ShoppingPage,
+            },
+            {
+                path: 'register',
+                component: RegisterCostumerPage,
             },
         ],
     },

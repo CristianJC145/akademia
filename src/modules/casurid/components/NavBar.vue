@@ -22,10 +22,9 @@
         <AppIcon icon="sign-in-alt" class="me-2" size="lg"/>
       </button>
 
-      <button v-if="!user" class="btn btn-primary text-white" @click="openModalLogin" type="button">
-        <!--        <AppIcon icon="sign-in-alt" class="me-2" size="lg"/>-->
+      <router-link v-if="!user" to="/register" class="btn btn-primary text-white" type="button">
         Registrarse
-      </button>
+      </router-link>
 
       <AppDropdown v-else>
         <template v-slot:button>
@@ -74,7 +73,7 @@
     </div>
 
     <AppModal v-model="showLogin" @close="showLogin = false">
-      <LoginCasurid></LoginCasurid>
+      <LoginCasurid v-if="showLogin"></LoginCasurid>
     </AppModal>
   </nav>
 </template>
