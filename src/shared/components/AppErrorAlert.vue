@@ -3,11 +3,11 @@
        v-if="message || validationErrors.length">
     <AppIcon icon="exclamation-triangle" class="me-4" size="lg"></AppIcon>
     <div>
-      {{ message }}
+      {{ t(message) }}
 
       <ul class="mt-2" v-if="validationErrors.length">
         <li v-for="error in validationErrors" class="tw-list-disc">
-          {{ error }}
+          {{ t(error[0], error[1]) }}
           <!--        {{ error[0] | transloco: error[1] }}-->
         </li>
       </ul>
@@ -19,6 +19,7 @@
 import {computed, defineComponent, inject} from 'vue';
 import AppIcon from './AppIcon.vue';
 import errorAlertStore from '../stores/errorAlert.store';
+import {useI18n} from 'vue-i18n';
 
 export default defineComponent<{
   state: any,
@@ -26,15 +27,17 @@ export default defineComponent<{
   name: 'AppErrorAlert',
   components: {AppIcon},
   setup() {
+    const {t} = useI18n();
     const state = inject('state', errorAlertStore.state);
 
     const message = computed(() => state.message);
     const validationErrors = computed(() => state.validationErrors);
 
     return {
+      t,
       state,
       message,
-      validationErrors
+      validationErrors,
     };
   },
 });
