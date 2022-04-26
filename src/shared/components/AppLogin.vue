@@ -80,6 +80,7 @@ export default defineComponent({
     },
     async redirectToDefault(): Promise<void> {
       await this.$router.push(this.redirect);
+      // window.location.href = this.redirect;
     },
   },
 });

@@ -31,6 +31,7 @@ export default defineComponent({
   methods: {
     successLogin() {
       this.$parent?.$emit('close');
+      window.location.reload();
     },
   },
 });

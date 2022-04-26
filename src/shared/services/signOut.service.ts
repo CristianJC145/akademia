@@ -8,5 +8,6 @@ export class SignOutService {
 
     run() {
         this.tokenService.delete();
+        localStorage.clear();
     }
 }

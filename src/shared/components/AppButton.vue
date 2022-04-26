@@ -27,7 +27,6 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps} from 'vue';
 import {ColorType, ColorTypeStrings} from '../types/color.type';
 import {ButtonSizeType, ButtonSizeTypeStrings} from '../types/buttonSize.type';
 import {ButtonTypeType, ButtonTypeTypeStrings} from '../types/buttonType.type';
