@@ -4,6 +4,7 @@ import ShoppingCartPage from './pages/ShoppingCart.vue';
 import ProductDetailPage from './pages/ProductDetail.vue';
 import ShoppingPage from './pages/Shopping.vue';
 import RegisterCostumerPage from './pages/RegisterCostumer.vue';
+import ConfirmationPage from './pages/Confirmation.vue';
 
 export const casuridRouting = [
     {
@@ -29,6 +30,10 @@ export const casuridRouting = [
             {
                 path: 'register',
                 component: RegisterCostumerPage,
+            },
+            {
+                path: 'confirmation',
+                component: ConfirmationPage,
             },
         ],
     },

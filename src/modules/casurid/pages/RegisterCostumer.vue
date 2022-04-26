@@ -9,6 +9,8 @@
           <div class="card-body">
             <p>Datos de la institución educativa</p>
 
+            <AppErrorAlert></AppErrorAlert>
+
             <AppFormField :form-control="v$.form.institution.identification">
               <label for="identification">Nit</label>
               <input type="text" class="form-control" name="identification" id="identification"
@@ -82,13 +84,14 @@ import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import {GetMunicipalitiesService} from '../services/getMunicipalities.service';
 import {MunicipalityDto} from '../../../shared/dto/municipality.dto';
 import {RegisterCustomerService} from '../services/registerCustomer.service';
+import AppErrorAlert from '../../../shared/components/AppErrorAlert.vue';
 
 const getMunicipalitiesService = new GetMunicipalitiesService();
 const registerCustomerService = new RegisterCustomerService();
 
 export default defineComponent({
   name: 'RegisterCostumer',
-  components: {AppButtonLoading, AppLoading, AppBaseList, AppFormField},
+  components: {AppErrorAlert, AppButtonLoading, AppLoading, AppBaseList, AppFormField},
   setup() {
     const loading = ref(false);
 
