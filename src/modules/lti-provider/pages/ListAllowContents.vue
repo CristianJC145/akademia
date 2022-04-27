@@ -30,7 +30,7 @@
                 <h6>{{ content.title }}</h6>
               </div>
               <div class="col-3">
-                <button class="btn btn-sm" @click="prepareDeepLinkData(content.title, content.urlLocation)" v-tooltip="'Agregar Tema al LMS'">
+                <button class="btn btn-sm" @click="prepareDeepLinkData(content)" v-tooltip="'Agregar Tema al LMS'">
                   Agregar
                 </button>
               </div>
@@ -81,11 +81,11 @@ export default defineComponent({
       contents.value = filters.contents;
     });
 
-    const prepareDeepLinkData = async (title: string, urlContent:string,) => {
+    const prepareDeepLinkData = async (content) => {
       const data = {
-        title,
-        name: title,
-        value: urlContent,
+        id:content.id,
+        title:content.title,
+        urlLocation:content.urlLocation,
       }
 
       const sendDeepLink = new SendDeepLinkService();
