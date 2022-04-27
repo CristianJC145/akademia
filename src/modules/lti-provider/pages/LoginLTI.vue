@@ -14,8 +14,11 @@ export default defineComponent({
     const route = useRoute();
 
     onMounted(async () => {
+
       const ltik = route.query.LTItoken
       console.log(ltik)
+
+      localStorage.setItem('ltik',route.query.LTItoken);
 
       const urlRedirect = route.query.redirect
       console.log(urlRedirect)
