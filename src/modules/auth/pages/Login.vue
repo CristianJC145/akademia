@@ -41,7 +41,7 @@ export default defineComponent({
   name: 'Login',
   components: {AppLogin, AppErrorAlert, AppFormField, AppIcon},
   setup() {
-    const appLogo = settings.appLogoLogin;
+    const appLogo = settings.appLogo;
     const defaultRouteRedirect = '/admin/home';
     const showModal = ref(false);
     const allowRegistration = settings.appAllowRegistration;

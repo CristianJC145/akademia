@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex flex-column flex-shrink-0 pb-3 bg-light h-100">
-    <router-link to="/" class="px-2 text-center">
+    <router-link to="/" class="p-4 text-center">
       <img
-          src="https://academia-user-serverless-deployment.s3.amazonaws.com/files/prod/2/2022/institution/logo1.png"
+          :src="appLogo"
           class="img-fluid logo-institution">
     </router-link>
     <div class="d-flex flex-column h-100">
@@ -53,192 +53,6 @@
             <AppLinkNavigation :title="child.title" :icon="child.icon" :link="child.link"></AppLinkNavigation>
           </li>
         </template>
-
-        <!--        <li class="nav-item mt-2">
-                  <a href="#" class="nav-link active" aria-current="page">
-                    <AppIcon class="me-2" icon="home"></AppIcon>
-                    Inicio
-                  </a>
-                </li>
-
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Configuración institucional
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="calendar-minus"></AppIcon>
-                    Información Auxiliar
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="building"></AppIcon>
-                    Información Institucional
-                  </a>
-                </li>
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Programas Académicos
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="book-open"></AppIcon>
-                    Áreas y asignaturas
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="graduation-cap"></AppIcon>
-                    Niveles y grados
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="chart-line"></AppIcon>
-                    Plan de estudios
-                  </a>
-                </li>
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Planeación Académica
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="calendar-week"></AppIcon>
-                    Ciclos académicos
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="user-friends"></AppIcon>
-                    Oferta académica
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="users"></AppIcon>
-                    Especialistas
-                  </a>
-                </li>
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Administración Académica
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="user-friends"></AppIcon>
-                    Administración de cursos
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="clipboard-list"></AppIcon>
-                    Matricular estudiante
-                  </a>
-                </li>
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Administración de usuarios
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="users"></AppIcon>
-                    Roles
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="user"></AppIcon>
-                    Usuarios
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="file-medical"></AppIcon>
-                    Historias clínicas
-                  </a>
-                </li>
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Salón de clases
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="school"></AppIcon>
-                    Inicio (Profesores)
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="arrow-circle-up"></AppIcon>
-                    Sincronizar cursos
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="house-user"></AppIcon>
-                    Inicio (Estudiantes)
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="calendar"></AppIcon>
-                    Horario
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="tasks"></AppIcon>
-                    Actividades
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="calendar-minus"></AppIcon>
-                    Configurar horario
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="address-card"></AppIcon>
-                    Perfil Estudiantes
-                  </a>
-                </li>
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Control disciplinario
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="layer-group"></AppIcon>
-                    Ofensas
-                  </a>
-                </li>
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="ban"></AppIcon>
-                    Faltas disciplinarias
-                  </a>
-                </li>
-
-                <li class="nav-item mt-4 text-primary text-uppercase" style="font-size: .75rem">
-                  Reportes
-                </li>
-
-                <li class="nav-item mt-2">
-                  <a href="#" class="nav-link text-secondary" aria-current="page">
-                    <AppIcon class="me-2" icon="chart-bar"></AppIcon>
-                    Reportes
-                  </a>
-                </li>-->
       </ul>
     </div>
   </div>
@@ -251,6 +65,7 @@ import {SignOutService} from '../services/signOut.service';
 import NavigationStore from '../stores/navigation.store';
 import {useI18n} from 'vue-i18n';
 import AppLinkNavigation from '../components/AppLinkNavigation.vue';
+import {settings} from '../constant/settings.contants';
 
 const signOutService = new SignOutService();
 
@@ -259,6 +74,7 @@ export default defineComponent({
   setup() {
     const state = inject('state', NavigationStore.state);
     const {t} = useI18n();
+    const appLogo = settings.appLogo;
 
     const items = computed(() => state.items);
 
@@ -271,6 +87,7 @@ export default defineComponent({
       signOut,
       state,
       items,
+      appLogo,
       t,
     };
   },
@@ -280,7 +97,7 @@ export default defineComponent({
 
 <style scoped>
 .logo-institution {
-  max-height: 125px;
+  max-height: 90px;
 }
 
 .main-avatar {
