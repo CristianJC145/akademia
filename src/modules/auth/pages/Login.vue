@@ -14,6 +14,13 @@
             Iniciar sesión
           </button>
         </div>
+
+        <div class="text-center mt-2" v-if="allowRegistration">
+          <router-link to="/register">
+            ¿Aún no te has registrado?
+          </router-link>
+        </div>
+
       </div>
     </div>
   </div>
@@ -37,6 +44,7 @@ export default defineComponent({
     const appLogo = settings.appLogoLogin;
     const defaultRouteRedirect = '/admin/home';
     const showModal = ref(false);
+    const allowRegistration = settings.appAllowRegistration;
 
     onMounted(() => {
       const isAuth = isAuthenticatedService.run();
@@ -50,6 +58,7 @@ export default defineComponent({
       appLogo,
       defaultRouteRedirect,
       showModal,
+      allowRegistration,
     };
   },
 });
