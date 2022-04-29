@@ -8,7 +8,8 @@ import {academicAdministrationRouting} from './modules/academic-administration/a
 import {casuridRouting} from './modules/casurid/casurid.routing';
 import {accessRouting} from './modules/access/access.routing';
 import {initDataResolver} from './shared/resolvers/initData.resolver';
-import {ltiRouting} from "./modules/lti-provider/lti.routing";
+import {ltiRouting} from './modules/lti-provider/lti.routing';
+import {academicProgramsRouting} from './modules/academicPrograms/academicPrograms.routing';
 
 const appRouting: RouteRecordRaw[] = [
     {
@@ -55,6 +56,12 @@ const appRouting: RouteRecordRaw[] = [
                 path: '/lti',
                 component: AppEmptyLayout,
                 children: ltiRouting,
+            },
+            // Academic Programs
+            {
+                path: '/academic-programs',
+                component: AppLayout,
+                children: academicProgramsRouting,
             },
         ],
     },
