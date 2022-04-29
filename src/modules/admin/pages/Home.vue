@@ -1,5 +1,4 @@
 <template>
-
   <app-base-list
     title="Home"
     subtitle="Welcome"

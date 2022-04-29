@@ -6,9 +6,8 @@
 
     <div class="d-flex flex-column w-100">
       <AppNavBar @showSideBar="show"></AppNavBar>
-      <div class="container-fluid">
-        <router-view></router-view>
-      </div>
+
+      <router-view></router-view>
     </div>
   </div>
 </template>
