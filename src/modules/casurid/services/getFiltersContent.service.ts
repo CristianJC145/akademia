@@ -8,7 +8,7 @@ import {ContentTypeDto} from '../dtos/contentType.dto';
 interface IGetFiltersContentService {
     subjects: SubjectDto[];
     levelsDegrees: LevelsDegreeDto[];
-    contentTypes: ContentTypeDto;
+    contentTypes: ContentTypeDto[];
 }
 
 export class GetFiltersContentService {
