@@ -55,6 +55,10 @@ export default defineComponent({
       value: [],
     });
 
+    watch(() => props.params, async () => {
+      await getData();
+    });
+
     const params = computed(() => {
       let params = {
         perPage: perPage.value,
@@ -63,6 +67,7 @@ export default defineComponent({
 
       // TODO: Agregar search
       if (props.params) {
+        console.log(props.params);
         params = {
           ...params,
           ...props.params,
