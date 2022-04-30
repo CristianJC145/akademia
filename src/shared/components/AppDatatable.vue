@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <table class="table table-hover table-bordered">
-      <thead>
-      <slot name="head"></slot>
-      </thead>
-      <tbody>
-      <slot name="body" :data="data.value"></slot>
-      </tbody>
-    </table>
+  <div class="card">
+    <div class="card-body d-flex flex-column gap-3">
+      <slot name="filters"></slot>
 
-    <AppPagination
-        v-model="currentPage"
-        :total="total"
-        :per-page="perPage"
-    ></AppPagination>
+      <table class="table table-hover table-bordered">
+        <thead>
+        <slot name="head"></slot>
+        </thead>
+        <tbody>
+        <slot name="body" :data="data.value"></slot>
+        </tbody>
+      </table>
+
+      <AppPagination
+          v-model="currentPage"
+          :total="total"
+          :per-page="perPage"
+      ></AppPagination>
+    </div>
   </div>
 </template>
 
