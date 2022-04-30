@@ -3,37 +3,54 @@
     <div class="card-body d-flex flex-column gap-3">
       <slot name="filters"></slot>
 
-      <table class="table table-hover table-bordered">
-        <thead>
-        <slot name="head"></slot>
-        </thead>
-        <tbody>
-        <slot name="body" :data="data.value"></slot>
-        </tbody>
-      </table>
+      <div>
+        <AppProgressBar v-if="loading"></AppProgressBar>
+        <table class="table table-hover table-bordered">
+          <thead>
+          <slot name="head"></slot>
+          </thead>
+          <tbody>
+          <slot name="body" :data="data.value"></slot>
+          </tbody>
+        </table>
 
-      <AppPagination
-          v-model="currentPage"
-          :total="total"
-          :per-page="perPage"
-      ></AppPagination>
+        <AppEmptyResponse
+            v-if="notFound"
+            :show-image="true"
+            :subtitle="showSubtitleNotFound ? '' : false"
+        ></AppEmptyResponse>
+
+        <AppPagination
+            v-else
+            class="mt-2"
+            v-model="currentPage"
+            :total="total"
+            :per-page="perPage"
+        ></AppPagination>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
+import {computed, defineComponent, onMounted, reactive, ref, watch} from 'vue';
 import {ResponsePaginationDto} from '../dto/responsePagination.dto';
 import AppPagination from './AppPagination.vue';
+import AppProgressBar from './AppProgressBar.vue';
+import AppEmptyResponse from './AppEmptyResponse.vue';
 
 export default defineComponent({
   name: 'AppDatatable',
-  components: {AppPagination},
-  props: ['service', 'pageSizeOptions', 'params'],
+  components: {AppEmptyResponse, AppProgressBar, AppPagination},
+  props: ['service', 'pageSizeOptions', 'params', 'showSubtitleNotFound'],
   setup(props) {
+    const showSubtitleNotFound = props.showSubtitleNotFound === undefined ? true : props.showSubtitleNotFound;
     const perPage = ref(10);
     const total = ref(0);
     const currentPage = ref(1);
+    const loading = ref(true);
+    const notFound = ref(false);
     const data: { value: any[] } = reactive({
       value: [],
     });
@@ -55,13 +72,29 @@ export default defineComponent({
       return params;
     });
 
-    onMounted(async () => {
-      const response: ResponsePaginationDto<any> = await props.service.run(params.value);
+    const getData = async () => {
+      loading.value = true;
+      try {
+        const response: ResponsePaginationDto<any> = await props.service.run(params.value);
 
-      data.value = response.data;
-      total.value = response.total;
-      currentPage.value = response.page;
-      perPage.value = response.perPage;
+        data.value = response.data;
+        total.value = response.total;
+        currentPage.value = response.page;
+        perPage.value = response.perPage;
+
+        notFound.value = !data.value.length;
+      } catch (e) {
+      }
+
+      loading.value = false;
+    };
+
+    watch(currentPage, async () => {
+      await getData();
+    });
+
+    onMounted(async () => {
+      await getData();
     });
 
     return {
@@ -69,6 +102,9 @@ export default defineComponent({
       total,
       perPage,
       data,
+      loading,
+      notFound,
+      showSubtitleNotFound,
     };
   },
 });
