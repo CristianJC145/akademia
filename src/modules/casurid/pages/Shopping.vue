@@ -4,71 +4,69 @@
       :routes="routes"
   >
     <template v-slot:content>
-      <div class="card">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
-            <span>
-              Filtros:
-            </span>
+      <div class="mt-4">
+        <AppDatatable :service="getShoppingService">
+          <template v-slot:filters>
+            <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
+                  <span>
+                    Filtros:
+                  </span>
 
-            <select class="form-select">
-              <option value="" selected disabled>Nivel</option>
-              <option v-for="level in levels.value" :value="level.id">
-                {{ level.name }}
-              </option>
-            </select>
+              <select class="form-select">
+                <option value="" selected disabled>Nivel</option>
+                <option v-for="level in levels.value" :value="level.id">
+                  {{ level.name }}
+                </option>
+              </select>
 
-            <select class="form-select">
-              <option value="" selected disabled>Grado</option>
-              <option v-for="degree in degrees.value" :value="degree.id">
-                {{ degree.name }}
-              </option>
-            </select>
+              <select class="form-select">
+                <option value="" selected disabled>Grado</option>
+                <option v-for="degree in degrees.value" :value="degree.id">
+                  {{ degree.name }}
+                </option>
+              </select>
 
-            <select class="form-select">
-              <option value="" selected disabled>Asignatura</option>
-              <option v-for="subject in subjects.value" :value="subject.id">
-                {{ subject.name }}
-              </option>
-            </select>
-          </div>
-          <div class="mt-4">
-            <AppDatatable :service="getShoppingService">
-              <template v-slot:head>
-                <tr>
-                  <th scope="col">Plan</th>
-                  <th scope="col">Nivel</th>
-                  <th scope="col">Grado</th>
-                  <th scope="col">Asignatura</th>
-                  <th scope="col">Cantidad</th>
-                  <th scope="col">Vigencia</th>
-                </tr>
-              </template>
+              <select class="form-select">
+                <option value="" selected disabled>Asignatura</option>
+                <option v-for="subject in subjects.value" :value="subject.id">
+                  {{ subject.name }}
+                </option>
+              </select>
+            </div>
+          </template>
+          <template v-slot:head>
+            <tr>
+              <th scope="col">Plan</th>
+              <th scope="col">Nivel</th>
+              <th scope="col">Grado</th>
+              <th scope="col">Asignatura</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Vigencia</th>
+            </tr>
+          </template>
 
-              <template v-slot:body="{ data }">
-                <tr v-for="shop in data">
-                  <th>{{ shop.productName }}</th>
-                  <td>{{ shop.levelName }}</td>
-                  <td>{{ shop.DegreeName }}</td>
-                  <td>{{ shop.subjectName }}</td>
-                  <td>
-                    <div class="d-flex justify-content-center">
-                      <button class="btn btn-link btn-sm" @click="showUsedLicenses(shop.id)" v-tooltip="'Ver licencias usadas'">
-                        {{ shop.quantityUsed }} / {{ shop.quantity }}
-                      </button>
-                    </div>
-                  </td>
-                  <td>{{ shop.validUntil }}</td>
-                </tr>
-              </template>
-            </AppDatatable>
+          <template v-slot:body="{ data }">
+            <tr v-for="shop in data">
+              <th>{{ shop.productName }}</th>
+              <td>{{ shop.levelName }}</td>
+              <td>{{ shop.DegreeName }}</td>
+              <td>{{ shop.subjectName }}</td>
+              <td>
+                <div class="d-flex justify-content-center">
+                  <button class="btn btn-link btn-sm" @click="showUsedLicenses(shop.id)"
+                          v-tooltip="'Ver licencias usadas'">
+                    {{ shop.quantityUsed }} / {{ shop.quantity }}
+                  </button>
+                </div>
+              </td>
+              <td>{{ shop.validUntil }}</td>
+            </tr>
+          </template>
+        </AppDatatable>
 
-            <AppModal v-model="showUsedLicensesModal">
-              <UsedLicenses v-if="showUsedLicensesModal" :product-id="productId"></UsedLicenses>
-            </AppModal>
-
-          </div>
-        </div>
+        <AppModal v-model="showUsedLicensesModal">
+          <UsedLicenses v-if="showUsedLicensesModal" :product-id="productId"></UsedLicenses>
+        </AppModal>
       </div>
     </template>
   </AppBaseList>
