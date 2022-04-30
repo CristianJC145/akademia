@@ -7,7 +7,6 @@ const state: { items: ItemMenuType[] } = reactive({
 
 const methods = {
     set(items: ItemMenuType[]) {
-        console.log(items);
         state.items = items;
     },
 };

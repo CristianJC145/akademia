@@ -7,26 +7,29 @@
     <template v-slot:content>
       <AppDatatable
           :service="getContentsWithPaginationService"
+          :params="params"
       >
         <template v-slot:filters>
           <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
-              <span>
-                Filtros:
-              </span>
+            <span>
+              Filtros:
+            </span>
 
-            <select class="form-select">
-              <option value="" selected disabled>Nivel - Grado</option>
-              <option v-for="level in levelsDegrees.value" :value="level.degreeId">
-                {{ level.levelDegreeName }}
-              </option>
-            </select>
+            <v-select
+                v-model="degreeId"
+                class="tw-flex-1"
+                :options="levelsDegrees.value"
+                label="levelDegreeName"
+                :reduce="(levelDegree) => levelDegree.degreeId">
+            </v-select>
 
-            <select class="form-select">
-              <option value="" selected disabled>Asignatura</option>
-              <option v-for="subject in subjects.value" :value="subject.id">
-                {{ subject.name }}
-              </option>
-            </select>
+            <v-select
+                class="tw-flex-1"
+                v-model="subjectId"
+                :options="subjects.value"
+                label="name"
+                :reduce="(subject) => subject.id">
+            </v-select>
           </div>
         </template>
         <template v-slot:head>
@@ -57,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive} from 'vue';
+import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
 import {GetFiltersContentService} from '../services/getFiltersContent.service';
 import AppDatatable from '../../../shared/components/AppDatatable.vue';
@@ -85,6 +88,9 @@ export default defineComponent({
     const contentTypes: { value: ContentTypeDto[] } = reactive({
       value: [],
     });
+    const subjectId = ref();
+    const degreeId = ref();
+    const contentTypeId = ref();
 
     onMounted(async () => {
       const response = await getFiltersContentService.run();
@@ -94,11 +100,31 @@ export default defineComponent({
       contentTypes.value = response.contentTypes;
     });
 
+    const params = computed(() => {
+      let levelId = null;
+
+      levelsDegrees.value.forEach((levelDegree) => {
+        if (levelDegree.degreeId === degreeId.value) {
+          levelId = levelDegree.levelId;
+        }
+      });
+
+      return {
+        subjectId: subjectId.value,
+        degreeId: degreeId.value,
+        levelId,
+      };
+    });
+
     return {
       getContentsWithPaginationService,
       subjects,
       levelsDegrees,
       contentTypes,
+      params,
+      subjectId,
+      contentTypeId,
+      degreeId,
     };
   },
 });
