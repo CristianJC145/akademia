@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item" :class="{ active: index === routes.length - 1 }" v-for="(route, index) in routes">
         <router-link v-if="route.url" :to="route.url">{{ route.name }}</router-link>
-        <template v-else :to="route.url">{{ route.name }}</template>
+        <template v-else>{{ route.name }}</template>
       </li>
     </ol>
   </nav>
