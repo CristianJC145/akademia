@@ -16,8 +16,9 @@
             <span>{{ subtitle }}</span>
           </div>
         </div>
-
-        <slot name="actions"></slot>
+        <div>
+          <slot name="actions"></slot>
+        </div>
       </div>
     </div>
 
