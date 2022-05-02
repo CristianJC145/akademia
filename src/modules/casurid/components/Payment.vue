@@ -61,7 +61,7 @@
       </template>
     </template>
     <template v-slot:actions>
-      <AppButtonLoading class="btn-primary text-white" @click="toPay" :loading="loading">
+      <AppButtonLoading class="btn-primary text-white" @click="toPay">
         Pagar
       </AppButtonLoading>
     </template>

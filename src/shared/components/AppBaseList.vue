@@ -16,8 +16,9 @@
             <span>{{ subtitle }}</span>
           </div>
         </div>
-
-        <slot name="actions"></slot>
+        <div class="d-flex flex-row align-items-center gap-2">
+          <slot name="actions"></slot>
+        </div>
       </div>
     </div>
 

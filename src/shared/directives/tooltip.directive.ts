@@ -21,12 +21,18 @@ export const TooltipDirective = {
         }
 
         el.setAttribute('data-bs-toggle', 'tooltip');
+        el.setAttribute('data-bs-trigger', 'hover');
         el.setAttribute('title', binding.value);
 
         if (place) {
             el.setAttribute('data-bs-placement', place);
         }
 
-        bootstrap.Tooltip.getOrCreateInstance(el);
+
+        const tooltip = bootstrap.Tooltip.getOrCreateInstance(el);
+
+        el.addEventListener('click', function () {
+            tooltip.hide();
+        });
     },
 };

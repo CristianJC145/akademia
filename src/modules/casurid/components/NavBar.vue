@@ -16,11 +16,11 @@
         <AppIcon icon="shopping-cart" size="lg"/>
       </router-link>
 
-      <button v-if="!user" class="btn" @click="openModalLogin"
-              v-tooltip="'Iniciar sesión'"
-              type="button">
+      <router-link v-if="!user" to="/auth/login" class="btn"
+                   v-tooltip="'Iniciar sesión'"
+                   type="button">
         <AppIcon icon="sign-in-alt" class="me-2" size="lg"/>
-      </button>
+      </router-link>
 
       <router-link v-if="!user" to="/register" class="btn btn-primary text-white" type="button">
         Registrarse

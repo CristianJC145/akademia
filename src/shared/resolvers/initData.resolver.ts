@@ -6,17 +6,26 @@ import {InstitutionsService} from '../services/institutions.service';
 import {AuthenticatedUserService} from '../services/authenticatedUser.service';
 import i18n from '../plugins/i18n.plugin';
 import {GetTranslationsByLanguageService} from '../services/getTranslationsByLanguage.service';
+import {NavigationService} from '../services/navigation.service';
 
 const getInitDataService = new GetInitDataService();
 const isAuthenticatedService = new IsAuthenticatedService();
 const institutionsService = new InstitutionsService();
 const authenticatedUserService = new AuthenticatedUserService();
 const getTranslationsByLanguageService = new GetTranslationsByLanguageService();
+const navigationService = new NavigationService();
 
 function convertRouteToNavigation(route: string): { route: string | null; externalLink: boolean } {
     if (!route) {
         return {
             route: null,
+            externalLink: false,
+        };
+    }
+
+    if (!validURL(route)) {
+        return {
+            route: route,
             externalLink: false,
         };
     }
@@ -36,12 +45,22 @@ function convertRouteToNavigation(route: string): { route: string | null; extern
     };
 }
 
+function validURL(str: string) {
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    return !!pattern.test(str);
+}
+
 async function initDataResolver(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     // Agregando traducciones
     const language = 'es';
 
     const messages = await getTranslationsByLanguageService.run(language);
-    
+
     i18n.global.setLocaleMessage(language, messages);
 
     const isAuth = isAuthenticatedService.run();
@@ -66,13 +85,11 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
         const children: ItemMenuType[] = [];
 
         item.children.forEach(itemChild => {
-
             if (itemChild.showMenu) {
                 const convertRouteChild = convertRouteToNavigation(itemChild.route);
                 children.push({
                     id: itemChild.id.toString(),
                     title: itemChild.name,
-                    // type: 'basic',
                     icon: itemChild.icon,
                     link: convertRouteChild.route,
                     externalLink: convertRouteChild.externalLink,
@@ -83,10 +100,10 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
 
         if (item.showMenu) {
             const convertRoute = convertRouteToNavigation(item.route);
+
             itemsMenu.push({
                 id: item.id.toString(),
                 title: item.name,
-                // type: children.length ? 'group' : 'basic',
                 icon: item.icon,
                 link: convertRoute.route,
                 externalLink: convertRoute.externalLink,
@@ -94,6 +111,8 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
             });
         }
     });
+
+    navigationService.set(itemsMenu);
 
     // Agregando las Instituciones
     const institutions = userInstitutions.map((userInstitution) => userInstitution.institution);

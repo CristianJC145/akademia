@@ -60,10 +60,17 @@
             </AppFormField>
 
             <div class="d-flex justify-content-center">
-              <AppButtonLoading class="btn-primary text-white" :loading="loading">
+              <AppButtonLoading class="btn-primary text-white">
                 Registrarme
               </AppButtonLoading>
             </div>
+
+            <div class="text-center mt-2">
+              <router-link to="/auth/login">
+                ¿Ya te encuentras registrado?, Inicia sesión
+              </router-link>
+            </div>
+
           </div>
         </div>
       </form>

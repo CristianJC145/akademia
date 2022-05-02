@@ -1,15 +1,8 @@
 <template>
-
   <app-base-list
     title="Home"
     subtitle="Welcome"
   >
-    <template v-slot:actions>
-      <div class="align-content-center">
-        <AppBackButton></AppBackButton>
-      </div>
-
-    </template>
 
     <template v-slot:content>
       <div class="flex flex-col flex-auto min-w-0">

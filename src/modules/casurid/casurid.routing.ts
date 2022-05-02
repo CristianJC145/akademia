@@ -5,6 +5,12 @@ import ProductDetailPage from './pages/ProductDetail.vue';
 import ShoppingPage from './pages/Shopping.vue';
 import RegisterCostumerPage from './pages/RegisterCostumer.vue';
 import ConfirmationPage from './pages/Confirmation.vue';
+import ContentsPage from './pages/Contents.vue';
+import AppLayout from '../../shared/layout/AppLayout.vue';
+import {authGuard} from '../../shared/guards/auth.guard';
+import ContentsCreatePage from './pages/ContentsCreate.vue';
+
+const appName = 'casurid';
 
 export const casuridRouting = [
     {
@@ -34,6 +40,23 @@ export const casuridRouting = [
             {
                 path: 'confirmation',
                 component: ConfirmationPage,
+            },
+        ],
+    },
+    {
+        path: 'casurid',
+        component: AppLayout,
+        beforeEnter: [authGuard],
+        children: [
+            {
+                path: 'contents',
+                component: ContentsPage,
+                name: `${appName}.contentList`,
+            },
+            {
+                path: 'contents/create',
+                component: ContentsCreatePage,
+                name: `${appName}.contentCreate`,
             },
         ],
     },
