@@ -1,5 +1,5 @@
 import * as VueRouter from 'vue-router';
-import {RouteRecordRaw} from 'vue-router';
+import {NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw} from 'vue-router';
 import {authRouting} from './modules/auth/auth.routing';
 import AppEmptyLayout from './shared/layout/AppEmptyLayout.vue';
 import AppLayout from './shared/layout/AppLayout.vue';
@@ -10,6 +10,7 @@ import {accessRouting} from './modules/access/access.routing';
 import {initDataResolver} from './shared/resolvers/initData.resolver';
 import {ltiRouting} from './modules/lti-provider/lti.routing';
 import {academicProgramsRouting} from './modules/academicPrograms/academicPrograms.routing';
+import {useMeta} from 'vue-meta';
 
 const appRouting: RouteRecordRaw[] = [
     {
@@ -67,7 +68,17 @@ const appRouting: RouteRecordRaw[] = [
     },
 ];
 
-export const router = VueRouter.createRouter({
+const router = VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes: appRouting,
 });
+
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    
+
+    next();
+});
+
+export {
+    router,
+};

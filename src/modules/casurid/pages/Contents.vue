@@ -75,7 +75,6 @@ import {LevelsDegreeDto} from '../dtos/levelsDegree.dto';
 import {ContentTypeDto} from '../dtos/contentType.dto';
 import {useI18n} from 'vue-i18n';
 import {useMeta} from 'vue-meta';
-import {settings} from '../../../shared/constant/settings.contants';
 
 const getFiltersContentService = new GetFiltersContentService();
 
@@ -84,6 +83,9 @@ export default defineComponent({
   name: 'Contents',
   components: {AppDatatable, AppBaseList},
   setup() {
+    useMeta({
+      title: 'Contenidos',
+    });
     const {t} = useI18n();
     const getContentsWithPaginationService = new GetContentsWithPaginationService();
 

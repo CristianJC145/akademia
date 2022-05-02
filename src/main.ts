@@ -25,7 +25,7 @@ app.use(router);
 app.use(VueToast);
 app.use(createMetaManager());
 
-await router.isReady()
+await router.isReady();
 
 app.component('v-select', vSelect);
 
