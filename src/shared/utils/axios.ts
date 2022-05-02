@@ -8,6 +8,7 @@ import {services} from "../constant/services";
 import {TokenLtiService} from "../services/tokenLti.service";
 
 const getTokenService = new TokenService();
+const tokenLtiService = new TokenLtiService();
 const errorAlertService = new ErrorAlertService();
 const toastService = new ToastService();
 const institutionsService = new InstitutionsService();
