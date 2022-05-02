@@ -24,11 +24,7 @@
 
     <!--  Content  -->
     <div class="tw-flex-auto tw-p-4 sm:tw-p-6">
-      <div class="card">
-        <div class="card-body">
-          <slot name="content"></slot>
-        </div>
-      </div>
+      <slot name="content"></slot>
     </div>
 
   </div>
