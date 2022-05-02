@@ -9,6 +9,7 @@ import ContentsPage from './pages/Contents.vue';
 import AppLayout from '../../shared/layout/AppLayout.vue';
 import {authGuard} from '../../shared/guards/auth.guard';
 import ContentsCreatePage from './pages/ContentsCreate.vue';
+import ContentsEditPage from './pages/ContentsEdit.vue';
 
 const appName = 'casurid';
 
@@ -51,12 +52,17 @@ export const casuridRouting = [
             {
                 path: 'contents',
                 component: ContentsPage,
-                name: `${appName}.contentList`,
+                name: `${appName}.contentsList`,
             },
             {
                 path: 'contents/create',
                 component: ContentsCreatePage,
-                name: `${appName}.contentCreate`,
+                name: `${appName}.contentsCreate`,
+            },
+            {
+                path: 'contents/:contentId/edit',
+                component: ContentsEditPage,
+                name: `${appName}.contentsEdit`,
             },
         ],
     },

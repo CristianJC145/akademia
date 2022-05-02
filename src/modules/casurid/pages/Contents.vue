@@ -1,7 +1,7 @@
 <template>
   <AppBaseList title="Contenidos" :routes="routes">
     <template v-slot:actions>
-      <router-link :to="{ name: 'casurid.contentCreate' }" replace class="btn btn-primary text-white">
+      <router-link :to="{ name: 'casurid.contentsCreate' }" replace class="btn btn-primary text-white">
         {{ t('core.newMale') }}
       </router-link>
     </template>
@@ -53,7 +53,9 @@
               <td>{{ content.subject.name }}</td>
               <td>{{ content.contentType.name }}</td>
               <td>{{ content.title }}</td>
-              <td></td>
+              <td class="d-flex gap-2">
+                <AppButtonEdit :to="{ name:'casurid.contentsEdit', params: { contentId: content.id } }"></AppButtonEdit>
+              </td>
             </tr>
           </template>
 
@@ -65,23 +67,27 @@
 
 <script lang="ts">
 import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
+import {useI18n} from 'vue-i18n';
+import {useMeta} from 'vue-meta';
+
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
-import {GetFiltersContentService} from '../services/getFiltersContent.service';
+import AppIcon from '../../../shared/components/AppIcon.vue';
 import AppDatatable from '../../../shared/components/AppDatatable.vue';
+
+import {GetFiltersContentService} from '../services/getFiltersContent.service';
 import {GetContentsWithPaginationService} from '../services/getContentsWithPagination.service';
 import {SubjectDto} from '../dtos/subject.dto';
 
 import {LevelsDegreeDto} from '../dtos/levelsDegree.dto';
 import {ContentTypeDto} from '../dtos/contentType.dto';
-import {useI18n} from 'vue-i18n';
-import {useMeta} from 'vue-meta';
+import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 
 const getFiltersContentService = new GetFiltersContentService();
 
 
 export default defineComponent({
   name: 'Contents',
-  components: {AppDatatable, AppBaseList},
+  components: {AppButtonEdit, AppIcon, AppDatatable, AppBaseList},
   setup() {
     useMeta({
       title: 'Contenidos',
