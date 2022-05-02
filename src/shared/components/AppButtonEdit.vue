@@ -1,11 +1,11 @@
 <template>
   <router-link v-if="to" :to="to"
-               class="btn btn-outline-primary">
-    <AppIcon icon="pencil-alt"></AppIcon>
+               class="btn btn-outline-primary" v-tooltip="title">
+    <AppIcon :icon="icon"></AppIcon>
   </router-link>
 
-  <button v-else class="btn btn-outline-primary">
-    <AppIcon icon="pencil-alt"></AppIcon>
+  <button v-else class="btn btn-outline-primary" v-tooltip="title">
+    <AppIcon :icon="icon"></AppIcon>
   </button>
 </template>
 
@@ -18,8 +18,13 @@ export default defineComponent({
   components: {AppIcon},
   props: ['to'],
   setup(props) {
+    const icon = 'pencil-alt';
+    const title = 'Editar';
+
     return {
       to: props.to,
+      icon,
+      title,
     };
   },
 });
