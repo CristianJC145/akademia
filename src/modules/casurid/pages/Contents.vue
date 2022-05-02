@@ -91,9 +91,11 @@ import {ContentTypeDto} from '../dtos/contentType.dto';
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
 import {DeleteContentService} from '../services/deleteContent.service';
+import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
 
 const getFiltersContentService = new GetFiltersContentService();
 const deleteContentService = new DeleteContentService();
+const updateDatatableService = new UpdateDatatableService();
 
 export default defineComponent({
   name: 'Contents',
@@ -152,6 +154,10 @@ export default defineComponent({
       };
     });
 
+    const updateTable = () => {
+      updateDatatableService.run();
+    };
+
     const confirmDelete = async (content: any) => {
       currentContent.value = content;
       showModalDelete.value = true;
@@ -161,6 +167,7 @@ export default defineComponent({
       try {
         await deleteContentService.run(currentContent.value.id);
         showModalDelete.value = false;
+        updateTable();
       } catch (e) {
 
       }

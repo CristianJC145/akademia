@@ -100,6 +100,10 @@ export default defineComponent({
 
     onMounted(async () => {
       await getData();
+
+      document.addEventListener('updateDatatable', async () => {
+        await getData();
+      });
     });
 
     return {
