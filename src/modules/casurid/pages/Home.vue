@@ -180,6 +180,8 @@ export default defineComponent({
 
       this.productsCatalogue = response.data;
 
+      console.log(this.productsCatalogue);
+
       this.loadingProducts = false;
     },
   },
