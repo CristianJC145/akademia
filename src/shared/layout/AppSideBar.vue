@@ -3,7 +3,7 @@
     <router-link to="/" class="p-4 text-center">
       <img
           :src="appLogo"
-          class="img-fluid logo-institution">
+          class="img-fluid">
     </router-link>
     <div class="d-flex flex-column h-100">
       <div class="d-flex flex-column justify-content-center align-items-center gap-2 px-4 text-center">
