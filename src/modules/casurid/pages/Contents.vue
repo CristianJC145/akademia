@@ -55,12 +55,18 @@
               <td>{{ content.title }}</td>
               <td class="d-flex gap-2">
                 <AppButtonEdit :to="{ name:'casurid.contentsEdit', params: { contentId: content.id } }"></AppButtonEdit>
+                <AppButtonDelete @click="confirmDelete(content)"></AppButtonDelete>
               </td>
             </tr>
           </template>
-
         </template>
       </AppDatatable>
+
+      <AppModal v-model="showModalDelete" @close="showModalDelete = false">
+        <AppConfirmDeleteModal v-if="showModalDelete" entity="Contenido"
+                               @confirmDelete="deleteContent"></AppConfirmDeleteModal>
+      </AppModal>
+
     </template>
   </AppBaseList>
 </template>
@@ -73,6 +79,8 @@ import {useMeta} from 'vue-meta';
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
 import AppIcon from '../../../shared/components/AppIcon.vue';
 import AppDatatable from '../../../shared/components/AppDatatable.vue';
+import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteModal.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
 
 import {GetFiltersContentService} from '../services/getFiltersContent.service';
 import {GetContentsWithPaginationService} from '../services/getContentsWithPagination.service';
@@ -81,13 +89,15 @@ import {SubjectDto} from '../dtos/subject.dto';
 import {LevelsDegreeDto} from '../dtos/levelsDegree.dto';
 import {ContentTypeDto} from '../dtos/contentType.dto';
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
+import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
+import {DeleteContentService} from '../services/deleteContent.service';
 
 const getFiltersContentService = new GetFiltersContentService();
-
+const deleteContentService = new DeleteContentService();
 
 export default defineComponent({
   name: 'Contents',
-  components: {AppButtonEdit, AppIcon, AppDatatable, AppBaseList},
+  components: {AppButtonDelete, AppButtonEdit, AppIcon, AppDatatable, AppBaseList, AppConfirmDeleteModal, AppModal},
   setup() {
     useMeta({
       title: 'Contenidos',
@@ -107,6 +117,10 @@ export default defineComponent({
     const subjectId = ref();
     const degreeId = ref();
     const contentTypeId = ref();
+    const showModalDelete = ref(false);
+    const currentContent: { value: any } = reactive({
+      value: null,
+    });
 
     const routes = [
       {
@@ -138,6 +152,20 @@ export default defineComponent({
       };
     });
 
+    const confirmDelete = async (content: any) => {
+      currentContent.value = content;
+      showModalDelete.value = true;
+    };
+
+    const deleteContent = async () => {
+      try {
+        await deleteContentService.run(currentContent.value.id);
+        showModalDelete.value = false;
+      } catch (e) {
+
+      }
+    };
+
     return {
       getContentsWithPaginationService,
       subjects,
@@ -149,6 +177,9 @@ export default defineComponent({
       degreeId,
       t,
       routes,
+      showModalDelete,
+      confirmDelete,
+      deleteContent,
     };
   },
 });
