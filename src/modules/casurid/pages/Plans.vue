@@ -17,7 +17,8 @@
           <AppLoading v-if="loading"></AppLoading>
 
           <div v-else>
-            <div class="accordion" id="accordionExample">
+            <AppEmptyResponse :show-image="true" v-if="notFound" :to="{ name: 'casurid.contentsList' }" to-text="Contenidos"></AppEmptyResponse>
+            <div v-else class="accordion" id="accordionExample">
               <div class="accordion-item" v-for="plan in plans.value">
                 <h2 class="accordion-header" id="headingOne">
                   <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -68,13 +69,14 @@ import AppContainerNewRecord from '../../../shared/components/AppContainerNewRec
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import {useMeta} from 'vue-meta';
 import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
+import AppEmptyResponse from '../../../shared/components/AppEmptyResponse.vue';
 
 const getFiltersPlansService = new GetFiltersPlansService();
 const getPlansService = new GetPlansService();
 
 export default defineComponent({
   name: 'Plans',
-  components: {AppButtonDelete, AppButtonEdit, AppContainerNewRecord, AppLoading, AppBaseList},
+  components: {AppEmptyResponse, AppButtonDelete, AppButtonEdit, AppContainerNewRecord, AppLoading, AppBaseList},
   setup() {
     const title = 'Planes';
     useMeta({
@@ -105,6 +107,7 @@ export default defineComponent({
     });
 
     const loading = ref(true);
+    const notFound = ref(false);
 
     const plans: { value: IGetPlansService[] } = reactive({
       value: [],
@@ -121,13 +124,13 @@ export default defineComponent({
     });
 
     const getData = async () => {
+      loading.value = true;
       try {
         plans.value = await getPlansService.run({
           levelId: levelId.value,
           degreeId: degreeId.value,
         });
-
-        console.log(plans.value);
+        notFound.value = !plans.value.length;
       } catch (e) {
       }
 
@@ -145,6 +148,7 @@ export default defineComponent({
       degreeId,
       loading,
       plans,
+      notFound,
     };
   },
 });
@@ -154,6 +158,6 @@ export default defineComponent({
 .grid-cards {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
 }
 </style>

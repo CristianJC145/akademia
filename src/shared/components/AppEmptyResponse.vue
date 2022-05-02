@@ -123,9 +123,9 @@
         {{ t(subtitle) }}
       </div>
 
-      <div v-if="go && goText" class="tw-mt-3">
-        <router-link :to="go" class="btn btn-primary text-white">
-          {{ t('core.goTo') }} {{ t(goText) }}
+      <div v-if="to && toText" class="tw-mt-3">
+        <router-link :to="to.value" class="btn btn-primary text-white">
+          {{ t('core.goTo') }} {{ t(toText) }}
         </router-link>
       </div>
     </div>
@@ -133,20 +133,22 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, Ref, ref} from 'vue';
+import {defineComponent, onMounted, reactive, Ref, ref} from 'vue';
 import {useI18n} from 'vue-i18n';
 
 export default defineComponent({
   name: 'AppEmptyResponse',
-  props: ['title', 'subtitle', 'showImage', 'size', 'go', 'goText'],
+  props: ['title', 'subtitle', 'showImage', 'size', 'to', 'toText'],
   setup(props) {
     const {t} = useI18n();
     const title = ref('core.emptyResponse.title');
     const subtitle: Ref<string | boolean> = ref('core.emptyResponse.subtitle');
     const size = ref('sm');
     const showImage = ref(false);
-    const go = ref(null);
-    const goText = ref(null);
+    const to: { value: any } = reactive({
+      value: null,
+    });
+    const toText = ref(null);
 
     onMounted(() => {
 
@@ -166,12 +168,12 @@ export default defineComponent({
         showImage.value = props.showImage;
       }
 
-      if (props.go) {
-        go.value = props.go;
+      if (props.to) {
+        to.value = props.to;
       }
 
-      if (props.goText) {
-        goText.value = props.goText;
+      if (props.toText) {
+        toText.value = props.toText;
       }
 
     });
@@ -180,8 +182,8 @@ export default defineComponent({
       showImage,
       title,
       subtitle,
-      go,
-      goText,
+      to,
+      toText,
       t,
     };
   },
