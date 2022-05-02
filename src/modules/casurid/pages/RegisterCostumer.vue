@@ -60,7 +60,7 @@
             </AppFormField>
 
             <div class="d-flex justify-content-center">
-              <AppButtonLoading class="btn-primary text-white" :loading="loading">
+              <AppButtonLoading class="btn-primary text-white">
                 Registrarme
               </AppButtonLoading>
             </div>
