@@ -2,7 +2,9 @@
   <nav class="navbar navbar-light bg-light shadow-sm px-3 justify-content-between">
     <div>
       <router-link to="/" class="app-name">
-        Casurid
+        <img
+          :src="appLogo"
+          class="img-fluid logo-institution">
       </router-link>
 
     </div>
@@ -13,13 +15,13 @@
 
       <router-link to="/shopping-cart" class="d-none d-md-block btn"
                    v-tooltip="'Carrito de compras'">
-        <AppIcon icon="shopping-cart" size="lg"/>
+        <AppIcon icon="shopping-cart" class="blue" size="lg"/>
       </router-link>
 
       <router-link v-if="!user" to="/auth/login" class="btn"
                    v-tooltip="'Iniciar sesión'"
                    type="button">
-        <AppIcon icon="sign-in-alt" class="me-2" size="lg"/>
+        <AppIcon icon="sign-in-alt" class="me-2 blue" size="lg"/>
       </router-link>
 
       <router-link v-if="!user" to="/register" class="btn btn-primary text-white" type="button">
@@ -29,18 +31,18 @@
       <AppDropdown v-else>
         <template v-slot:button>
           <button type="button" class="btn">
-            <AppIcon icon="user-circle" size="lg"/>
+            <AppIcon icon="user-circle" class="blue" size="lg"/>
           </button>
         </template>
         <template v-slot:items>
           <li>
             <router-link class="dropdown-item" type="button" to="/shopping">
-              <AppIcon icon="shopping-bag" class="me-2"></AppIcon>
+              <AppIcon icon="shopping-bag" class="me-2 blue"></AppIcon>
               Mis compras
             </router-link>
             <hr>
             <button class="dropdown-item" type="button" @click="signOut">
-              <AppIcon icon="sign-out-alt" class="me-2"></AppIcon>
+              <AppIcon icon="sign-out-alt" class="me-2 blue"></AppIcon>
               Cerrar sesión
             </button>
           </li>
@@ -86,6 +88,7 @@ import LoginCasurid from './LoginCasurid.vue';
 import AuthenticatedUserStore from '../../../shared/stores/authenticatedUser.store';
 import AppDropdown from '../../../shared/components/AppDropdown.vue';
 import {SignOutService} from '../../../shared/services/signOut.service';
+import {settings} from '../../../shared/constant/settings.contants';
 
 const signOutService = new SignOutService();
 
@@ -94,10 +97,12 @@ export default defineComponent({
   components: {AppDropdown, LoginCasurid, AppModal, AppIcon},
   setup() {
     const store = inject('store', AuthenticatedUserStore.state);
+    const appLogo = settings.appLogo;
 
     const user = computed(() => store.user);
 
     return {
+      appLogo,
       store,
       user,
     };
@@ -123,9 +128,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.logo-institution {
+  max-height: 60px;
+}
 .app-name {
   text-decoration: none;
   font-size: 1.8rem;
   font-weight: 300;
+}
+
+.blue {
+  color: #00b0da;
+}
+
+.blue:focus {
+  color: #0078c0;
 }
 </style>

@@ -28,7 +28,7 @@
 
             <div class="d-flex justify-content-end">
               <button class="btn">
-                <AppIcon icon="shopping-cart"></AppIcon>
+                <AppIcon icon="shopping-cart" class="blue"></AppIcon>
               </button>
             </div>
           </div>
@@ -115,5 +115,9 @@ export default defineComponent({
 .card img {
   max-height: 400px;
   object-fit: contain;
+}
+
+.blue {
+  color: #00b0da;
 }
 </style>

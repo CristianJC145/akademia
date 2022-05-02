@@ -1,5 +1,5 @@
 <template>
-  <div class="btn-group ">
+  <div class="btn-group blue">
     <div class="dropdown-toggle tw-cursor-pointer" data-bs-toggle="dropdown" ref="dropdown"
          aria-expanded="false">
       <slot name="button"></slot>
