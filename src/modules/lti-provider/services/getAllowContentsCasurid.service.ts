@@ -1,7 +1,7 @@
 import axios from '../../../shared/utils/axios';
-//import {services} from '../../../shared/constant/services';
 import {SubjectDto} from '../dtos/subject.dto';
 import {LevelDegreeDto} from "../dtos/levelDegree.dto";
+import {services} from "../../../shared/constant/services";
 
 interface IGetAllowContentsCasuridService {
     levelsDegrees: LevelDegreeDto[];
@@ -10,7 +10,7 @@ interface IGetAllowContentsCasuridService {
 
 export class GetAllowContentsCasuridService {
     run() {
-        return axios.get<IGetAllowContentsCasuridService>(`http://localhost:3000/integrations/lti/allow-contents-casurid`).then((response) => {
+        return axios.get<IGetAllowContentsCasuridService>(`${services.lti}/integrations/lti/allow-contents-casurid`).then((response) => {
             return response.data;
         });
     }
