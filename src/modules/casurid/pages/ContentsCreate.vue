@@ -97,8 +97,11 @@ import AppFormField from '../../../shared/components/AppFormField.vue';
 import {useVuelidate} from '@vuelidate/core';
 import {required, numeric, url} from '@vuelidate/validators';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
+import {CreateOrUpdateContentService} from '../services/createOrUpdateContent.service';
+import {useRouter} from 'vue-router';
 
 const getFiltersContentForm = new GetFiltersContentForm();
+const createOrUpdateContentService = new CreateOrUpdateContentService();
 
 export default defineComponent({
   name: 'ContentsCreate',
@@ -115,6 +118,7 @@ export default defineComponent({
         name: 'Nuevo contenido',
       },
     ];
+    const router = useRouter();
 
     const contentTypes: { value: ContentTypeDto[] } = reactive({
       value: [],
@@ -159,11 +163,11 @@ export default defineComponent({
     });
 
     const save = async () => {
-      let levelId = null;
+      let levelId = 0;
       if (form.degreeId) {
         levelsDegrees.value.forEach((levelDegree) => {
-          if (levelDegree.degreeId.toString() === form.degreeId) {
-            levelId = levelDegree.levelId.toString();
+          if (levelDegree.degreeId === form.degreeId) {
+            levelId = levelDegree.levelId;
           }
         });
       }
@@ -172,9 +176,15 @@ export default defineComponent({
 
       if (!formIsValid) return;
 
-      console.log(form);
       try {
+        await createOrUpdateContentService.run({
+          ...form,
+          levelId,
+        });
 
+        await router.push({
+          name: 'casurid.contentList',
+        });
       } catch (e) {
 
       }
