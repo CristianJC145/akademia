@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-3" ref="main">
+  <div class="mb-3 tw-flex-1" ref="main">
     <slot></slot>
     <small class="text-danger" v-if="formControl && formControl.$errors.length">
       {{ formControl.$errors[0].$message }}
