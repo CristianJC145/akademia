@@ -1,7 +1,9 @@
 <template>
-  <AppBaseList title="Contenidos">
+  <AppBaseList title="Contenidos" :routes="routes">
     <template v-slot:actions>
-
+      <router-link :to="{ name: 'casurid.contentCreate' }" replace class="btn btn-primary text-white">
+        {{ t('core.newMale') }}
+      </router-link>
     </template>
 
     <template v-slot:content>
@@ -20,7 +22,8 @@
                 class="tw-flex-1"
                 :options="levelsDegrees.value"
                 label="levelDegreeName"
-                :reduce="(levelDegree) => levelDegree.degreeId">
+                :reduce="(levelDegree) => levelDegree.degreeId"
+                placeholder="Nivel - Grado">
             </v-select>
 
             <v-select
@@ -28,7 +31,8 @@
                 v-model="subjectId"
                 :options="subjects.value"
                 label="name"
-                :reduce="(subject) => subject.id">
+                :reduce="(subject) => subject.id"
+                placeholder="Asignatura">
             </v-select>
           </div>
         </template>
@@ -69,6 +73,7 @@ import {SubjectDto} from '../dtos/subject.dto';
 
 import {LevelsDegreeDto} from '../dtos/levelsDegree.dto';
 import {ContentTypeDto} from '../dtos/contentType.dto';
+import {useI18n} from 'vue-i18n';
 
 const getFiltersContentService = new GetFiltersContentService();
 
@@ -77,6 +82,7 @@ export default defineComponent({
   name: 'Contents',
   components: {AppDatatable, AppBaseList},
   setup() {
+    const {t} = useI18n();
     const getContentsWithPaginationService = new GetContentsWithPaginationService();
 
     const subjects: { value: SubjectDto[] } = reactive({
@@ -91,6 +97,12 @@ export default defineComponent({
     const subjectId = ref();
     const degreeId = ref();
     const contentTypeId = ref();
+
+    const routes = [
+      {
+        name: 'Contenidos',
+      },
+    ];
 
     onMounted(async () => {
       const response = await getFiltersContentService.run();
@@ -125,6 +137,8 @@ export default defineComponent({
       subjectId,
       contentTypeId,
       degreeId,
+      t,
+      routes,
     };
   },
 });

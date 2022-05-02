@@ -3,15 +3,15 @@ import {TokenService} from '../services/token.service';
 import {ErrorAlertService} from '../services/errorAlert.service';
 import {ToastService} from '../services/toast.service';
 import {InstitutionsService} from '../services/institutions.service';
+import {ButtonLoadingService} from '../services/buttonLoading.service';
 
 const getTokenService = new TokenService();
 const errorAlertService = new ErrorAlertService();
 const toastService = new ToastService();
 const institutionsService = new InstitutionsService();
+const buttonLoadingService = new ButtonLoadingService();
 
 axios.interceptors.request.use(async (config) => {
-
-
     if (!config.headers) {
         config.headers = {};
     }
@@ -32,6 +32,8 @@ axios.interceptors.request.use(async (config) => {
     errorAlertService.hide();
     toastService.hide();
 
+    buttonLoadingService.isSaving(true);
+
     return config;
 });
 
@@ -39,6 +41,7 @@ axios.interceptors.response.use((response) => {
     if (response && response.data && response.data.message) {
         toastService.show(response.data.message);
     }
+    buttonLoadingService.isSaving(false);
     return response;
 }, (error) => {
     /* ErrorAlert */
@@ -55,7 +58,7 @@ axios.interceptors.response.use((response) => {
             errorAlertService.show(data.message, data.errors ?? []);
         }
     }
-
+    buttonLoadingService.isSaving(false);
     return Promise.reject(error);
 });
 
