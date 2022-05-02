@@ -74,6 +74,8 @@ import {SubjectDto} from '../dtos/subject.dto';
 import {LevelsDegreeDto} from '../dtos/levelsDegree.dto';
 import {ContentTypeDto} from '../dtos/contentType.dto';
 import {useI18n} from 'vue-i18n';
+import {useMeta} from 'vue-meta';
+import {settings} from '../../../shared/constant/settings.contants';
 
 const getFiltersContentService = new GetFiltersContentService();
 
