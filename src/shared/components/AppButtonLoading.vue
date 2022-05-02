@@ -1,6 +1,6 @@
 <template>
   <button class="btn d-flex align-items-center gap-2" :disabled="loading">
-    <div class="spinner-border" role="status" v-if="loading">
+    <div class="spinner-border spinner-border-sm" role="status" v-if="loading">
       <span class="visually-hidden">Loading...</span>
     </div>
     <slot></slot>
@@ -8,17 +8,16 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, watch} from 'vue';
+import {computed, defineComponent, inject} from 'vue';
+import ButtonLoadingStore from '../stores/buttonLoading.store';
 
 export default defineComponent({
   name: 'AppButtonLoading',
   props: ['loading'],
-  setup(props) {
-    const loading = ref(props.loading);
+  setup() {
+    const store = inject('store', ButtonLoadingStore.state);
 
-    watch(() => props.loading, (value) => {
-      loading.value = value;
-    });
+    const loading = computed(() => store.loading);
 
     return {
       loading,
