@@ -4,11 +4,11 @@
       <template v-slot:actions>
         <AppBackButton :to="{ name: 'casurid.plansList' }"></AppBackButton>
 
-        <AppButtonLoading class="btn-primary text-white">
+        <AppButtonLoading class="btn-primary text-white" type="button" @click="saveAndCreate">
           Guardar y crear otro
         </AppButtonLoading>
 
-        <AppButtonLoading class="btn-primary text-white">
+        <AppButtonLoading class="btn-primary text-white" type="button" @click="saveAndExit">
           Guardar
         </AppButtonLoading>
       </template>
@@ -110,6 +110,9 @@ export default defineComponent({
       value: [],
     });
     const routeBack = ref('casurid.plansList');
+    const query = reactive({
+      value: {},
+    });
     const currentThumbnail = data?.thumbnail;
 
     useMeta({
@@ -171,10 +174,22 @@ export default defineComponent({
       }
     };
 
+    const saveAndCreate = async () => {
+      routeBack.value = 'casurid.plansCreate';
+      query.value = route.query;
+      await save();
+    };
+
+    const saveAndExit = async () => {
+      routeBack.value = 'casurid.plansList';
+      query.value = {};
+      await save();
+    };
+
     const save = async () => {
       const formIsValid = await v$.value.$validate();
 
-      if (!formIsValid && !degreeId && !levelId && !subjectId) return;
+      if (!formIsValid || !degreeId || !levelId || !subjectId) return;
 
       try {
         await createOrUpdatePlanService.run({
@@ -188,6 +203,7 @@ export default defineComponent({
 
         await router.push({
           name: routeBack.value,
+          query: query.value,
         });
       } catch (e) {
 
@@ -202,6 +218,8 @@ export default defineComponent({
       contents,
       currentThumbnail,
       save,
+      saveAndCreate,
+      saveAndExit,
       changeFile,
     };
   },
