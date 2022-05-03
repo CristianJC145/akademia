@@ -46,7 +46,7 @@
                             <div class="tw-flex tw-gap-2">
                               <AppButtonEdit
                                   :to="{ name: 'casurid.plansEdit', params: { planId: product.id }, query:{ subjectId: plan.subjectId, levelId, degreeId } }"></AppButtonEdit>
-                              <AppButtonDelete></AppButtonDelete>
+                              <AppButtonDelete @click="showModalDelete(product)"></AppButtonDelete>
                             </div>
                           </div>
                         </div>
@@ -57,6 +57,10 @@
               </div>
             </div>
           </div>
+
+          <AppModal v-model="modalDelete" @close="modalDelete = false">
+            <AppConfirmDeleteModel entity="Plan" @confirmDelete="deletePlan"></AppConfirmDeleteModel>
+          </AppModal>
         </div>
       </div>
     </template>
@@ -75,13 +79,22 @@ import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import {useMeta} from 'vue-meta';
 import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
 import AppEmptyResponse from '../../../shared/components/AppEmptyResponse.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
+import AppConfirmDeleteModel from '../../../shared/components/AppConfirmDeleteModal.vue';
+import {ProductDto} from '../dtos/product.dto';
+import {DeletePlanService} from '../services/deletePlan.service';
 
 const getFiltersPlansService = new GetFiltersPlansService();
 const getPlansService = new GetPlansService();
+const deletePlanService = new DeletePlanService();
 
 export default defineComponent({
   name: 'Plans',
-  components: {AppEmptyResponse, AppButtonDelete, AppButtonEdit, AppContainerNewRecord, AppLoading, AppBaseList},
+  components: {
+    AppConfirmDeleteModel,
+    AppModal,
+    AppEmptyResponse, AppButtonDelete, AppButtonEdit, AppContainerNewRecord, AppLoading, AppBaseList,
+  },
   setup() {
     const title = 'Planes';
     useMeta({
@@ -113,6 +126,10 @@ export default defineComponent({
 
     const loading = ref(true);
     const notFound = ref(false);
+    const modalDelete = ref(false);
+    const currentProduct: { value: any } = reactive({
+      value: null,
+    });
 
     const plans: { value: IGetPlansService[] } = reactive({
       value: [],
@@ -146,6 +163,21 @@ export default defineComponent({
       await getData();
     });
 
+    const showModalDelete = async (product: ProductDto) => {
+      currentProduct.value = product;
+      modalDelete.value = true;
+    };
+
+    const deletePlan = async () => {
+      try {
+        await deletePlanService.run(currentProduct.value.id);
+        modalDelete.value = false;
+        await getData();
+      } catch (e) {
+
+      }
+    };
+
     return {
       title,
       routes,
@@ -155,6 +187,9 @@ export default defineComponent({
       plans,
       notFound,
       levelId,
+      modalDelete,
+      showModalDelete,
+      deletePlan,
     };
   },
 });
