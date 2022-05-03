@@ -86,6 +86,7 @@ export default defineComponent({
         id:content.id,
         title:content.title,
         urlLocation:content.urlLocation,
+        productId: content.productId,
       }
 
       const sendDeepLink = new SendDeepLinkService();

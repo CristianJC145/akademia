@@ -5,6 +5,7 @@ interface ISendDeepLinkService {
     id:number;
     title: string;
     urlContent: string;
+    productId: number;
 }
 
 export class SendDeepLinkService {
