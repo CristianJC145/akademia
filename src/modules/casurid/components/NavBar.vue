@@ -24,7 +24,7 @@
         <AppIcon icon="sign-in-alt" class="me-2 blue" size="lg"/>
       </router-link>
 
-      <router-link v-if="!user" to="/register" class="btn btn-primary text-white" type="button">
+      <router-link v-if="!user" to="/register" class="btn btn-secondary text-white" type="button">
         Registrarse
       </router-link>
 
@@ -138,10 +138,7 @@ export default defineComponent({
 }
 
 .blue {
-  color: #00b0da;
-}
-
-.blue:focus {
   color: #0078c0;
+  color: #0f6fc5;
 }
 </style>
