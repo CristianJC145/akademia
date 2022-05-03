@@ -23,8 +23,8 @@
                   title="No tienes productos agregados en el carrito"
                   :subtitle="false"
                   :show-image="true"
-                  go="/"
-                  go-text="Comprar"
+                  to="/"
+                  to-text="Comprar"
               ></AppEmptyResponse>
             </div>
           </div>

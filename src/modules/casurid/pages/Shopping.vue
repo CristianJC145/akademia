@@ -5,33 +5,47 @@
   >
     <template v-slot:content>
       <div class="mt-4">
-        <AppDatatable :service="getShoppingService">
+        <AppDatatable :service="getShoppingService" :params="params">
           <template v-slot:filters>
             <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
                   <span>
                     Filtros:
                   </span>
 
-              <select class="form-select">
-                <option value="" selected disabled>Nivel</option>
-                <option v-for="level in levels.value" :value="level.id">
-                  {{ level.name }}
-                </option>
-              </select>
+              <div class="tw-flex-1">
+                <label for="levelId">Nivel</label>
+                <v-select
+                    inputId="levelId"
+                    v-model="levelId"
+                    :options="levels.value"
+                    label="name"
+                    :reduce="(level) => level.id"
+                ></v-select>
+              </div>
 
-              <select class="form-select">
-                <option value="" selected disabled>Grado</option>
-                <option v-for="degree in degrees.value" :value="degree.id">
-                  {{ degree.name }}
-                </option>
-              </select>
+              <div class="tw-flex-1">
+                <label for="degreeId">Grado</label>
+                <v-select
+                    inputId="degreeId"
+                    v-model="degreeId"
+                    :options="degrees.value"
+                    label="name"
+                    :reduce="(degree) => degree.id"
+                ></v-select>
+              </div>
 
-              <select class="form-select">
-                <option value="" selected disabled>Asignatura</option>
-                <option v-for="subject in subjects.value" :value="subject.id">
-                  {{ subject.name }}
-                </option>
-              </select>
+              <div class="tw-flex-1">
+                <label for="subjectId">Asignatura</label>
+                <v-select
+                    inputId="subjectId"
+                    v-model="subjectId"
+                    :options="subjects.value"
+                    label="name"
+                    :reduce="(subject) => subject.id"
+                ></v-select>
+              </div>
+
+
             </div>
           </template>
           <template v-slot:head>
@@ -42,6 +56,7 @@
               <th scope="col">Asignatura</th>
               <th scope="col">Cantidad</th>
               <th scope="col">Vigencia</th>
+              <th></th>
             </tr>
           </template>
 
@@ -60,12 +75,25 @@
                 </div>
               </td>
               <td>{{ shop.validUntil }}</td>
+              <td>
+                <button class="btn btn-outline-primary" v-tooltip="'Usuarios autorizados'"
+                        @click="showAuthorizedUsersModal(shop)">
+                  <AppIcon icon="users"></AppIcon>
+                </button>
+              </td>
             </tr>
           </template>
         </AppDatatable>
 
-        <AppModal v-model="showUsedLicensesModal">
+        <AppModal v-model="showUsedLicensesModal" @close="showUsedLicensesModal = false">
           <UsedLicenses v-if="showUsedLicensesModal" :product-id="productId"></UsedLicenses>
+        </AppModal>
+
+        <AppModal v-model="authorizedUsersModal" @close="authorizedUsersModal = false">
+          <AuthorizedUsers v-if="authorizedUsersModal"
+                           :white-list-emails="currentShop.value.whiteListEmails"
+                           :shop-id="currentShop.value.id"
+                           @finish="hideAuthorizedUsersModal"></AuthorizedUsers>
         </AppModal>
       </div>
     </template>
@@ -73,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref} from 'vue';
+import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
 import AppPagination from '../../../shared/components/AppPagination.vue';
 import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
@@ -87,12 +115,25 @@ import AppDatatable from '../../../shared/components/AppDatatable.vue';
 import AppModal from '../../../shared/components/AppModal.vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import UsedLicenses from '../components/usedLicenses.vue';
+import AuthorizedUsers from '../components/authorizedUsers.vue';
+import AppIcon from '../../../shared/components/AppIcon.vue';
+import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
 
 const getFiltersShoppingService = new GetFiltersShoppingService();
+const updateDatatableService = new UpdateDatatableService();
 
 export default defineComponent({
   name: 'Shopping',
-  components: {UsedLicenses, AppFormModal, AppModal, AppDatatable, AppPagination, AppBaseList},
+  components: {
+    AppIcon,
+    AuthorizedUsers,
+    UsedLicenses,
+    AppFormModal,
+    AppModal,
+    AppDatatable,
+    AppPagination,
+    AppBaseList,
+  },
   setup() {
     const title = 'Mis Compras';
     const routes: BreadCrumbsType[] = [
@@ -121,6 +162,10 @@ export default defineComponent({
       value: [],
     });
 
+    const levelId = ref(null);
+    const degreeId = ref(null);
+    const subjectId = ref(null);
+
     onMounted(async () => {
       const filters = await getFiltersShoppingService.run();
 
@@ -132,10 +177,33 @@ export default defineComponent({
     const showUsedLicensesModal = ref(false);
     const productId = ref(0);
 
+    const authorizedUsersModal = ref(false);
+    const currentShop = reactive({
+      value: {},
+    });
+
+    const showAuthorizedUsersModal = (shop: ShoppingDto) => {
+      currentShop.value = shop;
+      authorizedUsersModal.value = true;
+    };
+
+    const hideAuthorizedUsersModal = () => {
+      updateDatatableService.run();
+      authorizedUsersModal.value = false;
+    };
+
     const showUsedLicenses = async (proId: number) => {
       productId.value = proId;
       showUsedLicensesModal.value = true;
     };
+
+    const params = computed(() => {
+      return {
+        subjectId: subjectId.value,
+        degreeId: degreeId.value,
+        levelId: levelId.value,
+      };
+    });
 
     const getShoppingService = new GetShoppingService();
 
@@ -145,11 +213,19 @@ export default defineComponent({
       levels,
       degrees,
       subjects,
+      levelId,
+      degreeId,
+      subjectId,
       shopping,
       getShoppingService,
       showUsedLicensesModal,
-      showUsedLicenses,
       productId,
+      params,
+      authorizedUsersModal,
+      currentShop,
+      showUsedLicenses,
+      showAuthorizedUsersModal,
+      hideAuthorizedUsersModal,
     };
   },
 });

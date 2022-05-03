@@ -67,7 +67,6 @@ export default defineComponent({
 
       // TODO: Agregar search
       if (props.params) {
-        console.log(props.params);
         params = {
           ...params,
           ...props.params,
@@ -100,6 +99,10 @@ export default defineComponent({
 
     onMounted(async () => {
       await getData();
+
+      document.addEventListener('updateDatatable', async () => {
+        await getData();
+      });
     });
 
     return {

@@ -12,6 +12,9 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import AppEventListener from '../AppEventListener.vue';
+import {GenerateIdForComponentsService} from '../../services/generateIdForComponents.service';
+
+const generateIdForComponentsService = new GenerateIdForComponentsService();
 
 export default defineComponent({
   name: 'AppStepper',
@@ -29,7 +32,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.id = 'stepper_' + Date.now().toString() + Math.round(Math.random() * 10000);
+    this.id = generateIdForComponentsService.run('stepper');
     // this.step = this.modelValue;
   },
   methods: {

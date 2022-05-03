@@ -1,21 +1,33 @@
 import axios from '../utils/axios';
+import {JsonToFormDataService} from './jsonToFormData.service';
+
+const jsonToFormDataService = new JsonToFormDataService();
 
 export class CreateOrUpdateBaseService<ICreateOrUpdateContentService> {
     protected url = '';
+    protected isFormData = false;
 
     async run(data: ICreateOrUpdateContentService, id?: number): Promise<void> {
+        let newData: any = data;
+
+        if (this.isFormData) {
+            newData = jsonToFormDataService.run(data);
+        }
+
         if (id) {
-            await this.update(data, id);
+            await this.update(newData, id);
         } else {
-            await this.create(data);
+            await this.create(newData);
         }
     }
 
-    private async create(data: ICreateOrUpdateContentService): Promise<void> {
+    private async create(data: any): Promise<void> {
         await axios.post(this.url, data);
     }
 
-    private async update(data: ICreateOrUpdateContentService, id: number): Promise<void> {
+    private async update(data: any, id: number): Promise<void> {
         await axios.put(this.url + '/' + id, data);
     }
+
+
 }

@@ -19,19 +19,33 @@
     <AppIcon
         class="icon-size-8 align-items-lg-center m-1"
         icon="plus"></AppIcon>
-    {{ text }}
+    {{ t(text) }}
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent} from 'vue';
 import AppIcon from './AppIcon.vue';
+import {useI18n} from 'vue-i18n';
 
 export default defineComponent({
   name: 'AppContainerNewRecord',
-  props: ['text'],
-  components: {AppIcon}
-})
+  props: {
+    text: {
+      default: 'core.newMale',
+      type: String,
+    },
+  },
+  components: {AppIcon},
+  setup(props) {
+    const {t} = useI18n();
+
+    return {
+      text: props.text,
+      t,
+    };
+  },
+});
 </script>
 
 <style scoped>

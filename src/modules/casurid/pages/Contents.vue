@@ -1,7 +1,7 @@
 <template>
   <AppBaseList title="Contenidos" :routes="routes">
     <template v-slot:actions>
-      <router-link :to="{ name: 'casurid.contentCreate' }" replace class="btn btn-primary text-white">
+      <router-link :to="{ name: 'casurid.contentsCreate' }" replace class="btn btn-primary text-white">
         {{ t('core.newMale') }}
       </router-link>
     </template>
@@ -53,37 +53,57 @@
               <td>{{ content.subject.name }}</td>
               <td>{{ content.contentType.name }}</td>
               <td>{{ content.title }}</td>
-              <td></td>
+              <td class="d-flex gap-2">
+                <AppButtonEdit :to="{ name:'casurid.contentsEdit', params: { contentId: content.id } }"></AppButtonEdit>
+                <AppButtonDelete @click="confirmDelete(content)"></AppButtonDelete>
+              </td>
             </tr>
           </template>
-
         </template>
       </AppDatatable>
+
+      <AppModal v-model="showModalDelete" @close="showModalDelete = false">
+        <AppConfirmDeleteModal v-if="showModalDelete" entity="Contenido"
+                               @confirmDelete="deleteContent"></AppConfirmDeleteModal>
+      </AppModal>
+
     </template>
   </AppBaseList>
 </template>
 
 <script lang="ts">
 import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
+import {useI18n} from 'vue-i18n';
+import {useMeta} from 'vue-meta';
+
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
-import {GetFiltersContentService} from '../services/getFiltersContent.service';
+import AppIcon from '../../../shared/components/AppIcon.vue';
 import AppDatatable from '../../../shared/components/AppDatatable.vue';
+import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteModal.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
+
+import {GetFiltersContentService} from '../services/getFiltersContent.service';
 import {GetContentsWithPaginationService} from '../services/getContentsWithPagination.service';
 import {SubjectDto} from '../dtos/subject.dto';
 
 import {LevelsDegreeDto} from '../dtos/levelsDegree.dto';
 import {ContentTypeDto} from '../dtos/contentType.dto';
-import {useI18n} from 'vue-i18n';
-import {useMeta} from 'vue-meta';
-import {settings} from '../../../shared/constant/settings.contants';
+import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
+import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
+import {DeleteContentService} from '../services/deleteContent.service';
+import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
 
 const getFiltersContentService = new GetFiltersContentService();
-
+const deleteContentService = new DeleteContentService();
+const updateDatatableService = new UpdateDatatableService();
 
 export default defineComponent({
   name: 'Contents',
-  components: {AppDatatable, AppBaseList},
+  components: {AppButtonDelete, AppButtonEdit, AppIcon, AppDatatable, AppBaseList, AppConfirmDeleteModal, AppModal},
   setup() {
+    useMeta({
+      title: 'Contenidos',
+    });
     const {t} = useI18n();
     const getContentsWithPaginationService = new GetContentsWithPaginationService();
 
@@ -99,6 +119,10 @@ export default defineComponent({
     const subjectId = ref();
     const degreeId = ref();
     const contentTypeId = ref();
+    const showModalDelete = ref(false);
+    const currentContent: { value: any } = reactive({
+      value: null,
+    });
 
     const routes = [
       {
@@ -130,6 +154,25 @@ export default defineComponent({
       };
     });
 
+    const updateTable = () => {
+      updateDatatableService.run();
+    };
+
+    const confirmDelete = async (content: any) => {
+      currentContent.value = content;
+      showModalDelete.value = true;
+    };
+
+    const deleteContent = async () => {
+      try {
+        await deleteContentService.run(currentContent.value.id);
+        showModalDelete.value = false;
+        updateTable();
+      } catch (e) {
+
+      }
+    };
+
     return {
       getContentsWithPaginationService,
       subjects,
@@ -141,6 +184,9 @@ export default defineComponent({
       degreeId,
       t,
       routes,
+      showModalDelete,
+      confirmDelete,
+      deleteContent,
     };
   },
 });

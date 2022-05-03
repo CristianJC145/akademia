@@ -4,8 +4,8 @@ import {ErrorAlertService} from '../services/errorAlert.service';
 import {ToastService} from '../services/toast.service';
 import {InstitutionsService} from '../services/institutions.service';
 import {ButtonLoadingService} from '../services/buttonLoading.service';
-import {services} from "../constant/services";
-import {TokenLtiService} from "../services/tokenLti.service";
+import {services} from '../constant/services';
+import {TokenLtiService} from '../services/tokenLti.service';
 
 const getTokenService = new TokenService();
 const tokenLtiService = new TokenLtiService();
@@ -23,13 +23,13 @@ axios.interceptors.request.use(async (config) => {
 
     // Agregando Token
     const auxUrl = config.url;
-    const urlSearch : string = services.ltiProvider;
-    if(auxUrl && auxUrl.indexOf(urlSearch)>=0){
+    const urlSearch = services.ltiProvider as string;
+    if (auxUrl && auxUrl.indexOf(urlSearch) >= 0) {
         const token = await tokenLtiService.get();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
-    }else{
+    } else {
         const token = await getTokenService.get();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;

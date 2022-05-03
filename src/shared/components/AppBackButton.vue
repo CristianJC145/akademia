@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="route" class="btn btn-outline-secondary">
+  <router-link :to="to" class="btn btn-outline-secondary">
     {{ text }}
   </router-link>
 </template>
@@ -9,7 +9,7 @@ import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: 'AppBackButton',
-  props: ['route', 'text'],
+  props: ['to', 'text'],
   setup(props) {
     let text = 'Volver';
 
@@ -18,7 +18,6 @@ export default defineComponent({
     }
 
     return {
-      route: props.route,
       text,
     };
   },

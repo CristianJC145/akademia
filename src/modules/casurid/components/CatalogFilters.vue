@@ -150,8 +150,11 @@ export default defineComponent({
     const {levelsIds, areasIds, degreesIds, subjectsIds} = this.$route.query;
 
     this.currentLevels = this.levels.map((level: LevelDto) => {
+      level.thumbnail = `/src/assets/images/Level-${level.name}.png`;
 
       level.degrees.forEach((degree) => {
+        degree.thumbnail = `/src/assets/images/Degree-${degree.name}.png`;
+
         this.currentDegrees.push({
           ...degree,
           isSelected: degreesIds?.includes(degree.id.toString()) ?? false,
@@ -167,6 +170,8 @@ export default defineComponent({
     this.currentAreas = this.areas.map((area: AreaDto) => {
 
       area.subjects.forEach((subject) => {
+        subject.thumbnail = `/src/assets/images/Subject-${subject.name}.png`;
+
         this.currentSubjects.push({
           ...subject,
           isSelected: subjectsIds?.includes(subject.id.toString()) ?? false,
