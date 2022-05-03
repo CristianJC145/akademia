@@ -56,6 +56,7 @@
               <th scope="col">Asignatura</th>
               <th scope="col">Cantidad</th>
               <th scope="col">Vigencia</th>
+              <th></th>
             </tr>
           </template>
 
@@ -74,12 +75,25 @@
                 </div>
               </td>
               <td>{{ shop.validUntil }}</td>
+              <td>
+                <button class="btn btn-outline-primary" v-tooltip="'Usuarios autorizados'"
+                        @click="showAuthorizedUsersModal(shop)">
+                  <AppIcon icon="users"></AppIcon>
+                </button>
+              </td>
             </tr>
           </template>
         </AppDatatable>
 
-        <AppModal v-model="showUsedLicensesModal">
+        <AppModal v-model="showUsedLicensesModal" @close="showUsedLicensesModal = false">
           <UsedLicenses v-if="showUsedLicensesModal" :product-id="productId"></UsedLicenses>
+        </AppModal>
+
+        <AppModal v-model="authorizedUsersModal" @close="authorizedUsersModal = false">
+          <AuthorizedUsers v-if="authorizedUsersModal"
+                           :white-list-emails="currentShop.value.whiteListEmails"
+                           :shop-id="currentShop.value.id"
+                           @finish="hideAuthorizedUsersModal"></AuthorizedUsers>
         </AppModal>
       </div>
     </template>
@@ -101,12 +115,25 @@ import AppDatatable from '../../../shared/components/AppDatatable.vue';
 import AppModal from '../../../shared/components/AppModal.vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import UsedLicenses from '../components/usedLicenses.vue';
+import AuthorizedUsers from '../components/authorizedUsers.vue';
+import AppIcon from '../../../shared/components/AppIcon.vue';
+import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
 
 const getFiltersShoppingService = new GetFiltersShoppingService();
+const updateDatatableService = new UpdateDatatableService();
 
 export default defineComponent({
   name: 'Shopping',
-  components: {UsedLicenses, AppFormModal, AppModal, AppDatatable, AppPagination, AppBaseList},
+  components: {
+    AppIcon,
+    AuthorizedUsers,
+    UsedLicenses,
+    AppFormModal,
+    AppModal,
+    AppDatatable,
+    AppPagination,
+    AppBaseList,
+  },
   setup() {
     const title = 'Mis Compras';
     const routes: BreadCrumbsType[] = [
@@ -135,9 +162,9 @@ export default defineComponent({
       value: [],
     });
 
-    const levelId = ref();
-    const degreeId = ref();
-    const subjectId = ref();
+    const levelId = ref(null);
+    const degreeId = ref(null);
+    const subjectId = ref(null);
 
     onMounted(async () => {
       const filters = await getFiltersShoppingService.run();
@@ -149,6 +176,21 @@ export default defineComponent({
 
     const showUsedLicensesModal = ref(false);
     const productId = ref(0);
+
+    const authorizedUsersModal = ref(false);
+    const currentShop = reactive({
+      value: {},
+    });
+
+    const showAuthorizedUsersModal = (shop: ShoppingDto) => {
+      currentShop.value = shop;
+      authorizedUsersModal.value = true;
+    };
+
+    const hideAuthorizedUsersModal = () => {
+      updateDatatableService.run();
+      authorizedUsersModal.value = false;
+    };
 
     const showUsedLicenses = async (proId: number) => {
       productId.value = proId;
@@ -177,9 +219,13 @@ export default defineComponent({
       shopping,
       getShoppingService,
       showUsedLicensesModal,
-      showUsedLicenses,
       productId,
       params,
+      authorizedUsersModal,
+      currentShop,
+      showUsedLicenses,
+      showAuthorizedUsersModal,
+      hideAuthorizedUsersModal,
     };
   },
 });
