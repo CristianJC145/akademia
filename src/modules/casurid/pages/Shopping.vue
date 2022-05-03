@@ -5,33 +5,47 @@
   >
     <template v-slot:content>
       <div class="mt-4">
-        <AppDatatable :service="getShoppingService">
+        <AppDatatable :service="getShoppingService" :params="params">
           <template v-slot:filters>
             <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
                   <span>
                     Filtros:
                   </span>
 
-              <select class="form-select">
-                <option value="" selected disabled>Nivel</option>
-                <option v-for="level in levels.value" :value="level.id">
-                  {{ level.name }}
-                </option>
-              </select>
+              <div class="tw-flex-1">
+                <label for="levelId">Nivel</label>
+                <v-select
+                    inputId="levelId"
+                    v-model="levelId"
+                    :options="levels.value"
+                    label="name"
+                    :reduce="(level) => level.id"
+                ></v-select>
+              </div>
 
-              <select class="form-select">
-                <option value="" selected disabled>Grado</option>
-                <option v-for="degree in degrees.value" :value="degree.id">
-                  {{ degree.name }}
-                </option>
-              </select>
+              <div class="tw-flex-1">
+                <label for="degreeId">Grado</label>
+                <v-select
+                    inputId="degreeId"
+                    v-model="degreeId"
+                    :options="degrees.value"
+                    label="name"
+                    :reduce="(degree) => degree.id"
+                ></v-select>
+              </div>
 
-              <select class="form-select">
-                <option value="" selected disabled>Asignatura</option>
-                <option v-for="subject in subjects.value" :value="subject.id">
-                  {{ subject.name }}
-                </option>
-              </select>
+              <div class="tw-flex-1">
+                <label for="subjectId">Asignatura</label>
+                <v-select
+                    inputId="subjectId"
+                    v-model="subjectId"
+                    :options="subjects.value"
+                    label="name"
+                    :reduce="(subject) => subject.id"
+                ></v-select>
+              </div>
+
+
             </div>
           </template>
           <template v-slot:head>
@@ -73,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref} from 'vue';
+import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
 import AppPagination from '../../../shared/components/AppPagination.vue';
 import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
@@ -121,6 +135,10 @@ export default defineComponent({
       value: [],
     });
 
+    const levelId = ref();
+    const degreeId = ref();
+    const subjectId = ref();
+
     onMounted(async () => {
       const filters = await getFiltersShoppingService.run();
 
@@ -137,6 +155,14 @@ export default defineComponent({
       showUsedLicensesModal.value = true;
     };
 
+    const params = computed(() => {
+      return {
+        subjectId: subjectId.value,
+        degreeId: degreeId.value,
+        levelId: levelId.value,
+      };
+    });
+
     const getShoppingService = new GetShoppingService();
 
     return {
@@ -145,11 +171,15 @@ export default defineComponent({
       levels,
       degrees,
       subjects,
+      levelId,
+      degreeId,
+      subjectId,
       shopping,
       getShoppingService,
       showUsedLicensesModal,
       showUsedLicenses,
       productId,
+      params,
     };
   },
 });
