@@ -3,7 +3,7 @@
     <template v-slot:content>
       <div>
         <h2 class="tw-text-lg tw-font-light">Niveles</h2>
-        <AppContainerNewRecord></AppContainerNewRecord>
+        <AppContainerNewRecord @click="levelModal = true"></AppContainerNewRecord>
       </div>
 
       <AppAccordion class="mt-2" v-slot="{ accordionId }">
@@ -24,32 +24,20 @@
                   </div>
                 </div>
               </div>
-              <!--              <div v-for="product in plan.products" class="card">
-                              <div class="card-body">
-                                <span class="tw-text-sm">{{ product.title }}</span>
-                                <hr>
-                                <div class="tw-flex tw-justify-between tw-items-center tw-gap-2">
-                                  <span>{{ product.validityPeriod }} contenidos</span>
-
-                                  <div class="tw-flex tw-gap-2">
-                                    <AppButtonEdit
-                                        :to="{ name: 'casurid.plansEdit', params: { planId: product.id }, query:{ subjectId: plan.subjectId, levelId, degreeId } }"></AppButtonEdit>
-                                    <AppButtonDelete @click="showModalDelete(product)"></AppButtonDelete>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>-->
             </div>
           </template>
         </AppAccordionItem>
-
       </AppAccordion>
+
+      <AppModal v-model="levelModal" @close="levelModal = false">
+        <LevelForm v-if="levelModal"></LevelForm>
+      </AppModal>
     </template>
   </AppBaseList>
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive} from 'vue';
+import {defineComponent, onMounted, reactive, ref} from 'vue';
 import {GetLevelsWithDegreesService} from '../services/getLevelsWithDegrees.service';
 import AppAccordion from '../../../shared/components/Accordion/AppAccordion.vue';
 import AppAccordionItem from '../../../shared/components/Accordion/AppAccordionItem.vue';
@@ -59,12 +47,16 @@ import AppContainerNewRecord from '../../../shared/components/AppContainerNewRec
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
 import AppEmptyResponse from '../../../shared/components/AppEmptyResponse.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
+import LevelForm from '../components/LevelForm.vue';
 
 const getLevelsWithDegreesService = new GetLevelsWithDegreesService();
 
 export default defineComponent({
   name: 'LevelsDegrees',
   components: {
+    LevelForm,
+    AppModal,
     AppEmptyResponse,
     AppButtonDelete, AppButtonEdit, AppContainerNewRecord, AppBaseList, AppAccordionItem, AppAccordion,
   },
@@ -81,6 +73,9 @@ export default defineComponent({
       value: [],
     });
 
+    const levelModal = ref(false);
+    const degreeModal = ref(false);
+
     onMounted(async () => {
       const response = await getLevelsWithDegreesService.run();
 
@@ -91,6 +86,8 @@ export default defineComponent({
       title,
       routes,
       levels,
+      levelModal,
+      degreeModal,
     };
   },
 });
