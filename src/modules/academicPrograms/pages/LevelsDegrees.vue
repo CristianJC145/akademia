@@ -3,10 +3,20 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, onMounted} from 'vue';
+import {GetLevelsWithDegreesService} from '../services/getLevelsWithDegrees.service';
+
+const getLevelsWithDegreesService = new GetLevelsWithDegreesService();
 
 export default defineComponent({
   name: 'LevelsDegrees',
+  setup() {
+    onMounted(async () => {
+      const response = await getLevelsWithDegreesService.run();
+
+      console.log(response[0]);
+    });
+  },
 });
 </script>
 
