@@ -11,6 +11,7 @@ import {authGuard} from '../../shared/guards/auth.guard';
 import ContentsCreatePage from './pages/ContentsCreate.vue';
 import ContentsEditPage from './pages/ContentsEdit.vue';
 import PlansPage from './pages/Plans.vue';
+import PlansCreatePage from './pages/PlansCreate.vue';
 
 const appName = 'casurid';
 
@@ -69,6 +70,11 @@ export const casuridRouting = [
                 path: 'plans',
                 component: PlansPage,
                 name: `${appName}.plansList`,
+            },
+            {
+                path: 'plans/create',
+                component: PlansCreatePage,
+                name: `${appName}.plansCreate`,
             },
         ],
     },

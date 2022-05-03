@@ -17,7 +17,8 @@
           <AppLoading v-if="loading"></AppLoading>
 
           <div v-else>
-            <AppEmptyResponse :show-image="true" v-if="notFound" :to="{ name: 'casurid.contentsList' }" to-text="Contenidos"></AppEmptyResponse>
+            <AppEmptyResponse :show-image="true" v-if="notFound" :to="{ name: 'casurid.contentsList' }"
+                              to-text="Contenidos"></AppEmptyResponse>
             <div v-else class="accordion" id="accordionExample">
               <div class="accordion-item" v-for="plan in plans.value">
                 <h2 class="accordion-header" id="headingOne">
@@ -31,7 +32,10 @@
                      data-bs-parent="#accordionExample">
                   <div class="accordion-body">
                     <div class="grid-cards">
-                      <AppContainerNewRecord></AppContainerNewRecord>
+                      <router-link
+                          :to="{ name: 'casurid.plansCreate', query:{ subjectId: plan.subjectId, levelId, degreeId } }">
+                        <AppContainerNewRecord></AppContainerNewRecord>
+                      </router-link>
                       <div v-for="product in plan.products" class="card">
                         <div class="card-body">
                           <span class="tw-text-sm">{{ product.title }}</span>
@@ -130,6 +134,7 @@ export default defineComponent({
           levelId: levelId.value,
           degreeId: degreeId.value,
         });
+        console.log(plans.value);
         notFound.value = !plans.value.length;
       } catch (e) {
       }
@@ -149,6 +154,7 @@ export default defineComponent({
       loading,
       plans,
       notFound,
+      levelId,
     };
   },
 });
@@ -159,5 +165,9 @@ export default defineComponent({
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+}
+
+a {
+  text-decoration: none;
 }
 </style>

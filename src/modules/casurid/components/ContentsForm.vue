@@ -2,7 +2,7 @@
   <form @submit.prevent="save">
     <AppBaseList :title="title" :routes="routes">
       <template v-slot:actions>
-        <AppBackButton :route="{ name: 'casurid.contentsList' }"></AppBackButton>
+        <AppBackButton :to="{ name: 'casurid.contentsList' }"></AppBackButton>
         <AppButtonLoading class="btn-primary text-white">Guardar</AppButtonLoading>
       </template>
 
