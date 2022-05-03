@@ -29,39 +29,37 @@
       </Transition>
 
       <div class="col-12 mt-4">
-        <div class="card">
-          <div class="card-body row g-3">
-            <AppLoading v-if="loadingProducts"></AppLoading>
-            <template v-else>
-              <div class="col-12 col-md-4 col-lg-3" v-for="product in productsCatalogue" :key="product.id">
-                <div class="card product-catalogue card-hover">
-                  <img class="card-img-top img-product" :src="product.thumbnail" :alt="product.title">
-                  <div class="card-body d-flex flex-column gap-2">
-                    <div class="d-flex flex-column">
-                      <h1 class="h5 lead">{{ product.title }}</h1>
-                      <span>{{ product.subjectName }}</span>
-                      <span>{{ product.DegreeName }}</span>
-                      <span>Duración: <span class="badge bg-secondary">{{ product.validityPeriod }} meses</span></span>
+        <div class="row g-3">
+          <AppLoading v-if="loadingProducts"></AppLoading>
+          <template v-else>
+            <div class="col-12 col-md-4 col-lg-3" v-for="product in productsCatalogue" :key="product.id">
+              <div class="card product-catalogue card-hover">
+                <img class="card-img-top img-product" :src="product.thumbnail" :alt="product.title">
+                <div class="card-body d-flex flex-column gap-2">
+                  <div class="d-flex flex-column">
+                    <h1 class="h5 lead">{{ product.title }}</h1>
+                    <span>{{ product.subjectName }}</span>
+                    <span>{{ product.DegreeName }}</span>
+                    <span>Duración: <span class="badge bg-secondary">{{ product.validityPeriod }} meses</span></span>
+                  </div>
+
+                  <div class="row g-2 align-items-center">
+                    <div class="col-12 col-md-6 col-lg-4">
+                      <AddToCart :product="product"></AddToCart>
                     </div>
 
-                    <div class="row g-2 align-items-center">
-                      <div class="col-12 col-md-6 col-lg-4">
-                        <AddToCart :product="product"></AddToCart>
-                      </div>
-
-                      <div class="col-12 col-md-6 col-lg-8">
-                        <div class="d-grid d-md-flex justify-content-md-end align-items-md-center">
-                          <router-link :to="`/detail/${product.slug}`" class="btn btn-primary text-white btn-detail">
-                            Ver detalle
-                          </router-link>
-                        </div>
+                    <div class="col-12 col-md-6 col-lg-8">
+                      <div class="d-grid d-md-flex justify-content-md-end align-items-md-center">
+                        <router-link :to="`/detail/${product.slug}`" class="btn btn-primary text-white btn-detail">
+                          Ver detalle
+                        </router-link>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </template>
-          </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -131,12 +129,9 @@ export default defineComponent({
     this.levels = relatedData.levels;
 
     this.areas = relatedData.areas;
-
-    // this.changeFilters = debounce(this.changeFilters, 800);
+    
     // @ts-ignore
     this.searchProducts = debounce(this.searchProducts, 600);
-
-    // await this.searchProducts();
 
     this.loadingFilters = false;
   },
