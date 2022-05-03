@@ -14,8 +14,6 @@ export class CreateOrUpdateBaseService<ICreateOrUpdateContentService> {
             newData = jsonToFormDataService.run(data);
         }
 
-        console.log(newData);
-
         if (id) {
             await this.update(newData, id);
         } else {

@@ -22,7 +22,7 @@
             <div v-else class="accordion" id="accordionExample">
               <div class="accordion-item" v-for="plan in plans.value">
                 <h2 class="accordion-header" id="headingOne">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                           :data-bs-target="`#collapse-${plan.subjectId}`"
                           aria-expanded="true" aria-controls="collapseOne">
                     {{ plan.subject }}
@@ -44,7 +44,8 @@
                             <span>{{ product.validityPeriod }} contenidos</span>
 
                             <div class="tw-flex tw-gap-2">
-                              <AppButtonEdit></AppButtonEdit>
+                              <AppButtonEdit
+                                  :to="{ name: 'casurid.plansEdit', params: { planId: product.id }, query:{ subjectId: plan.subjectId, levelId, degreeId } }"></AppButtonEdit>
                               <AppButtonDelete></AppButtonDelete>
                             </div>
                           </div>
@@ -134,7 +135,6 @@ export default defineComponent({
           levelId: levelId.value,
           degreeId: degreeId.value,
         });
-        console.log(plans.value);
         notFound.value = !plans.value.length;
       } catch (e) {
       }

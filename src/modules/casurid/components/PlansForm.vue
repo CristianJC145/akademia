@@ -52,6 +52,9 @@
                   <label for="file">Carátula</label>
                   <input type="file" class="form-control" @change="changeFile"
                          id="file"/>
+                  <a :href="currentThumbnail" target="_blank" v-if="currentThumbnail">
+                    <small>Ver archivo actual</small>
+                  </a>
                 </AppFormField>
               </div>
 
@@ -107,10 +110,33 @@ export default defineComponent({
       value: [],
     });
     const routeBack = ref('casurid.plansList');
+    const currentThumbnail = data?.thumbnail;
 
     useMeta({
       title,
     });
+
+    const form = reactive({
+      title: data?.title,
+      description: data?.description,
+      index: data?.index,
+      defaultUnitValue: data?.defaultUnitValue,
+      validityPeriod: data?.validityPeriod,
+      file: null,
+      contentsIds: data?.contentsIds ?? [],
+    });
+
+    const v$ = useVuelidate({
+      form: {
+        title: {required},
+        description: {},
+        index: {url},
+        defaultUnitValue: {required, numeric},
+        validityPeriod: {required, numeric},
+        file: !data?.id ? {required} : {},
+        contentsIds: {required},
+      },
+    }, {form});
 
     onMounted(async () => {
       if (levelId && degreeId && subjectId) {
@@ -125,32 +151,15 @@ export default defineComponent({
 
         subtitle.value = `${response.subject.name} - ${response.degree.name} - ${response.level.name}`;
         contents.value = response.contents;
+
+        response.contents.forEach((content) => {
+          if (content.checked) {
+            form.contentsIds.push(content.id);
+          }
+        });
       }
       loading.value = false;
     });
-
-
-    const form = reactive({
-      title: data?.title,
-      description: data?.description,
-      index: data?.index,
-      defaultUnitValue: data?.defaultUnitValue,
-      validityPeriod: data?.validityPeriod,
-      file: data?.file,
-      contentsIds: data?.contentsIds,
-    });
-
-    const v$ = useVuelidate({
-      form: {
-        title: {required},
-        description: {},
-        index: {url},
-        defaultUnitValue: {required, numeric},
-        validityPeriod: {required, numeric},
-        file: {required},
-        contentsIds: {required},
-      },
-    }, {form});
 
     const changeFile = (event: any) => {
       const files = event.target.files;
@@ -183,7 +192,6 @@ export default defineComponent({
       } catch (e) {
 
       }
-
     };
 
     return {
@@ -192,6 +200,7 @@ export default defineComponent({
       loading,
       subtitle,
       contents,
+      currentThumbnail,
       save,
       changeFile,
     };
