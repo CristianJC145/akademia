@@ -97,7 +97,7 @@ export default defineComponent({
   components: {AppDropdown, LoginCasurid, AppModal, AppIcon},
   setup() {
     const store = inject('store', AuthenticatedUserStore.state);
-    const appLogo = settings.appLogo;
+    const appLogo = String(settings.appLogo);
 
     const user = computed(() => store.user);
 
@@ -138,7 +138,6 @@ export default defineComponent({
 }
 
 .blue {
-  color: #0078c0;
   color: #0f6fc5;
 }
 </style>

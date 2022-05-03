@@ -14,8 +14,8 @@ export class GetProductCatalogueBySlugService {
         return axios.get<IGetProductCatalogueBySlugService>(`${services.casurid}/catalogue/product-detail/${slug}`).then((response) => {
             const data = response.data;
 
-            //data.product.thumbnail = data.product.thumbnail ?? ImageNotAvailable;
-            data.product.thumbnail = '/src/assets/images/' + data.product.title + '-' + data.product.DegreeName + '.png';
+            data.product.thumbnail = data.product.thumbnail ?? ImageNotAvailable;
+            // data.product.thumbnail = '/src/assets/images/' + data.product.title + '-' + data.product.DegreeName + '.png';
 
             return data;
         });
