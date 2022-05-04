@@ -108,6 +108,7 @@ import {LevelDto} from '../dtos/level.dto';
 import {AreaDto} from '../dtos/area.dto';
 import {DegreeDto} from '../dtos/degree.dto';
 import {SubjectDto} from '../dtos/subject.dto';
+import ImageNotAvailable from '../../../assets/images/image-not-available.png';
 
 interface ILevel extends LevelDto {
   isSelected: boolean;
@@ -149,11 +150,42 @@ export default defineComponent({
   mounted() {
     const {levelsIds, areasIds, degreesIds, subjectsIds} = this.$route.query;
 
+    let imgs = {
+      levels: {
+        Preescolar: 'https://live.staticflickr.com/65535/52049913633_68282c2f71_b.jpg',
+        Primaria: 'https://live.staticflickr.com/65535/52049913408_5e4f0b1674_b.jpg',
+        Secundaria: 'https://live.staticflickr.com/65535/52049879461_6ca9bfb22e_b.jpg',
+        Media: 'https://live.staticflickr.com/65535/52050374270_68a1ae5602_b.jpg',
+      },
+      degrees: {
+        Primero: 'https://live.staticflickr.com/65535/52049884851_d3d1ecf43f_b.jpg',
+        Segundo: 'https://live.staticflickr.com/65535/52048826602_cf2ff82291_b.jpg',
+        Tercero: 'https://live.staticflickr.com/65535/52050118814_ee5175902f_b.jpg',
+        Cuarto: 'https://live.staticflickr.com/65535/52050118809_b8dd3eecd3_b.jpg',
+        Quinto: 'https://live.staticflickr.com/65535/52049884776_ffdc3a523e_b.jpg',
+        Sexto: 'https://live.staticflickr.com/65535/52050118789_5035d6488d_b.jpg',
+        Septimo: 'https://live.staticflickr.com/65535/52049918663_c36e8d47fe_b.jpg',
+        Octavo: 'https://live.staticflickr.com/65535/52049884571_e019339c33_b.jpg',
+        Noveno: 'https://live.staticflickr.com/65535/52050379355_c265ca697f_b.jpg',
+      },
+      subjects: {
+        Algebra: 'https://live.staticflickr.com/65535/52048830772_c013e00176_b.jpg',
+        Calculo: 'https://live.staticflickr.com/65535/52050383335_bbd1f56d5c_b.jpg',
+        Geometria: 'https://live.staticflickr.com/65535/52050383335_bbd1f56d5c_b.jpg',
+        Matematicas: 'https://live.staticflickr.com/65535/52048830912_26f51c62d6_b.jpg',
+        Informatica: 'https://live.staticflickr.com/65535/52050123114_1185750ffc_b.jpg',
+        Ciencias_Naurales: 'https://live.staticflickr.com/65535/52048830832_9582ccae4f_b.jpg',
+        Ecologia: 'https://live.staticflickr.com/65535/52050122984_6e6e06666f_b.jpg',
+        Artistica: '',
+      }
+    }
+
+    console.log(this.levels);
     this.currentLevels = this.levels.map((level: LevelDto) => {
-      level.thumbnail = `/src/assets/images/Level-${level.name}.png`;
+      level.thumbnail = imgs.levels[level.name] ?? ImageNotAvailable;
 
       level.degrees.forEach((degree) => {
-        degree.thumbnail = `/src/assets/images/Degree-${degree.name}.png`;
+        degree.thumbnail = imgs.degrees[degree.name] ?? ImageNotAvailable;
 
         this.currentDegrees.push({
           ...degree,
@@ -170,7 +202,8 @@ export default defineComponent({
     this.currentAreas = this.areas.map((area: AreaDto) => {
 
       area.subjects.forEach((subject) => {
-        subject.thumbnail = `/src/assets/images/Subject-${subject.name}.png`;
+        let subjName = subject.name;
+        subject.thumbnail = imgs.subjects[subjName.replace(' ', '_')] ?? ImageNotAvailable;
 
         this.currentSubjects.push({
           ...subject,
