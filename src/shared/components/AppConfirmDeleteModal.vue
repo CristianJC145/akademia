@@ -21,7 +21,7 @@ import AppIcon from './AppIcon.vue';
 import AppButtonLoading from './AppButtonLoading.vue';
 
 export default defineComponent({
-  name: 'AppConfirmDeleteModel',
+  name: 'AppConfirmDeleteModal',
   components: {AppButtonLoading, AppIcon, AppFormModal},
   props: ['entity'],
   emits: ['confirmDelete'],
