@@ -14,14 +14,14 @@
             <template v-slot:content>
               <h3 class="tw-text-lg tw-font-light">Grados</h3>
               <div :class="{ 'grid-cards': level.degrees.length }">
-                <AppContainerNewRecord></AppContainerNewRecord>
+                <AppContainerNewRecord @click="openDegreeModal(level.id, null)"></AppContainerNewRecord>
                 <AppEmptyResponse v-if="!level.degrees.length"></AppEmptyResponse>
                 <div class="card" v-for="degree in level.degrees">
                   <div class="card-body">
                     <span class="tw-text-sm">{{ degree.name }}</span>
                     <hr>
                     <div class="tw-flex tw-justify-end tw-gap-2">
-                      <AppButtonEdit></AppButtonEdit>
+                      <AppButtonEdit @click="openDegreeModal(level.id, degree)"></AppButtonEdit>
                       <AppButtonDelete @click="openConfirmDelete(entityDegree, degree)"></AppButtonDelete>
                     </div>
                   </div>
@@ -30,7 +30,8 @@
               <hr>
               <div class="tw-flex tw-justify-end gap-2">
                 <AppButtonEdit @click="openLevelModal(level)"></AppButtonEdit>
-                <AppButtonDelete @click="openConfirmDelete(entityLevel, level)"></AppButtonDelete>
+                <AppButtonDelete @click="openConfirmDelete(entityLevel, level)"
+                                 v-if="!level.degrees.length"></AppButtonDelete>
               </div>
             </template>
           </AppAccordionItem>
@@ -39,6 +40,10 @@
 
       <AppModal v-model="levelModal">
         <LevelForm v-if="levelModal" :data="currentLevel.value" @close="closeLevelModal"></LevelForm>
+      </AppModal>
+
+      <AppModal v-model="degreeModal">
+        <DegreeForm v-if="degreeModal" :data="currentDegree.value" @close="closeDegreeModal"></DegreeForm>
       </AppModal>
 
       <AppModal v-model="deleteModal">
@@ -66,6 +71,7 @@ import {LevelDto} from '../dtos/level.dto';
 import {DeleteLevelService} from '../services/deleteLevel.service';
 import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteModal.vue';
 import {DegreeDto} from '../dtos/degree.dto';
+import DegreeForm from '../components/DegreeForm.vue';
 
 
 const getLevelsWithDegreesService = new GetLevelsWithDegreesService();
@@ -74,6 +80,7 @@ const deleteLevelService = new DeleteLevelService();
 export default defineComponent({
   name: 'LevelsDegrees',
   components: {
+    DegreeForm,
     AppConfirmDeleteModal,
     AppLoading,
     LevelForm,
@@ -100,6 +107,9 @@ export default defineComponent({
     const currentLevel: { value: LevelDto | null } = reactive({
       value: null,
     });
+    const currentDegree: { value: DegreeDto | null } = reactive({
+      value: null,
+    });
 
     const getData = async () => {
       levels.value = await getLevelsWithDegreesService.run();
@@ -115,8 +125,19 @@ export default defineComponent({
       levelModal.value = true;
     };
 
+
     const closeLevelModal = async () => {
       levelModal.value = false;
+      await getData();
+    };
+
+    const openDegreeModal = (levelId: number, degree: DegreeDto | null) => {
+      currentDegree.value = degree;
+      degreeModal.value = true;
+    };
+
+    const closeDegreeModal = async () => {
+      degreeModal.value = false;
       await getData();
     };
 
@@ -157,8 +178,11 @@ export default defineComponent({
       entityLevel,
       entityDegree,
       currentEntity,
+      currentDegree,
       openLevelModal,
+      openDegreeModal,
       closeLevelModal,
+      closeDegreeModal,
       openConfirmDelete,
       confirmDelete,
     };
