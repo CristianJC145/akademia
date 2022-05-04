@@ -4,7 +4,7 @@
     'text-white': isActive,
     'active': isActive,
   }">
-    <AppIcon class="me-2" icon="home"></AppIcon>
+    <AppIcon class="me-2" :icon="icon"></AppIcon>
     {{ t(title) }}
   </router-link>
 </template>
@@ -24,7 +24,7 @@ export default defineComponent({
     const route = useRoute();
 
     const isActive = computed(() => {
-      return route.fullPath === props.link;
+      return route.fullPath.includes(props.link);
     });
 
     return {

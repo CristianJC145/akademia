@@ -42,6 +42,8 @@ import {
     faChartBar,
     faShoppingBag,
     faExclamationCircle,
+    faTable,
+    faTags,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -86,6 +88,8 @@ export default {
         library.add(faChartBar);
         library.add(faShoppingBag);
         library.add(faExclamationCircle);
+        library.add(faTable);
+        library.add(faTags);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },
