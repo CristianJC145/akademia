@@ -64,7 +64,7 @@ export default defineComponent({
       if (!formIsValid) return;
 
       try {
-        await createOrUpdateLevelService.run(form);
+        await createOrUpdateLevelService.run(form, data?.id);
         emit('close');
       } catch (e) {
 
