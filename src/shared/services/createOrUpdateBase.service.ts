@@ -4,8 +4,8 @@ import {JsonToFormDataService} from './jsonToFormData.service';
 const jsonToFormDataService = new JsonToFormDataService();
 
 export class CreateOrUpdateBaseService<ICreateOrUpdateContentService> {
-    protected url = '';
-    protected isFormData = false;
+    url = '';
+    isFormData = false;
 
     async run(data: ICreateOrUpdateContentService, id?: number): Promise<void> {
         let newData: any = data;

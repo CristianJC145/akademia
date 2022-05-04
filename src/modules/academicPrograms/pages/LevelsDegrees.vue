@@ -30,7 +30,7 @@
       </AppAccordion>
 
       <AppModal v-model="levelModal" @close="levelModal = false">
-        <LevelForm v-if="levelModal"></LevelForm>
+        <LevelForm v-if="levelModal" @close="closeLevelModal"></LevelForm>
       </AppModal>
     </template>
   </AppBaseList>
@@ -42,13 +42,13 @@ import {GetLevelsWithDegreesService} from '../services/getLevelsWithDegrees.serv
 import AppAccordion from '../../../shared/components/Accordion/AppAccordion.vue';
 import AppAccordionItem from '../../../shared/components/Accordion/AppAccordionItem.vue';
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
-import {LevelDto} from '../dtos/level.dto';
 import AppContainerNewRecord from '../../../shared/components/AppContainerNewRecord.vue';
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
 import AppEmptyResponse from '../../../shared/components/AppEmptyResponse.vue';
 import AppModal from '../../../shared/components/AppModal.vue';
 import LevelForm from '../components/LevelForm.vue';
+import {LevelDto} from '../dtos/level.dto';
 
 const getLevelsWithDegreesService = new GetLevelsWithDegreesService();
 
@@ -76,11 +76,20 @@ export default defineComponent({
     const levelModal = ref(false);
     const degreeModal = ref(false);
 
-    onMounted(async () => {
+    const getData = async () => {
       const response = await getLevelsWithDegreesService.run();
 
       levels.value = response;
+    };
+
+    onMounted(async () => {
+      await getData();
     });
+
+    const closeLevelModal = async () => {
+      levelModal.value = false;
+      await getData();
+    };
 
     return {
       title,
@@ -88,6 +97,7 @@ export default defineComponent({
       levels,
       levelModal,
       degreeModal,
+      closeLevelModal,
     };
   },
 });
