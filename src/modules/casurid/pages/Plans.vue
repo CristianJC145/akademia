@@ -120,7 +120,6 @@ export default defineComponent({
           }
         });
       }
-
       return levelId;
     });
 
