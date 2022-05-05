@@ -12,9 +12,9 @@
           <input class="form-control" type="text" id="abbreviation" v-model="v$.form.abbreviation.$model">
         </AppFormField>
 
-        <AppFormField :form-control="v$.form.thumbnail">
+        <AppFormField :form-control="v$.form.file">
           <label for="file">Imagen</label>
-          <AppUploadImage v-model="v$.form.thumbnail.$model" :current-thumbnail="currentThumbnail"></AppUploadImage>
+          <AppUploadImage input-id="file" v-model="v$.form.file.$model" :current-thumbnail="currentThumbnail"></AppUploadImage>
         </AppFormField>
       </template>
 
@@ -57,14 +57,14 @@ export default defineComponent({
     const form = reactive({
       name: data?.name ?? null,
       abbreviation: data?.abbreviation ?? null,
-      thumbnail: data?.thumbnail ?? null,
+      file: null,
     });
 
     const v$ = useVuelidate({
       form: {
         name: {required},
         abbreviation: {},
-        thumbnail: {},
+        file: {},
       },
     }, {form});
 

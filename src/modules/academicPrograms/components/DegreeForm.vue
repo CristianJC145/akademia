@@ -11,6 +11,12 @@
           <label for="abbreviation">Abreviación</label>
           <input class="form-control" type="text" id="abbreviation" v-model="v$.form.abbreviation.$model">
         </AppFormField>
+
+        <AppFormField :form-control="v$.form.file">
+          <label for="file">Imagen</label>
+          <AppUploadImage input-id="file" v-model="v$.form.file.$model"
+                          :current-thumbnail="currentThumbnail"></AppUploadImage>
+        </AppFormField>
       </template>
 
       <template v-slot:actions>
@@ -26,16 +32,18 @@
 import {defineComponent, reactive} from 'vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
-import {useVuelidate} from '@vuelidate/core';
 import {required} from '@vuelidate/validators';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
+import AppUploadImage from '../../../shared/components/AppUploadImage.vue';
+
+import {useVuelidate} from '@vuelidate/core';
 import {CreateOrUpdateDegreeService} from '../services/createOrUpdateDegree.service';
 
 const createOrUpdateDegreeService = new CreateOrUpdateDegreeService();
 
 export default defineComponent({
   name: 'DegreeForm',
-  components: {AppButtonLoading, AppFormField, AppFormModal},
+  components: {AppUploadImage, AppButtonLoading, AppFormField, AppFormModal},
   props: ['data', 'levelId'],
   emits: ['close'],
   setup(props, {emit}) {
@@ -46,15 +54,19 @@ export default defineComponent({
       title = 'Editar grado';
     }
 
+    const currentThumbnail = data?.thumbnail;
+
     const form = reactive({
       name: data?.name ?? null,
       abbreviation: data?.abbreviation ?? null,
+      file: null,
     });
 
     const v$ = useVuelidate({
       form: {
         name: {required},
         abbreviation: {},
+        file: {},
       },
     }, {form});
 
@@ -74,6 +86,7 @@ export default defineComponent({
     return {
       v$,
       title,
+      currentThumbnail,
       save,
     };
   },

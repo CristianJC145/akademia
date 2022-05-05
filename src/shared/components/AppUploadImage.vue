@@ -1,6 +1,6 @@
 <template>
   <input type="file" class="form-control" @change="changeFile"
-         id="file"/>
+         :id="inputId"/>
   <a :href="currentThumbnail" target="_blank" v-if="currentThumbnail">
     <small>Ver archivo actual</small>
   </a>
@@ -11,7 +11,7 @@ import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: 'AppUploadImage',
-  props: ['currentThumbnail', 'modelValue'],
+  props: ['currentThumbnail', 'modelValue', 'inputId'],
   emits: ['update:modelValue'],
   setup(props, {emit}) {
 
@@ -19,7 +19,6 @@ export default defineComponent({
       const files = event.target.files;
 
       if (files[0]) {
-        // form.thumbnail = files[0];
         emit('update:modelValue', files[0]);
       } else {
         emit('update:modelValue', null);
