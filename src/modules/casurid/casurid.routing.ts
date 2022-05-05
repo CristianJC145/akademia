@@ -28,6 +28,7 @@ export const casuridRouting = [
             {
                 path: 'shopping-cart',
                 component: ShoppingCartPage,
+                beforeEnter: [authGuard],
             },
             {
                 path: 'detail/:slug',
@@ -36,6 +37,7 @@ export const casuridRouting = [
             {
                 path: 'shopping',
                 component: ShoppingPage,
+                beforeEnter: [authGuard],
             },
             {
                 path: 'register',

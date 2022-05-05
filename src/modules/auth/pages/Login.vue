@@ -34,6 +34,7 @@ import AppFormField from '../../../shared/components/AppFormField.vue';
 import AppErrorAlert from '../../../shared/components/AppErrorAlert.vue';
 import AppLogin from '../../../shared/components/AppLogin.vue';
 import {settings} from '../../../shared/constant/settings.contants';
+import {useRoute} from 'vue-router';
 
 const isAuthenticatedService: IsAuthenticatedService = new IsAuthenticatedService();
 
@@ -42,9 +43,15 @@ export default defineComponent({
   components: {AppLogin, AppErrorAlert, AppFormField, AppIcon},
   setup() {
     const appLogo = settings.appLogo;
-    const defaultRouteRedirect = '/admin/home';
+    let defaultRouteRedirect = '/admin/home';
     const showModal = ref(false);
     const allowRegistration = settings.appAllowRegistration;
+
+    const route = useRoute();
+
+    if (route.query.redirectURL) {
+      defaultRouteRedirect = route.query.redirectURL as string;
+    }
 
     onMounted(() => {
       const isAuth = isAuthenticatedService.run();

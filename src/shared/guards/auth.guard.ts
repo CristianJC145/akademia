@@ -27,9 +27,14 @@ export async function authGuard(to: RouteLocationNormalized, from: RouteLocation
     const redirectUrl = to.fullPath === '/sign-out' ? '/' : to.fullPath;
 
     const isCheck = await check(redirectUrl);
-    
+
     if (!isCheck) {
-       return next('/auth/login');
+        return next({
+            path: '/auth/login',
+            query: {
+                redirectURL: to.path,
+            },
+        });
     }
 
     return next();
