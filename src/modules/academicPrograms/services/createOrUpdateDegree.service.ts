@@ -4,6 +4,7 @@ import {services} from '../../../shared/constant/services';
 interface ICreateOrUpdateDegreeService {
     name: string;
     abbreviation?: string;
+    levelId: number;
 }
 
 export class CreateOrUpdateDegreeService extends CreateOrUpdateBaseService<ICreateOrUpdateDegreeService> {

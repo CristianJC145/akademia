@@ -36,7 +36,7 @@ const createOrUpdateDegreeService = new CreateOrUpdateDegreeService();
 export default defineComponent({
   name: 'DegreeForm',
   components: {AppButtonLoading, AppFormField, AppFormModal},
-  props: ['data'],
+  props: ['data', 'levelId'],
   emits: ['close'],
   setup(props, {emit}) {
     const data = props.data ?? {};
@@ -64,7 +64,7 @@ export default defineComponent({
       if (!formIsValid) return;
 
       try {
-        await createOrUpdateDegreeService.run(form, data?.id);
+        await createOrUpdateDegreeService.run({...form, levelId: props.levelId}, data?.id);
         emit('close');
       } catch (e) {
 

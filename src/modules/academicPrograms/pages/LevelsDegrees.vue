@@ -43,7 +43,8 @@
       </AppModal>
 
       <AppModal v-model="degreeModal">
-        <DegreeForm v-if="degreeModal" :data="currentDegree.value" @close="closeDegreeModal"></DegreeForm>
+        <DegreeForm v-if="degreeModal" :data="currentDegree.value" :level-id="currentLevelId"
+                    @close="closeDegreeModal"></DegreeForm>
       </AppModal>
 
       <AppModal v-model="deleteModal">
@@ -72,10 +73,12 @@ import {DeleteLevelService} from '../services/deleteLevel.service';
 import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteModal.vue';
 import {DegreeDto} from '../dtos/degree.dto';
 import DegreeForm from '../components/DegreeForm.vue';
+import {DeleteDegreeService} from '../services/deleteDegree.service';
 
 
 const getLevelsWithDegreesService = new GetLevelsWithDegreesService();
 const deleteLevelService = new DeleteLevelService();
+const deleteDegreeService = new DeleteDegreeService();
 
 export default defineComponent({
   name: 'LevelsDegrees',
@@ -104,6 +107,7 @@ export default defineComponent({
     const loading = ref(true);
     const levelModal = ref(false);
     const degreeModal = ref(false);
+    const currentLevelId = ref();
     const currentLevel: { value: LevelDto | null } = reactive({
       value: null,
     });
@@ -134,6 +138,7 @@ export default defineComponent({
     const openDegreeModal = (levelId: number, degree: DegreeDto | null) => {
       currentDegree.value = degree;
       degreeModal.value = true;
+      currentLevelId.value = levelId;
     };
 
     const closeDegreeModal = async () => {
@@ -159,7 +164,7 @@ export default defineComponent({
       if (currentEntity.value === entityLevel) {
         await deleteLevelService.run(currentDataDelete.value.id);
       } else if (currentEntity.value === entityDegree) {
-
+        await deleteDegreeService.run(currentDataDelete.value.id);
       }
 
       deleteModal.value = false;
@@ -179,6 +184,7 @@ export default defineComponent({
       entityDegree,
       currentEntity,
       currentDegree,
+      currentLevelId,
       openLevelModal,
       openDegreeModal,
       closeLevelModal,
