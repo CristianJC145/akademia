@@ -11,6 +11,11 @@
           <label for="abbreviation">Abreviación</label>
           <input class="form-control" type="text" id="abbreviation" v-model="v$.form.abbreviation.$model">
         </AppFormField>
+
+        <AppFormField :form-control="v$.form.thumbnail">
+          <label for="file">Imagen</label>
+          <AppUploadImage v-model="v$.form.thumbnail.$model" :current-thumbnail="currentThumbnail"></AppUploadImage>
+        </AppFormField>
       </template>
 
       <template v-slot:actions>
@@ -30,12 +35,13 @@ import {useVuelidate} from '@vuelidate/core';
 import {required} from '@vuelidate/validators';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import {CreateOrUpdateLevelService} from '../services/createOrUpdateLevel.service';
+import AppUploadImage from '../../../shared/components/AppUploadImage.vue';
 
 const createOrUpdateLevelService = new CreateOrUpdateLevelService();
 
 export default defineComponent({
   name: 'LevelForm',
-  components: {AppButtonLoading, AppFormField, AppFormModal},
+  components: {AppUploadImage, AppButtonLoading, AppFormField, AppFormModal},
   props: ['data'],
   emits: ['close'],
   setup(props, {emit}) {
@@ -46,15 +52,19 @@ export default defineComponent({
       title = 'Editar nivel';
     }
 
+    const currentThumbnail = data?.thumbnail;
+
     const form = reactive({
       name: data?.name ?? null,
       abbreviation: data?.abbreviation ?? null,
+      thumbnail: data?.thumbnail ?? null,
     });
 
     const v$ = useVuelidate({
       form: {
         name: {required},
         abbreviation: {},
+        thumbnail: {},
       },
     }, {form});
 
@@ -74,6 +84,7 @@ export default defineComponent({
     return {
       v$,
       title,
+      currentThumbnail,
       save,
     };
   },
