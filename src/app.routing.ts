@@ -11,6 +11,7 @@ import {initDataResolver} from './shared/resolvers/initData.resolver';
 import {ltiRouting} from './modules/lti-provider/lti.routing';
 import {academicProgramsRouting} from './modules/academicPrograms/academicPrograms.routing';
 import {useMeta} from 'vue-meta';
+import {ErrorAlertService} from './shared/services/errorAlert.service';
 
 const appRouting: RouteRecordRaw[] = [
     {
@@ -72,9 +73,10 @@ const router = VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes: appRouting,
 });
+const errorAlertService = new ErrorAlertService();
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-    
+    errorAlertService.hide();
 
     next();
 });
