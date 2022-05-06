@@ -1,9 +1,9 @@
 <template>
   <div class="d-flex flex-column w-100 h-100 justify-content-center align-items-center p-4">
-    <div class="w-100 d-flex justify-content-center">
+    <router-link to="/" class="w-100 d-flex justify-content-center">
       <img class="img-main"
            :src="appLogo"/>
-    </div>
+    </router-link>
 
     <div class="card login-container shadow-sm w-100 mt-4">
       <div class="card-body p-4">
@@ -43,7 +43,7 @@ export default defineComponent({
   components: {AppLogin, AppErrorAlert, AppFormField, AppIcon},
   setup() {
     const appLogo = settings.appLogo;
-    let defaultRouteRedirect = '/admin/home';
+    let defaultRouteRedirect = '/';
     const showModal = ref(false);
     const allowRegistration = settings.appAllowRegistration;
 
