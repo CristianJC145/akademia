@@ -44,7 +44,6 @@ export default defineComponent({
   props: ['data', 'areaId'],
   emits: ['close'],
   setup(props, {emit}) {
-    console.log(props);
     const data = props.data ?? {};
     let title = 'Nueva asignatura';
 

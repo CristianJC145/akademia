@@ -8,7 +8,7 @@
       <AppLoading v-if="loading"></AppLoading>
       <div content class="flex flex-col gap-2.5">
         <h2 class="tw-text-lg tw-font-light">Áreas</h2>
-        <AppContainerNewRecord @click="openAreaModal()">
+        <AppContainerNewRecord @click="openAreaModal">
         </AppContainerNewRecord>
       </div>
       <AppAccordion class="mt-2" v-slot="{ accordionId }">
@@ -41,6 +41,7 @@
                 </div>
               </div>
             </div>
+            <hr>
             <div class="tw-flex tw-justify-end tw-gap-2">
               <AppButtonEdit @click="openAreaModal(area)"></AppButtonEdit>
               <AppButtonDelete
@@ -88,6 +89,7 @@ import AppEmptyResponse from "../../../shared/components/AppEmptyResponse.vue";
 import AppButtonEdit from "../../../shared/components/AppButtonEdit.vue";
 import AppButtonDelete from "../../../shared/components/AppButtonDelete.vue";
 import AppConfirmDeleteModal from "../../../shared/components/AppConfirmDeleteModal.vue";
+import AppLoading from "../../../shared/components/AppLoading.vue";
 
 import SubjectForm from "../components/SubjectForm.vue";
 import AreaForm from "../components/AreaForm.vue";
@@ -111,6 +113,7 @@ export default defineComponent({
     AppContainerNewRecord,
     AppModal,
     AreaForm,
+    AppLoading,
     AppAccordion,
     AppAccordionItem,
     AppEmptyResponse,
@@ -124,7 +127,6 @@ export default defineComponent({
     const routes = [
       {
         name: title,
-        
       },
     ];
 
