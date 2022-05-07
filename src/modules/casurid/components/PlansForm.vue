@@ -48,13 +48,10 @@
                   </AppFormField>
                 </div>
 
-                <AppFormField :form-control="v$.form.file">
-                  <label for="file">Carátula</label>
-                  <input type="file" class="form-control" @change="changeFile"
-                         id="file"/>
-                  <a :href="currentThumbnail" target="_blank" v-if="currentThumbnail">
-                    <small>Ver archivo actual</small>
-                  </a>
+                <AppFormField :form-control="v$.form.thumbnail">
+                  <label for="thumbnail">Carátula</label>
+                  <AppUploadImage v-model="v$.form.thumbnail.$model" :current-thumbnail="currentThumbnail"
+                                  input-id="thumbnail"></AppUploadImage>
                 </AppFormField>
               </div>
 
@@ -90,13 +87,14 @@ import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import {ContentDto} from '../dtos/content.dto';
 import AppBackButton from '../../../shared/components/AppBackButton.vue';
 import {CreateOrUpdatePlanService} from '../services/createOrUpdatePlan.service';
+import AppUploadImage from '../../../shared/components/AppUploadImage.vue';
 
 const getRelatedDataPlansFormService = new GetRelatedDataPlansFormService();
 const createOrUpdatePlanService = new CreateOrUpdatePlanService();
 
 export default defineComponent({
   name: 'PlansForm',
-  components: {AppBackButton, AppButtonLoading, AppFormField, AppLoading, AppBaseList},
+  components: {AppUploadImage, AppBackButton, AppButtonLoading, AppFormField, AppLoading, AppBaseList},
   props: ['title', 'routes', 'data'],
   setup(props) {
     const title = props.title;
@@ -125,7 +123,7 @@ export default defineComponent({
       index: data?.index,
       defaultUnitValue: data?.defaultUnitValue,
       validityPeriod: data?.validityPeriod,
-      file: null,
+      thumbnail: null,
       contentsIds: data?.contentsIds ?? [],
     });
 
@@ -136,7 +134,7 @@ export default defineComponent({
         index: {url},
         defaultUnitValue: {required, numeric},
         validityPeriod: {required, numeric},
-        file: !data?.id ? {required} : {},
+        thumbnail: !data?.id ? {required} : {},
         contentsIds: {required},
       },
     }, {form});
@@ -163,16 +161,6 @@ export default defineComponent({
       }
       loading.value = false;
     });
-
-    const changeFile = (event: any) => {
-      const files = event.target.files;
-
-      if (files[0]) {
-        form.file = files[0];
-      } else {
-        form.file = null;
-      }
-    };
 
     const saveAndCreate = async () => {
       routeBack.value = 'casurid.plansCreate';
@@ -220,7 +208,6 @@ export default defineComponent({
       save,
       saveAndCreate,
       saveAndExit,
-      changeFile,
     };
   },
 });
