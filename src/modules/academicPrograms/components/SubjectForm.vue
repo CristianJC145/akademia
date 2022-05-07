@@ -13,7 +13,7 @@
         <AppFormField :form-control="v$.form.file">
           <label for="file">Imagen</label>
           <AppUploadImage input-id="file" v-model="v$.form.file.$model"
-                          :current-thumbnail="currentFile"></AppUploadImage>
+                          :current-thumbnail="currentThumbnail"></AppUploadImage>
         </AppFormField>
       </template>
       <template v-slot:actions>
@@ -81,7 +81,7 @@ export default defineComponent({
     return {
       v$,
       title,
-      currentFile: currentThumbnail,
+      currentThumbnail,
       save,
     };
   },

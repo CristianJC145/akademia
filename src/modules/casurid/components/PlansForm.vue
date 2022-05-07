@@ -216,7 +216,7 @@ export default defineComponent({
       loading,
       subtitle,
       contents,
-      currentFile: currentThumbnail,
+      currentThumbnail,
       save,
       saveAndCreate,
       saveAndExit,
