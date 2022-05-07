@@ -63,14 +63,16 @@
             </AppFormField>
 
             <div class="form-row">
-              <AppFormField :form-control="v$.form.index">
-                <label for="index">URL tabla de contenido</label>
-                <input type="text" class="form-control" v-model="v$.form.index.$model" id="index"/>
+              <AppFormField :form-control="v$.form.contentPdf">
+                <label for="index">Tabla de contenido</label>
+                <AppUploadFile input-id="index" v-model="v$.form.contentPdf.$model"
+                               :current-file="currentContentPdf"></AppUploadFile>
               </AppFormField>
 
-              <AppFormField :form-control="v$.form.urlLocation">
-                <label for="urlLocation">URL Contenido</label>
-                <input type="text" class="form-control" v-model="v$.form.urlLocation.$model" id="urlLocation"/>
+              <AppFormField :form-control="v$.form.contentZip">
+                <label for="urlLocation">Contenido</label>
+                <AppUploadFile input-id="urlLocation" v-model="v$.form.contentZip.$model"
+                               :current-file="currentContentZip"></AppUploadFile>
               </AppFormField>
 
               <AppFormField :form-control="v$.form.duration">
@@ -102,13 +104,14 @@ import {numeric, required, url} from '@vuelidate/validators';
 import {GetFiltersContentForm} from '../services/getFiltersContentForm.service';
 import {CreateOrUpdateContentService} from '../services/createOrUpdateContent.service';
 import AppLoading from '../../../shared/components/AppLoading.vue';
+import AppUploadFile from '../../../shared/components/AppUploadFile.vue';
 
 const getFiltersContentForm = new GetFiltersContentForm();
 const createOrUpdateContentService = new CreateOrUpdateContentService();
 
 export default defineComponent({
   name: 'ContentsForm',
-  components: {AppLoading, AppButtonLoading, AppFormField, AppBackButton, AppBaseList},
+  components: {AppUploadFile, AppLoading, AppButtonLoading, AppFormField, AppBackButton, AppBaseList},
   props: ['title', 'routes', 'data'],
   setup(props) {
     const title = props.title;
@@ -131,14 +134,17 @@ export default defineComponent({
       value: [],
     });
 
+    const currentContentZip = data?.urlLocation;
+    const currentContentPdf = data?.index;
+
     const form = reactive({
       degreeId: data?.degreeId,
       subjectId: data?.subjectId,
       title: data?.title,
       description: data?.description,
       contentTypeId: data?.contentTypeId,
-      urlLocation: data?.urlLocation,
-      index: data?.index,
+      contentZip: null,
+      contentPdf: null,
       duration: data?.duration,
     });
 
@@ -148,8 +154,8 @@ export default defineComponent({
         subjectId: {required},
         title: {required},
         description: {},
-        urlLocation: {url},
-        index: {url},
+        contentZip: data?.id ? {} : {required},
+        contentPdf: data?.id ? {} : {required},
         contentTypeId: {required},
         duration: {required, numeric},
       },
@@ -206,6 +212,8 @@ export default defineComponent({
       subjects,
       levelsDegrees,
       v$,
+      currentContentZip,
+      currentContentPdf,
       save,
     };
   },

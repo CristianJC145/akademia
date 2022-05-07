@@ -14,6 +14,7 @@ import PlansPage from './pages/Plans.vue';
 import PlansCreatePage from './pages/PlansCreate.vue';
 import PlansEditPage from './pages/PlansEdit.vue';
 import InstitutionsPage from './pages/Institutions.vue';
+import SalesPage from './pages/Sales.vue';
 
 const appName = 'casurid';
 
@@ -84,6 +85,11 @@ export const casuridRouting = [
                 path: 'plans/:planId/edit',
                 component: PlansEditPage,
                 name: `${appName}.plansEdit`,
+            },
+            {
+                path: 'sales',
+                component: SalesPage,
+                name: `${appName}.salesList`,
             },
             {
                 path: 'institutions',

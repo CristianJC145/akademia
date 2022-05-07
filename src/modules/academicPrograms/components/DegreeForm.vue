@@ -86,7 +86,7 @@ export default defineComponent({
     return {
       v$,
       title,
-      currentThumbnail,
+      currentFile: currentThumbnail,
       save,
     };
   },
