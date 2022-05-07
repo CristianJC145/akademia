@@ -14,7 +14,7 @@ interface IPaymentRegisterService {
         totalPurchase: number;
         isCredit: boolean;
         isQuote: boolean;
-        totalPaid: number;
+        totalPaid?: number;
         observations?: string;
     },
     quotes?: number | null;
