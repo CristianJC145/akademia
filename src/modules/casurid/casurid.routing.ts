@@ -14,6 +14,8 @@ import PlansPage from './pages/Plans.vue';
 import PlansCreatePage from './pages/PlansCreate.vue';
 import PlansEditPage from './pages/PlansEdit.vue';
 import InstitutionsPage from './pages/Institutions.vue';
+import InstitutionsCreatePage from './pages/InstitutionsCreate.vue';
+import InstitutionsEditPage from './pages/InstitutionsEdit.vue';
 
 const appName = 'casurid';
 
@@ -89,6 +91,16 @@ export const casuridRouting = [
                 path: 'institutions',
                 component: InstitutionsPage,
                 name: `${appName}.institutionsList`,
+            },
+            {
+                path: 'institutions/create',
+                component: InstitutionsCreatePage,
+                name: `${appName}.institutionsCreate`,
+            },
+            {
+                path: 'institutions/:institutionId/edit',
+                component: InstitutionsEditPage,
+                name: `${appName}.institutionsEdit`,
             },
         ],
     },
