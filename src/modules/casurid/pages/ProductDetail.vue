@@ -42,9 +42,9 @@
             <div class="card-body">
               <h2 class="h6">{{ content.title }}</h2>
               <p>{{ content.description }}</p>
-              <router-link v-if="content.index" :to="content.index" class="btn btn-primary fa-pull-right text-white">
+              <a v-if="content.index" :href="content.index" class="btn btn-primary fa-pull-right text-white" target="_blank">
                 Ver indice
-              </router-link>
+              </a>
             </div>
           </div>
         </div>

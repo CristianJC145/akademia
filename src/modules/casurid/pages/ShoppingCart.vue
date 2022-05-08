@@ -107,9 +107,12 @@
               </span>
               </div>
 
-              <div class="d-grid">
+              <div class="d-grid gap-2">
                 <button class="btn btn-primary text-white" @click="showModalPayment = !showModalPayment">
                   PAGAR
+                </button>
+                <button class="btn btn-outline-primary" @click="saveQuote">
+                  COTIZAR
                 </button>
               </div>
             </div>
@@ -141,10 +144,13 @@ import AppLoading from '../../../shared/components/AppLoading.vue';
 import AppModal from '../../../shared/components/AppModal.vue';
 import Payment from '../components/Payment.vue';
 import {useI18n} from 'vue-i18n';
+import {PaymentRegisterService} from '../services/paymentRegister.service';
+import {useRouter} from 'vue-router';
 
 const getShoppingCartService = new GetShoppingCartService();
 const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
 const deleteProductCatalogueToCartService = new DeleteProductCatalogueToCartService();
+const paymentRegisterService = new PaymentRegisterService();
 
 export default defineComponent({
   name: 'ShoppingCart',
@@ -167,6 +173,8 @@ export default defineComponent({
         name: 'Carrito de compras',
       },
     ];
+
+    const router = useRouter();
 
     onMounted(async () => {
       loading.value = true;
@@ -222,16 +230,35 @@ export default defineComponent({
 
     const showModalPayment = ref(false);
 
+    const saveQuote = async () => {
+      await paymentRegisterService.run({
+        invoice: {
+          // TODO: Quitar
+          totalValue: total.value,
+          // TODO: Quitar
+          totalDiscount: 0,
+          // TODO: Quitar
+          totalPurchase: total.value,
+          isQuote: false,
+          totalPaid: total.value,
+          // TODO: Quitar
+          isCredit: false,
+        },
+      });
+      await router.push('/shopping');
+    };
+
     return {
       shoppingCart,
       total,
       routes,
       loading,
+      showModalPayment,
+      n,
       updateShoppingCart,
       increaseOrDecreaseAmounts,
       deleteShoppingCart,
-      showModalPayment,
-      n,
+      saveQuote,
     };
   },
 });

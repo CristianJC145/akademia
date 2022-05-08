@@ -11,6 +11,8 @@ import {initDataResolver} from './shared/resolvers/initData.resolver';
 import {ltiRouting} from './modules/lti-provider/lti.routing';
 import {academicProgramsRouting} from './modules/academicPrograms/academicPrograms.routing';
 import {useMeta} from 'vue-meta';
+import {ErrorAlertService} from './shared/services/errorAlert.service';
+import {authGuard} from './shared/guards/auth.guard';
 
 const appRouting: RouteRecordRaw[] = [
     {
@@ -63,6 +65,7 @@ const appRouting: RouteRecordRaw[] = [
                 path: '/academic-programs',
                 component: AppLayout,
                 children: academicProgramsRouting,
+                beforeEnter: [authGuard],
             },
         ],
     },
@@ -72,9 +75,10 @@ const router = VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes: appRouting,
 });
+const errorAlertService = new ErrorAlertService();
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-    
+    errorAlertService.hide();
 
     next();
 });

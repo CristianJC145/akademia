@@ -1,5 +1,5 @@
 <template>
-  <form @submit="login()">
+  <form @submit.prevent="login">
     <AppFormField :form-control="v$.form.username">
       <label for="username">Nombre de usuario</label>
       <input type="text" class="form-control" name="username" id="username" v-model="v$.form.username.$model"/>

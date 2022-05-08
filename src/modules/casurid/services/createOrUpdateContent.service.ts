@@ -7,12 +7,13 @@ export interface ICreateOrUpdateContentService {
     subjectId: number | null;
     title: string | null;
     description: string | null;
-    index: string | null;
+    contentZip: any | null;
     contentTypeId: number | null;
-    urlLocation: string | null;
+    contentPdf: any | null;
     duration: number | null;
 }
 
 export class CreateOrUpdateContentService extends CreateOrUpdateBaseService<ICreateOrUpdateContentService> {
     url = `${services.casurid}/catalogue/admin/contents`;
+    isFormData = true;
 }
