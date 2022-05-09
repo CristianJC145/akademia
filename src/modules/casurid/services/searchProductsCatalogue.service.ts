@@ -21,7 +21,6 @@ export class SearchProductsCatalogueService {
 
             data.data.forEach((products) => {
                 products.thumbnail = products.thumbnail ?? ImageNotAvailable;
-                // products.thumbnail = products.thumbnail ?? '/src/assets/images/' + products.title + '-' + products.DegreeName + '.png';
             });
 
             return data;
