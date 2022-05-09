@@ -77,7 +77,7 @@
               </span>
             </td>
             <td>
-
+              <AppButtonEdit :to="{ name: 'casurid.salesEdit', params: { saleId: sale.id } }"></AppButtonEdit>
             </td>
           </tr>
         </template>
@@ -99,6 +99,7 @@ import {GetStartAndEndDateMonthService} from '../../../shared/services/getStartA
 import {InstitutionDto} from '../../../shared/dto/institution.dto';
 import {GetInstitutionsForSelectService} from '../services/getInstitutionsForSelect.service';
 import {debounce} from 'ts-debounce';
+import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 
 
 const getStatusInstitutionsService = new GetStatusInstitutionsService();
@@ -107,7 +108,7 @@ const getInstitutionsForSelectService = new GetInstitutionsForSelectService();
 
 export default defineComponent({
   name: 'Sales',
-  components: {AppLoading, AppFormField, AppDatatable, AppBaseList},
+  components: {AppButtonEdit, AppLoading, AppFormField, AppDatatable, AppBaseList},
   setup() {
     const title = 'Ventas';
     const routes = [
