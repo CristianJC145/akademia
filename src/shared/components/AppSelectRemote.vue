@@ -1,5 +1,6 @@
 <template>
   <v-select
+      v-if="!loading"
       v-model="value"
       :filterable="false"
       @search="search"
@@ -10,14 +11,16 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref} from 'vue';
+import {defineComponent, onMounted, reactive, ref, watch} from 'vue';
 import {debounce} from 'ts-debounce';
 
 export default defineComponent({
   name: 'AppSelectRemote',
   props: ['modelValue', 'service', 'label', 'reduce', 'init'],
-  setup(props) {
+  emits: ['update:modelValue'],
+  setup(props, {emit}) {
     const value = ref(props.modelValue);
+    const loading = ref(true);
     const options: { value: any[] } = reactive({
       value: [],
     });
@@ -35,15 +38,22 @@ export default defineComponent({
       }
     }, 800);
 
+    watch(value, (newValue) => {
+      emit('update:modelValue', newValue);
+    });
+
     onMounted(() => {
       if (props.init) {
         options.value.push(props.init);
       }
+
+      loading.value = false;
     });
 
     return {
       value,
       options,
+      loading,
       search,
     };
   },
