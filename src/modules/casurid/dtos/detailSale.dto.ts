@@ -1,15 +1,15 @@
 import {TimestampDto} from '../../../shared/dto/timestamp.dto';
 
 export interface DetailSaleDto extends TimestampDto{
-    id: number;
+    id: number | null;
     description?: any;
-    invoiceId: number;
-    productId: number;
+    invoiceId: number | null;
+    productId: number | null;
     productValueId?: any;
-    quantity: number;
-    unitValue: number;
+    quantity: number | null;
+    unitValue: number | null;
     percentDiscount?: number;
-    totalValue: number;
+    totalValue: number | null;
     productName?: string;
     validityPeriod?: number;
 }

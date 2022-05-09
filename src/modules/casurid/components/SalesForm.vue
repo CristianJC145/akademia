@@ -50,7 +50,16 @@
 
               <tbody>
               <tr v-for="detail in data.value.details">
-                <td>{{ detail.productName }}</td>
+                <td style="width: 35%">
+                  <AppSelectRemote
+                      v-model="detail.productId"
+                      :service="getProductsForSelectService"
+                      label="title"
+                      :reduce="product => product.id"
+                      :init="detail.id ? { id: detail.id, title: detail.productName } : null"
+                      @option:selected="selectProduct($event, detail)"
+                  ></AppSelectRemote>
+                </td>
                 <td>{{ n(detail.unitValue, 'currency') }}</td>
                 <td>
                   <input type="number" class="form-control input-quantity" v-model="detail.quantity">
@@ -60,7 +69,11 @@
               </tbody>
             </table>
 
-            <div class="row">
+            <button class="btn btn-outline-primary" type="button" @click="addNewProduct">
+              Agregar producto
+            </button>
+
+            <div class="row mt-2">
               <div class="col-12 col-md-8">
                 <AppFormField>
                   <label for="observation">Observaciones</label>
@@ -109,22 +122,35 @@ import {useI18n} from 'vue-i18n';
 
 import {SaleDto} from '../dtos/sale.dto';
 import {CreateOrUpdateSaleService} from '../services/createOrUpdateSale.service';
+import {useRouter} from 'vue-router';
+import {GetProductsForSelectService} from '../services/getProductsForSelect.service';
+import AppSelectRemote from '../../../shared/components/AppSelectRemote.vue';
 
 const createOrUpdateSaleService = new CreateOrUpdateSaleService();
 
 export default defineComponent({
   name: 'SalesForm',
-  components: {AppFormField, AppButtonLoading, AppBackButton, AppBaseList},
+  components: {AppSelectRemote, AppFormField, AppButtonLoading, AppBackButton, AppBaseList},
   props: ['title', 'routes', 'data'],
   setup(props) {
+    const router = useRouter();
     const data: { value: SaleDto } = reactive({
       value: props.data,
     });
 
     const {n} = useI18n();
 
+    const getProductsForSelectService = new GetProductsForSelectService();
+
     const save = async () => {
       try {
+        data.value.details.forEach((detail, key) => {
+          console.log(detail);
+          if (!detail.productId || !detail.quantity) {
+            data.value.details.splice(key, 1);
+          }
+        });
+
         await createOrUpdateSaleService.run({
           invoice: {
             // TODO: Quitar campos no necesarios
@@ -146,6 +172,10 @@ export default defineComponent({
             totalValue: detail.totalValue,
           })),
         }, data.value.id);
+
+        await router.push({
+          name: 'casurid.salesList',
+        });
       } catch (e) {
 
       }
@@ -155,7 +185,7 @@ export default defineComponent({
       let subtotal = 0;
 
       data.value.details.forEach((detail) => {
-        subtotal += detail.unitValue * detail.quantity;
+        subtotal += ((detail.unitValue ?? 0) * (detail.quantity ?? 0));
       });
 
       return subtotal;
@@ -163,12 +193,31 @@ export default defineComponent({
 
     const total = computed(() => subtotal.value - data.value.totalDiscount);
 
+    const addNewProduct = () => {
+      data.value.details.push({
+        id: null,
+        description: null,
+        invoiceId: data.value.id,
+        productId: null,
+        quantity: null,
+        unitValue: 0,
+        totalValue: 0,
+      });
+    };
+
+    const selectProduct = (event: any, data: any) => {
+      data.unitValue = event.defaultUnitValue;
+    };
+
     return {
       data,
       n,
       subtotal,
       total,
+      getProductsForSelectService,
       save,
+      addNewProduct,
+      selectProduct,
     };
   },
 });
