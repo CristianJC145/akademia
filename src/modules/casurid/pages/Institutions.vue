@@ -62,7 +62,7 @@
                         <td class="d-flex gap-2">
                             <AppButtonEdit :to="{ name:'casurid.institutionsEdit', params: { institutionId: content.id } }"></AppButtonEdit>
 
-                            <router-link to="#" class="btn btn-outline-primary"
+                            <router-link :to="{ name:'casurid.institutionsContentPlan', params: { institutionId: content.id } }" class="btn btn-outline-primary"
                                 v-tooltip="'Plan de Contenidos'"
                             >
                                 <AppIcon icon="calendar-week" class="blue" size="lg"/>
