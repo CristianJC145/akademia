@@ -100,6 +100,7 @@ import {InstitutionDto} from '../../../shared/dto/institution.dto';
 import {GetInstitutionsForSelectService} from '../services/getInstitutionsForSelect.service';
 import {debounce} from 'ts-debounce';
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
+import {useMeta} from 'vue-meta';
 
 
 const getStatusInstitutionsService = new GetStatusInstitutionsService();
@@ -116,6 +117,9 @@ export default defineComponent({
         name: title,
       },
     ];
+    useMeta({
+      title,
+    });
     const {n} = useI18n();
     const status: { value: any } = reactive({
       value: [],

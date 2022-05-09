@@ -125,6 +125,7 @@ import {CreateOrUpdateSaleService} from '../services/createOrUpdateSale.service'
 import {useRouter} from 'vue-router';
 import {GetProductsForSelectService} from '../services/getProductsForSelect.service';
 import AppSelectRemote from '../../../shared/components/AppSelectRemote.vue';
+import {useMeta} from 'vue-meta';
 
 const createOrUpdateSaleService = new CreateOrUpdateSaleService();
 
@@ -136,6 +137,10 @@ export default defineComponent({
     const router = useRouter();
     const data: { value: SaleDto } = reactive({
       value: props.data,
+    });
+
+    useMeta({
+      title: props.title,
     });
 
     const {n} = useI18n();
