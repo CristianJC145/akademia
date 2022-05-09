@@ -156,7 +156,7 @@ export default defineComponent({
                 municipalityId: data?.institution?.municipalityId,
                 email: data?.user?.userToken,
                 active: data?.institution?.active ?? 0,
-                isClient: data?.institution?.isClient ? true : false,
+                isClient: !!data?.institution?.isClient,
                 secretKey: data?.institution?.secretKey,
                 publicKey: data?.institution?.publicKey ?? null,
                 lmsUrlApiRest: data?.institution?.lmsUrlApiRest,
@@ -179,9 +179,9 @@ export default defineComponent({
                     email: {required},
                     active: {numeric},
                     isClient: {},
-                    secretKey: {required},
+                    secretKey: {},
                     publicKey: {},
-                    lmsUrlApiRest: {required, url},
+                    lmsUrlApiRest: {url},
                 },
                 user: {
                     id: {numeric},
@@ -252,7 +252,7 @@ export default defineComponent({
                 
                 await createOrUpdateInstitutionService.run({
                     ...form,
-                }, data?.id);
+                }, data?.institution.id);
 
                 await router.push({
                 name: 'casurid.institutionsList',

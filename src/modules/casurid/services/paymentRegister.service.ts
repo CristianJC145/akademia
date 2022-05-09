@@ -12,7 +12,7 @@ interface IPaymentRegisterService {
         totalDiscount: number;
         // TODO: Quitar
         totalPurchase: number;
-        isCredit: boolean;
+        isCredit?: boolean;
         isQuote: boolean;
         totalPaid?: number;
         observations?: string;

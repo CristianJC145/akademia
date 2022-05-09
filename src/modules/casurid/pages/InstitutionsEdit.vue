@@ -19,7 +19,7 @@ export default defineComponent({
   components: {InstitutionsForm, AppLoading},
 
   setup() {
-    const title = 'Ediar Institución';
+    const title = 'Editar Institución';
 
     const routes = [
       {

@@ -148,7 +148,7 @@ export default defineComponent({
 
       try {
         await registerCustomerService.run(form);
-        await router.push('/');
+        await router.push('/auth/login');
       } catch (e) {
 
       }

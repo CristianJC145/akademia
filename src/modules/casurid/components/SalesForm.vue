@@ -150,7 +150,6 @@ export default defineComponent({
     const save = async () => {
       try {
         data.value.details.forEach((detail, key) => {
-          console.log(detail);
           if (!detail.productId || !detail.quantity) {
             data.value.details.splice(key, 1);
           }
@@ -158,13 +157,16 @@ export default defineComponent({
 
         await createOrUpdateSaleService.run({
           invoice: {
-            // TODO: Quitar campos no necesarios
             observations: data.value.observations,
             totalDiscount: data.value.totalDiscount,
+            // TODO: quitar
             totalPurchase: total.value,
+            // TODO: quitar
             totalValue: subtotal.value,
             isCredit: data.value.isCredit,
+            // TODO: quitar
             institutionId: data.value.institutionId,
+            // TODO: quitar
             userId: data.value.userId,
           },
           details: data.value.details.map((detail) => ({
@@ -174,6 +176,7 @@ export default defineComponent({
             productId: detail.productId,
             quantity: detail.quantity,
             unitValue: detail.unitValue,
+            // TODO: quitar
             totalValue: detail.totalValue,
           })),
         }, data.value.id);

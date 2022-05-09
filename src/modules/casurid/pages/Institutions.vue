@@ -52,7 +52,7 @@
             </template>
 
             <template v-slot:body="{ data }">
-                <template v-for="content in data">
+                <template v-for="content in data" :key="content.id">
                     <tr>
                         <td>{{ content.city }}</td>
                         <td>{{ content.name }}</td>
