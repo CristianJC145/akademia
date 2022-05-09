@@ -1,6 +1,5 @@
 <template>
   <v-select
-      v-if="!loading"
       v-model="value"
       :filterable="false"
       @search="search"
@@ -11,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, ref, watch} from 'vue';
+import {defineComponent, reactive, ref, watch} from 'vue';
 import {debounce} from 'ts-debounce';
 
 export default defineComponent({
@@ -19,8 +18,7 @@ export default defineComponent({
   props: ['modelValue', 'service', 'label', 'reduce', 'init'],
   emits: ['update:modelValue'],
   setup(props, {emit}) {
-    const value = ref(props.modelValue);
-    const loading = ref(true);
+    const value = ref(props.init ? props.init[props.label] : props.modelValue);
     const options: { value: any[] } = reactive({
       value: [],
     });
@@ -42,18 +40,9 @@ export default defineComponent({
       emit('update:modelValue', newValue);
     });
 
-    onMounted(() => {
-      if (props.init) {
-        options.value.push(props.init);
-      }
-
-      loading.value = false;
-    });
-
     return {
       value,
       options,
-      loading,
       search,
     };
   },
