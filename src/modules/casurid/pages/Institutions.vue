@@ -1,7 +1,7 @@
 <template>
   <AppBaseList title="Instituciones" :routes="routes">
     <template v-slot:actions>
-      <router-link :to="{ name: 'casurid.contentsCreate' }" replace class="btn btn-primary text-white">
+      <router-link :to="{ name: 'casurid.institutionsCreate' }" replace class="btn btn-primary text-white">
         {{ t('core.newMale') }}
       </router-link>
     </template>
@@ -60,7 +60,7 @@
                         <td>{{ content.phone }}</td>
                         <td>{{ content.isClient ? 'Cliente' : 'Interesado' }}</td>
                         <td class="d-flex gap-2">
-                            <AppButtonEdit :to="{ name:'casurid.contentsEdit', params: { contentId: content.id } }"></AppButtonEdit>
+                            <AppButtonEdit :to="{ name:'casurid.institutionsEdit', params: { institutionId: content.id } }"></AppButtonEdit>
 
                             <router-link to="#" class="btn btn-outline-primary"
                                 v-tooltip="'Plan de Contenidos'"
@@ -68,10 +68,15 @@
                                 <AppIcon icon="calendar-week" class="blue" size="lg"/>
                             </router-link>
 
-                            <AppButtonDelete></AppButtonDelete>
+                            <AppButtonDelete @click="confirmDelete(content)"></AppButtonDelete>
                         </td>
                     </tr>
                 </template>
+
+                <AppModal v-model="showModalDelete" @close="showModalDelete = false">
+                    <AppConfirmDeleteModal v-if="showModalDelete" entity="Contenido" 
+                                            @confirmDelete="deleteContent"></AppConfirmDeleteModal>
+                </AppModal>
             </template>
         </AppDatatable>
     </template>
@@ -84,26 +89,30 @@ import {debounce} from 'ts-debounce';
 import {useI18n} from 'vue-i18n';
 import {useMeta} from 'vue-meta';
 
+import AppIcon from '../../../shared/components/AppIcon.vue';
+import AppModal from '../../../shared/components/AppModal.vue';
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
 import AppDatatable from '../../../shared/components/AppDatatable.vue';
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
-import AppIcon from '../../../shared/components/AppIcon.vue';
+import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteModal.vue';
 
 import {GetInstitutionsWithPaginationService} from '../services/getInstitutionsWithPagination.service';
-import { UpdateDatatableService } from '../../../shared/services/updateDatatable.service';
-import { GetMunicipalitiesService } from '../services/getMunicipalities.service';
+import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
+import {GetMunicipalitiesService} from '../services/getMunicipalities.service';
+// import {DeleteInstitutionService} from '';
 
-import { MunicipalityDto } from '../../../shared/dto/municipality.dto';
-import { StatusDto } from '../dtos/status.dto';
+import {MunicipalityDto} from '../../../shared/dto/municipality.dto';
+import {StatusDto} from '../dtos/status.dto';
 
 const getMunicipalitiesService = new GetMunicipalitiesService();
 const updateDatatableService = new UpdateDatatableService();
+// const deleteInstitutionService = new DeleteInstitutionService();
 
 export default defineComponent({
     name: 'Instituciones',
 
-    components: {AppBaseList, AppDatatable, AppButtonDelete, AppButtonEdit, AppIcon,},
+    components: {AppBaseList, AppDatatable, AppButtonDelete, AppButtonEdit, AppIcon, AppConfirmDeleteModal, AppModal},
 
     setup() {
         useMeta({
@@ -122,6 +131,10 @@ export default defineComponent({
 
         const cityId = ref();
         const statusId = ref();
+        const showModalDelete = ref(false);
+        const currentContent: { value: any } = reactive({
+            value: null,
+        });
 
         const routes = [
             {
@@ -183,6 +196,22 @@ export default defineComponent({
             updateDatatableService.run();
         };
 
+        const confirmDelete = async (content: any) => {
+            currentContent.value = content;
+            showModalDelete.value = true;
+        };
+
+        const deleteContent = async () => {
+            try {
+                // await deleteInstitutionService.run(currentContent.value.id);
+                console.log('eliminado');
+                showModalDelete.value = false;
+                updateTable();
+            } catch (e) {
+
+            }
+        };
+
         return {
             getInstitutionsWithPaginationService,
             params,
@@ -193,6 +222,9 @@ export default defineComponent({
             searchMunicipalities,
             municipalities,
             status,
+            showModalDelete,
+            confirmDelete,
+            deleteContent,
         }
     },
 });
