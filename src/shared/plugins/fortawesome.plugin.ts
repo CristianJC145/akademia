@@ -44,6 +44,8 @@ import {
     faExclamationCircle,
     faTable,
     faTags,
+    faReceipt,
+    faUniversity,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -90,6 +92,8 @@ export default {
         library.add(faExclamationCircle);
         library.add(faTable);
         library.add(faTags);
+        library.add(faReceipt);
+        library.add(faUniversity);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },
