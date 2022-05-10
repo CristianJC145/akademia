@@ -27,9 +27,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              <button class="btn">
-                <AppIcon icon="shopping-cart" class="blue"></AppIcon>
-              </button>
+              <AddToCart class="tw-w-full md:tw-w-1/4" :product="product.value"></AddToCart>
             </div>
           </div>
         </div>
@@ -42,7 +40,8 @@
             <div class="card-body">
               <h2 class="h6">{{ content.title }}</h2>
               <p>{{ content.description }}</p>
-              <a v-if="content.index" :href="content.index" class="btn btn-primary fa-pull-right text-white" target="_blank">
+              <a v-if="content.index" :href="content.index" class="btn btn-primary fa-pull-right text-white"
+                 target="_blank">
                 Ver indice
               </a>
             </div>
@@ -54,21 +53,24 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, onMounted, reactive, ref, watch} from 'vue';
-import {GetProductCatalogueBySlugService} from '../services/getProductCatalogueBySlug.service';
+import {computed, defineComponent, onMounted, reactive, ref} from 'vue';
+import {useRoute} from 'vue-router';
+import {useI18n} from 'vue-i18n';
+import {useMeta} from 'vue-meta';
+
+import AddToCart from '../components/addToCart.vue';
 import AppLoading from '../../../shared/components/AppLoading.vue';
 import AppIcon from '../../../shared/components/AppIcon.vue';
 import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
 import {BreadCrumbsType} from '../../../shared/types/breadCrumbs.type';
-import {useRoute} from 'vue-router';
-import {useI18n} from 'vue-i18n';
-import {useMeta} from 'vue-meta';
+import {GetProductCatalogueBySlugService} from '../services/getProductCatalogueBySlug.service';
+
 
 const getProductCatalogueBySlugService = new GetProductCatalogueBySlugService();
 
 export default defineComponent({
   name: 'ProductDetail',
-  components: {AppBreadCrumbs, AppLoading, AppIcon},
+  components: {AppBreadCrumbs, AppLoading, AppIcon, AddToCart},
   setup() {
     const slug = ref('');
     const loading = ref(true);
@@ -110,7 +112,6 @@ export default defineComponent({
         });
 
       } catch (e) {
-        console.log(e);
       }
 
       loading.value = false;
