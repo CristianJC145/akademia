@@ -3,7 +3,8 @@
     <AppFormModal :title="title">
       <template v-slot:content>
         <AppFormField>
-          <label for="whiteListEmails">Escriba el correo electrónico de los usuarios con acceso al contenido</label>
+          <label for="whiteListEmails">Escriba el correo electrónico de los usuarios con acceso al contenido. Para
+            agregar mas de un email, puede separarlo por comas.</label>
           <v-select inputId="whiteListEmails"
                     v-model="whiteListEmailsModel.value"
                     :options="whiteListEmailsOptions.value"
@@ -24,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive} from 'vue';
+import {defineComponent, reactive, watch} from 'vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
@@ -55,6 +56,25 @@ export default defineComponent({
         whiteListEmailsModel.value.push(email);
       });
     }
+
+    watch(whiteListEmailsModel, (newValue) => {
+      const newEmails: string[] = [];
+
+      if (!newValue.value.length) return;
+
+      newValue.value.forEach((emails) => {
+        const emailsSplit = emails.split(',');
+
+        emailsSplit.forEach((email) => {
+          newEmails.push(email.trim());
+        });
+      });
+
+      if (newEmails.length !== whiteListEmailsModel.value.length) {
+        whiteListEmailsModel.value = newEmails;
+      }
+
+    });
 
     const save = async () => {
       try {
