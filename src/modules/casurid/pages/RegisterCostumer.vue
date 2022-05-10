@@ -66,7 +66,7 @@
             </div>
 
             <div class="text-center mt-2">
-              <router-link to="/auth/login">
+              <router-link :to="{ name: 'auth.login', query }">
                 ¿Ya te encuentras registrado?, Inicia sesión
               </router-link>
             </div>
@@ -92,7 +92,7 @@ import {GetMunicipalitiesService} from '../services/getMunicipalities.service';
 import {MunicipalityDto} from '../../../shared/dto/municipality.dto';
 import {RegisterCustomerService} from '../services/registerCustomer.service';
 import AppErrorAlert from '../../../shared/components/AppErrorAlert.vue';
-import {useRouter} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 
 const getMunicipalitiesService = new GetMunicipalitiesService();
 const registerCustomerService = new RegisterCustomerService();
@@ -103,6 +103,8 @@ export default defineComponent({
   setup() {
     const loading = ref(false);
     const router = useRouter();
+    const route = useRoute();
+    const query = route.query;
 
     const form = reactive({
       institution: {
@@ -148,7 +150,10 @@ export default defineComponent({
 
       try {
         await registerCustomerService.run(form);
-        await router.push('/auth/login');
+        await router.push({
+          name: 'auth.login',
+          query,
+        });
       } catch (e) {
 
       }
@@ -182,6 +187,7 @@ export default defineComponent({
       form,
       loading,
       municipalities,
+      query,
       register,
       getMunicipalities,
       searchMunicipalities,

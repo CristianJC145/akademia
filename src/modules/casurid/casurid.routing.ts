@@ -36,6 +36,7 @@ export const casuridRouting = [
                 path: 'shopping-cart',
                 component: ShoppingCartPage,
                 beforeEnter: [authGuard],
+                name: `${appName}.shoppingCart`
             },
             {
                 path: 'detail/:slug',

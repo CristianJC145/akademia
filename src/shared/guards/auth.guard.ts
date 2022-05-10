@@ -32,7 +32,7 @@ export async function authGuard(to: RouteLocationNormalized, from: RouteLocation
         return next({
             path: '/auth/login',
             query: {
-                redirectURL: to.path,
+                redirectURL: to.fullPath,
             },
         });
     }

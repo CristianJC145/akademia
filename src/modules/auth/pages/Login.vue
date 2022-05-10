@@ -16,7 +16,7 @@
         </div>
 
         <div class="text-center mt-2" v-if="allowRegistration">
-          <router-link to="/register">
+          <router-link :to="{ path: '/register', query } ">
             ¿Aún no te has registrado?
           </router-link>
         </div>
@@ -49,6 +49,8 @@ export default defineComponent({
 
     const route = useRoute();
 
+    const query = route.query;
+
     if (route.query.redirectURL) {
       defaultRouteRedirect = route.query.redirectURL as string;
     }
@@ -66,6 +68,7 @@ export default defineComponent({
       defaultRouteRedirect,
       showModal,
       allowRegistration,
+      query,
     };
   },
 });
