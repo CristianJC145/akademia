@@ -9,14 +9,14 @@
         </div>
 
         <AppAccordion class="mt-2" v-slot="{ accordionId }">
-          <AppAccordionItem :accordion-id="accordionId" v-for="level in levels.value">
+          <AppAccordionItem :accordion-id="accordionId" v-for="level in levels.value" :key="level.id">
             <template v-slot:head>{{ level.name }}</template>
             <template v-slot:content>
               <h3 class="tw-text-lg tw-font-light">Grados</h3>
               <div :class="{ 'grid-cards': level.degrees.length }">
                 <AppContainerNewRecord @click="openDegreeModal(level.id, null)"></AppContainerNewRecord>
                 <AppEmptyResponse v-if="!level.degrees.length"></AppEmptyResponse>
-                <div class="card" v-for="degree in level.degrees">
+                <div class="card" v-for="degree in level.degrees" :key="degree.id">
                   <div class="card-body">
                     <span class="tw-text-sm">{{ degree.name }}</span>
                     <hr>

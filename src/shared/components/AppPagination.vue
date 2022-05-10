@@ -58,7 +58,7 @@ export default defineComponent({
       } else {
         newCurrentPage = page;
       }
-      console.log('cambiando pagina', newCurrentPage);
+
       emit('update:modelValue', newCurrentPage);
     };
 

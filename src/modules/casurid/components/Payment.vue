@@ -10,7 +10,7 @@
           <AppFormField>
             <label for="paymentMethod">Método de pago</label>
             <select id="paymentMethod" class="form-select" placeholder="Seleccione..." v-model="paymentMethod">
-              <option v-for="method in paymentMethods" :value="method">{{ method }}</option>
+              <option v-for="(method, index) in paymentMethods" :value="method" :key="index">{{ method }}</option>
             </select>
           </AppFormField>
         </div>

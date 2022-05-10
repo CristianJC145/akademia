@@ -49,7 +49,7 @@
               </thead>
 
               <tbody>
-              <tr v-for="detail in data.value.details">
+              <tr v-for="detail in data.value.details" :key="detail.id">
                 <td style="width: 35%">
                   <AppSelectRemote
                       v-model="detail.productId"

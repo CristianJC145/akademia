@@ -18,6 +18,7 @@
           <AppAccordionItem
               :accordion-id="accordionId"
               v-for="area in areas.value"
+              :key="area.id"
           >
             <template v-slot:head>
               {{ area.name }}
@@ -29,7 +30,7 @@
                     @click="openSubjectModal(area.id, null)"
                 ></AppContainerNewRecord>
                 <AppEmptyResponse v-if="!area.subjects.length"></AppEmptyResponse>
-                <div class="card" v-for="subject in area.subjects">
+                <div class="card" v-for="subject in area.subjects" :key="subject.id">
                   <div class="card-body">
                     <span class="tw-text-sm">{{ subject.name }}</span>
                     <hr/>

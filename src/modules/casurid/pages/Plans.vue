@@ -20,7 +20,7 @@
             <AppEmptyResponse :show-image="true" v-if="notFound" :to="{ name: 'casurid.contentsList' }"
                               to-text="Contenidos"></AppEmptyResponse>
             <div v-else class="accordion" id="accordionExample">
-              <div class="accordion-item" v-for="plan in plans.value">
+              <div class="accordion-item" v-for="plan in plans.value" :key="plan.id">
                 <h2 class="accordion-header" id="headingOne">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                           :data-bs-target="`#collapse-${plan.subjectId}`"
@@ -36,7 +36,7 @@
                           :to="{ name: 'casurid.plansCreate', query:{ subjectId: plan.subjectId, levelId, degreeId } }">
                         <AppContainerNewRecord></AppContainerNewRecord>
                       </router-link>
-                      <div v-for="product in plan.products" class="card">
+                      <div v-for="product in plan.products" class="card" :key="product.id">
                         <div class="card-body">
                           <span class="tw-text-sm">{{ product.title }}</span>
                           <hr>

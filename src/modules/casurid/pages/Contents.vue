@@ -45,11 +45,11 @@
           </tr>
         </template>
         <template v-slot:body="{ data }">
-          <template v-for="row in data">
+          <template v-for="row in data" :key="`row-${row.id}`">
             <tr>
               <td colspan="4" class="text-center tw-font-bold">{{ row.levelDegree }}</td>
             </tr>
-            <tr v-for="content in row.contents">
+            <tr v-for="content in row.contents" :key="`content-${content.id}`">
               <td>{{ content.subject.name }}</td>
               <td>{{ content.contentType.name }}</td>
               <td>{{ content.title }}</td>

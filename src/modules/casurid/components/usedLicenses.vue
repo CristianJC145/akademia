@@ -21,7 +21,7 @@
             </span>
           </td>
         </tr>
-        <tr v-else v-for="license in licenses.value">
+        <tr v-else v-for="license in licenses.value" >
           <td>{{ license.ownerPeople }}</td>
           <td>{{ license.registerDate }}</td>
           <td>

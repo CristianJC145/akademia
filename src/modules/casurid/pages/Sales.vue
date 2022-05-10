@@ -59,7 +59,7 @@
         </template>
 
         <template v-slot:body="{ data }">
-          <tr v-for="sale in data">
+          <tr v-for="sale in data" :key="sale.id">
             <td>{{ sale.code }}</td>
             <td>{{ sale.createDate }}</td>
             <td>{{ sale.institutionName }}</td>

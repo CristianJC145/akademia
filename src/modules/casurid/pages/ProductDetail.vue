@@ -38,7 +38,7 @@
         <h1 class="h5">Contenidos</h1>
 
         <div class="d-flex flex-column gap-2">
-          <div class="card bg-secondary bg-opacity-25" v-for="content in contents.value">
+          <div class="card bg-secondary bg-opacity-25" v-for="content in contents.value" :key="content.id">
             <div class="card-body">
               <h2 class="h6">{{ content.title }}</h2>
               <p>{{ content.description }}</p>
