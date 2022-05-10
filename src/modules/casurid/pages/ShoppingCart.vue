@@ -108,9 +108,9 @@
               </div>
 
               <div class="d-grid gap-2">
-                <button class="btn btn-primary text-white" @click="showModalPayment = !showModalPayment">
-                  PAGAR
-                </button>
+                <!--                <button class="btn btn-primary text-white" @click="showModalPayment = !showModalPayment">
+                                  PAGAR
+                                </button>-->
                 <button class="btn btn-outline-primary" @click="saveQuote">
                   COTIZAR
                 </button>
