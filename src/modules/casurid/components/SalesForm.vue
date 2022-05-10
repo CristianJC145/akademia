@@ -169,16 +169,7 @@ export default defineComponent({
             // TODO: quitar
             userId: data.value.userId,
           },
-          details: data.value.details.map((detail) => ({
-            id: detail.id,
-            description: detail.description,
-            invoiceId: detail.invoiceId,
-            productId: detail.productId,
-            quantity: detail.quantity,
-            unitValue: detail.unitValue,
-            // TODO: quitar
-            totalValue: detail.totalValue,
-          })),
+          details: [],
         }, data.value.id);
 
         await router.push({

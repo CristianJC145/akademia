@@ -77,7 +77,12 @@
               </span>
             </td>
             <td>
-              <AppButtonEdit :to="{ name: 'casurid.salesEdit', params: { saleId: sale.id } }"></AppButtonEdit>
+              <div class="tw-flex tw-gap-2">
+                <AppButtonEdit :to="{ name: 'casurid.salesEdit', params: { saleId: sale.id } }"></AppButtonEdit>
+                <button class="btn btn-outline-primary" type="button" v-tooltip="'Pagar'" @click="savePayment(sale)">
+                  <AppIcon icon="dollar-sign"></AppIcon>
+                </button>
+              </div>
             </td>
           </tr>
         </template>
@@ -101,6 +106,8 @@ import {GetInstitutionsForSelectService} from '../services/getInstitutionsForSel
 import {debounce} from 'ts-debounce';
 import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import {useMeta} from 'vue-meta';
+import AppIcon from '../../../shared/components/AppIcon.vue';
+import {SaleDto} from '../dtos/sale.dto';
 
 
 const getStatusInstitutionsService = new GetStatusInstitutionsService();
@@ -109,7 +116,7 @@ const getInstitutionsForSelectService = new GetInstitutionsForSelectService();
 
 export default defineComponent({
   name: 'Sales',
-  components: {AppButtonEdit, AppLoading, AppFormField, AppDatatable, AppBaseList},
+  components: {AppIcon, AppButtonEdit, AppLoading, AppFormField, AppDatatable, AppBaseList},
   setup() {
     const title = 'Ventas';
     const routes = [
@@ -169,6 +176,11 @@ export default defineComponent({
       }
     }, 800);
 
+    //TODO: Quitar esto
+    const savePayment = async (sale: SaleDto) => {
+      console.log(sale);
+    };
+
     return {
       title,
       routes,
@@ -183,6 +195,7 @@ export default defineComponent({
       institutionId,
       institutions,
       searchInstitutions,
+      savePayment,
     };
   },
 });

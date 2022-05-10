@@ -36,6 +36,10 @@
         </template>
         <template v-slot:items>
           <li>
+            <router-link class="dropdown-item" type="button" :to="{ name: 'casurid.profile' }">
+              <AppIcon icon="user" class="me-2 blue"></AppIcon>
+              Perfil
+            </router-link>
             <router-link class="dropdown-item" type="button" to="/shopping">
               <AppIcon icon="shopping-bag" class="me-2 blue"></AppIcon>
               Mis compras

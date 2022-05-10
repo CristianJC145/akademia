@@ -19,6 +19,7 @@ import InstitutionsEditPage from './pages/InstitutionsEdit.vue';
 import ContentPlanByInstitutionPage from './pages/contentPlanByInstitution.vue';
 import SalesPage from './pages/Sales.vue';
 import SalesEditPage from './pages/SalesEdit.vue';
+import ProfilePage from './pages/Profile.vue';
 
 const appName = 'casurid';
 
@@ -52,6 +53,12 @@ export const casuridRouting = [
             {
                 path: 'confirmation',
                 component: ConfirmationPage,
+            },
+            {
+                path: 'profile',
+                component: ProfilePage,
+                beforeEnter: [authGuard],
+                name: `${appName}.profile`
             },
         ],
     },

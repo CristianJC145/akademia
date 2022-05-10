@@ -46,6 +46,7 @@ import {
     faTags,
     faReceipt,
     faUniversity,
+    faDollarSign,
 } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -94,6 +95,7 @@ export default {
         library.add(faTags);
         library.add(faReceipt);
         library.add(faUniversity);
+        library.add(faDollarSign);
 
         app.component('font-awesome-icon', FontAwesomeIcon);
     },
