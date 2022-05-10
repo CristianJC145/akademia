@@ -44,6 +44,10 @@
               <AppIcon icon="shopping-bag" class="me-2 blue"></AppIcon>
               Mis compras
             </router-link>
+            <router-link class="dropdown-item" type="button" to="/admin/home">
+              <AppIcon icon="user-cog" class="me-2 blue"></AppIcon>
+              Administración
+            </router-link>
             <hr>
             <button class="dropdown-item" type="button" @click="signOut">
               <AppIcon icon="sign-out-alt" class="me-2 blue"></AppIcon>
