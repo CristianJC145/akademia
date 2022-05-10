@@ -7,6 +7,7 @@ import {AuthenticatedUserService} from '../services/authenticatedUser.service';
 import i18n from '../plugins/i18n.plugin';
 import {GetTranslationsByLanguageService} from '../services/getTranslationsByLanguage.service';
 import {NavigationService} from '../services/navigation.service';
+import {RolesService} from '../services/roles.service';
 
 const getInitDataService = new GetInitDataService();
 const isAuthenticatedService = new IsAuthenticatedService();
@@ -14,6 +15,7 @@ const institutionsService = new InstitutionsService();
 const authenticatedUserService = new AuthenticatedUserService();
 const getTranslationsByLanguageService = new GetTranslationsByLanguageService();
 const navigationService = new NavigationService();
+const rolesService = new RolesService();
 
 function convertRouteToNavigation(route: string): { route: string | null; externalLink: boolean } {
     if (!route) {
@@ -73,6 +75,7 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
         items,
         userInstitutions,
         user,
+        userRoles,
     } = await getInitDataService.run();
 
     authenticatedUserService.set(user);
@@ -120,6 +123,13 @@ async function initDataResolver(to: RouteLocationNormalized, from: RouteLocation
     institutionsService.setInstitutions(institutions);
 
     institutionsService.setDefaultSelectedInstitution();
+
+    // Agregando roles
+    const roles = userRoles.map((userRole) => userRole.role);
+
+    rolesService.setRoles(roles);
+
+    rolesService.setDefaultSelectedRole();
 
     return next();
 }
