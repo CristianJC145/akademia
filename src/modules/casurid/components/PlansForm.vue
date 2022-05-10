@@ -29,9 +29,11 @@
                             rows="4"></textarea>
                 </AppFormField>
 
-                <AppFormField :form-control="v$.form.index">
-                  <label for="index">URL tabla de contenido</label>
-                  <input type="text" class="form-control" v-model="v$.form.index.$model" id="index"/>
+                <AppFormField :form-control="v$.form.fileIndex">
+                  <label for="index">Tabla de contenido</label>
+                  <!--                  <input type="text" class="form-control" v-model="v$.form.index.$model" id="index"/>-->
+                  <AppUploadFile input-id="index" v-model="v$.form.fileIndex.$model"
+                                 :current-file="currentIndex"></AppUploadFile>
                 </AppFormField>
 
                 <div class="form-row">
@@ -48,9 +50,9 @@
                   </AppFormField>
                 </div>
 
-                <AppFormField :form-control="v$.form.thumbnail">
+                <AppFormField :form-control="v$.form.fileThumbnail">
                   <label for="thumbnail">Carátula</label>
-                  <AppUploadImage v-model="v$.form.thumbnail.$model" :current-thumbnail="currentThumbnail"
+                  <AppUploadImage v-model="v$.form.fileThumbnail.$model" :current-thumbnail="currentThumbnail"
                                   input-id="thumbnail"></AppUploadImage>
                 </AppFormField>
               </div>
@@ -88,13 +90,14 @@ import {ContentDto} from '../dtos/content.dto';
 import AppBackButton from '../../../shared/components/AppBackButton.vue';
 import {CreateOrUpdatePlanService} from '../services/createOrUpdatePlan.service';
 import AppUploadImage from '../../../shared/components/AppUploadImage.vue';
+import AppUploadFile from '../../../shared/components/AppUploadFile.vue';
 
 const getRelatedDataPlansFormService = new GetRelatedDataPlansFormService();
 const createOrUpdatePlanService = new CreateOrUpdatePlanService();
 
 export default defineComponent({
   name: 'PlansForm',
-  components: {AppUploadImage, AppBackButton, AppButtonLoading, AppFormField, AppLoading, AppBaseList},
+  components: {AppUploadFile, AppUploadImage, AppBackButton, AppButtonLoading, AppFormField, AppLoading, AppBaseList},
   props: ['title', 'routes', 'data'],
   setup(props) {
     const title = props.title;
@@ -111,7 +114,9 @@ export default defineComponent({
     const query = reactive({
       value: {},
     });
+
     const currentThumbnail = data?.thumbnail;
+    const currentIndex = data?.index;
 
     useMeta({
       title,
@@ -120,10 +125,10 @@ export default defineComponent({
     const form = reactive({
       title: data?.title,
       description: data?.description,
-      index: data?.index,
       defaultUnitValue: data?.defaultUnitValue,
       validityPeriod: data?.validityPeriod,
-      thumbnail: null,
+      fileIndex: null,
+      fileThumbnail: null,
       contentsIds: data?.contentsIds ?? [],
     });
 
@@ -131,10 +136,10 @@ export default defineComponent({
       form: {
         title: {required},
         description: {},
-        index: {url},
+        fileIndex: !data?.id ? {required} : {},
         defaultUnitValue: {required, numeric},
         validityPeriod: {required, numeric},
-        thumbnail: !data?.id ? {required} : {},
+        fileThumbnail: !data?.id ? {required} : {},
         contentsIds: {required},
       },
     }, {form});
@@ -185,8 +190,6 @@ export default defineComponent({
           degreeId,
           subjectId,
           ...form,
-          // TODO: De donde saco este campo
-          productTypeId: 1,
         }, data?.id);
 
         await router.push({
@@ -205,6 +208,7 @@ export default defineComponent({
       subtitle,
       contents,
       currentThumbnail,
+      currentIndex,
       save,
       saveAndCreate,
       saveAndExit,

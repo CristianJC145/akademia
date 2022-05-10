@@ -7,8 +7,11 @@ export interface ICreateOrUpdatePlanService {
     subjectId: number | null;
     title: string;
     description: string;
-    index: string;
-    productTypeId: number;
+    index: string | null;
+    thumbnail: string | null;
+    fileIndex: any | null;
+    fileThumbnail: any | null;
+    productTypeId?: number;
     defaultUnitValue: string;
     contentsIds: number[];
 }
