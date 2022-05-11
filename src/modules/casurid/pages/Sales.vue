@@ -79,7 +79,9 @@
             <td>
               <div class="tw-flex tw-gap-2">
                 <AppButtonEdit :to="{ name: 'casurid.salesEdit', params: { saleId: sale.id } }"></AppButtonEdit>
-                <button class="btn btn-outline-primary" type="button" v-tooltip="'Pagar'" @click="savePayment(sale)">
+                <button v-if="sale.status !== 'Pagada' && sale.PendingValue > 0" class="btn btn-outline-primary"
+                        type="button"
+                        v-tooltip="'Pagar'" @click="showPaymentModal(sale)">
                   <AppIcon icon="dollar-sign"></AppIcon>
                 </button>
               </div>
@@ -87,6 +89,11 @@
           </tr>
         </template>
       </AppDatatable>
+
+      <AppModal v-model="paymentModal">
+        <AddPaymentFromAdmin v-if="paymentModal" :sale="currentSale.value"
+                             @close="closePaymentModal"></AddPaymentFromAdmin>
+      </AppModal>
     </template>
   </AppBaseList>
 </template>
@@ -108,15 +115,21 @@ import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import {useMeta} from 'vue-meta';
 import AppIcon from '../../../shared/components/AppIcon.vue';
 import {SaleDto} from '../dtos/sale.dto';
-
+import AppModal from '../../../shared/components/AppModal.vue';
+import AddPaymentFromAdmin from '../components/addPaymentFormAdmin.vue';
+import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
 
 const getStatusInstitutionsService = new GetStatusInstitutionsService();
 const getStartAndEndDateMonthService = new GetStartAndEndDateMonthService();
 const getInstitutionsForSelectService = new GetInstitutionsForSelectService();
+const updateDatatableService = new UpdateDatatableService();
 
 export default defineComponent({
   name: 'Sales',
-  components: {AppIcon, AppButtonEdit, AppLoading, AppFormField, AppDatatable, AppBaseList},
+  components: {
+    AddPaymentFromAdmin,
+    AppModal, AppIcon, AppButtonEdit, AppLoading, AppFormField, AppDatatable, AppBaseList,
+  },
   setup() {
     const title = 'Ventas';
     const routes = [
@@ -176,9 +189,19 @@ export default defineComponent({
       }
     }, 800);
 
-    //TODO: Quitar esto
-    const savePayment = async (sale: SaleDto) => {
-      console.log(sale);
+    const paymentModal = ref(false);
+    const currentSale: { value: SaleDto | null } = reactive({
+      value: null,
+    });
+
+    const showPaymentModal = (sale: SaleDto) => {
+      paymentModal.value = true;
+      currentSale.value = sale;
+    };
+
+    const closePaymentModal = () => {
+      paymentModal.value = false;
+      updateDatatableService.run();
     };
 
     return {
@@ -194,8 +217,11 @@ export default defineComponent({
       dateUntil,
       institutionId,
       institutions,
+      paymentModal,
+      currentSale,
       searchInstitutions,
-      savePayment,
+      showPaymentModal,
+      closePaymentModal,
     };
   },
 });
