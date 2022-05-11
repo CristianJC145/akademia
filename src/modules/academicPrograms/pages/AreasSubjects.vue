@@ -98,6 +98,7 @@ import AppButtonEdit from '../../../shared/components/AppButtonEdit.vue';
 import AppButtonDelete from '../../../shared/components/AppButtonDelete.vue';
 import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteModal.vue';
 import AppLoading from '../../../shared/components/AppLoading.vue';
+import {useMeta} from 'vue-meta';
 
 import SubjectForm from '../components/SubjectForm.vue';
 import AreaForm from '../components/AreaForm.vue';
@@ -131,6 +132,10 @@ export default defineComponent({
   },
   setup() {
     const title = 'Áreas y Asignaturas';
+    useMeta({
+      title: title,
+    });
+
     const routes = [
       {
         name: title,
