@@ -112,7 +112,7 @@ export default defineComponent({
       currentSubjects: [],
       searchValue: '',
       page: 1,
-      perPage: 20,
+      perPage: 50,
     };
   },
   watch: {
@@ -129,7 +129,7 @@ export default defineComponent({
     this.levels = relatedData.levels;
 
     this.areas = relatedData.areas;
-    
+
     // @ts-ignore
     this.searchProducts = debounce(this.searchProducts, 600);
 
