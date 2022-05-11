@@ -145,12 +145,14 @@ import AppModal from '../../../shared/components/AppModal.vue';
 import Payment from '../components/Payment.vue';
 import {useI18n} from 'vue-i18n';
 import {PaymentRegisterService} from '../services/paymentRegister.service';
-import {useRouter} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
+import {AddProductCatalogueToCartService} from '../services/addProductCatalogueToCart.service';
 
 const getShoppingCartService = new GetShoppingCartService();
 const updateProductCatalogueToCartService = new UpdateProductCatalogueToCartService();
 const deleteProductCatalogueToCartService = new DeleteProductCatalogueToCartService();
 const paymentRegisterService = new PaymentRegisterService();
+const addProductCatalogueToCartService = new AddProductCatalogueToCartService();
 
 export default defineComponent({
   name: 'ShoppingCart',
@@ -174,10 +176,29 @@ export default defineComponent({
       },
     ];
 
+    const route = useRoute();
     const router = useRouter();
 
     onMounted(async () => {
-      loading.value = true;
+      const {query} = route;
+
+      if (query.productId) {
+        let {productId, quantity} = query as any;
+
+        if (!quantity) {
+          quantity = 1;
+        } else {
+          quantity = parseInt(quantity);
+        }
+
+        await addProductCatalogueToCartService.run({
+          productId,
+          quantity,
+        });
+
+        await router.push(route.path);
+      }
+
       await getShoppingCart();
       loading.value = false;
     });

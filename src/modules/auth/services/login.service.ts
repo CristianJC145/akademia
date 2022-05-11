@@ -3,7 +3,7 @@ import {services} from '../../../shared/constant/services';
 import {TokenService} from '../../../shared/services/token.service';
 import {AuthenticatedUserService} from '../../../shared/services/authenticatedUser.service';
 import {UserDto} from '../../../shared/dto/user.dto';
-import {AxiosResponse} from 'axios';
+import {SignOutService} from '../../../shared/services/signOut.service';
 
 interface ILogin {
     username: string;
@@ -16,18 +16,19 @@ interface ILoginDto {
     user: UserDto;
 }
 
+const tokenService = new TokenService();
+const authenticatedUserService = new AuthenticatedUserService();
+const signOutService = new SignOutService();
+
 export class LoginService {
-    constructor(
-        private tokenService = new TokenService(),
-        private authenticatedUserService = new AuthenticatedUserService(),
-    ) {
+    constructor() {
     }
 
     async run(data: ILogin) {
         return axios.post<ILoginDto>(`${services.users}/access/users/login`, data).then((response) => {
-            //localStorage.setItem('token', response.data.token);this.tokenService.set(response.data.token);
-            this.tokenService.set(response.data.token);
-            this.authenticatedUserService.set(response.data.user);
+            signOutService.run();
+            tokenService.set(response.data.token);
+            authenticatedUserService.set(response.data.user);
             return response;
         });
     }
