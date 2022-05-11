@@ -6,4 +6,6 @@ export interface InvoiceDto {
     isCredit?: number;
     observations: number;
     userId: number;
+    code?: string;
+    dateCancel?: string;
 }

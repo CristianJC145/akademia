@@ -240,8 +240,6 @@ export default defineComponent({
     }, 800);
 
     const save = async () => {
-      console.log('guardar');
-
       const formIsValid = await v$.value.$validate();
 
       if (!formIsValid) return;

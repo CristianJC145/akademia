@@ -20,6 +20,7 @@ import ContentPlanByInstitutionPage from './pages/contentPlanByInstitution.vue';
 import SalesPage from './pages/Sales.vue';
 import SalesEditPage from './pages/SalesEdit.vue';
 import ProfilePage from './pages/Profile.vue';
+import QuotasPage from './pages/quotas.vue';
 
 const appName = 'casurid';
 
@@ -126,6 +127,11 @@ export const casuridRouting = [
                 path: 'institutions/:institutionId/contentPlan',
                 component: ContentPlanByInstitutionPage,
                 name: `${appName}.institutionsContentPlan`,
+            },
+            {
+                path: 'quotas',
+                component: QuotasPage,
+                name: `${appName}.quotasList`,
             },
         ],
     },

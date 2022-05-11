@@ -100,14 +100,14 @@ import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteMo
 import {GetInstitutionsWithPaginationService} from '../services/getInstitutionsWithPagination.service';
 import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
 import {GetMunicipalitiesService} from '../services/getMunicipalities.service';
-// import {DeleteInstitutionService} from '';
+import {DeleteInstitutionService} from '../services/deleteInstitution.service';
 
 import {MunicipalityDto} from '../../../shared/dto/municipality.dto';
 import {StatusDto} from '../dtos/status.dto';
 
 const getMunicipalitiesService = new GetMunicipalitiesService();
 const updateDatatableService = new UpdateDatatableService();
-// const deleteInstitutionService = new DeleteInstitutionService();
+const deleteInstitutionService = new DeleteInstitutionService();
 
 export default defineComponent({
     name: 'Instituciones',
@@ -203,8 +203,7 @@ export default defineComponent({
 
         const deleteContent = async () => {
             try {
-                // await deleteInstitutionService.run(currentContent.value.id);
-                console.log('eliminado');
+                await deleteInstitutionService.run(currentContent.value.id);
                 showModalDelete.value = false;
                 updateTable();
             } catch (e) {
