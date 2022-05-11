@@ -6,16 +6,19 @@
           <label for="name">Nombre</label>
           <input type="text" class="form-control" required name="name" id="name" v-model="v$.form.name.$model">
         </AppFormField>
-        <AppFormField :formControl="v$.form.abreviation">
+
+        <AppFormField :formControl="v$.form.abbreviation">
           <label for="abbreviation">Abreviatura</label>
           <input type="text" class="form-control" id="abbreviation" v-model="v$.form.abbreviation.$model">
         </AppFormField>
+
         <AppFormField :form-control="v$.form.file">
           <label for="file">Imagen</label>
-          <AppUploadImage input-id="file" v-model="v$.form.file.$model"
-                          :current-thumbnail="currentThumbnail"></AppUploadImage>
+          <AppUploadImage input-id="file" v-model="v$.form.file.$model" :current-thumbnail="currentThumbnail" 
+            @update:error-img="handleErrorImg"></AppUploadImage>
         </AppFormField>
       </template>
+
       <template v-slot:actions>
         <AppButtonLoading type="submit" class="btn-primary text-white">
           Guardar
@@ -33,7 +36,7 @@ import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import {CreateOrUpdateSubjectService} from '../services/createOrUpdateSubject.service';
 
 import {useVuelidate} from '@vuelidate/core';
-import {required} from '@vuelidate/validators';
+import {maxLength, required} from '@vuelidate/validators';
 import AppUploadImage from '../../../shared/components/AppUploadImage.vue';
 
 const createOrUpdateSubjectService = new CreateOrUpdateSubjectService();
@@ -53,6 +56,10 @@ export default defineComponent({
 
     const currentThumbnail = data?.thumbnail;
 
+    let errorImg = reactive({
+      value: '',
+    });
+
     const form = reactive({
       name: data?.name ?? null,
       abbreviation: data?.abbreviation ?? null,
@@ -62,14 +69,18 @@ export default defineComponent({
     const v$ = useVuelidate({
       form: {
         name: {required},
-        abbreviation: {},
+        abbreviation: {maxLength: maxLength(10)},
         file: {},
       },
     }, {form});
 
+    const handleErrorImg = (value: any) => {
+      errorImg.value = value;
+    };
+
     const save = async () => {
       const formIsValid = await v$.value.$validate();
-      if (!formIsValid) return;
+      if (!formIsValid || errorImg.value) return;
       try {
         await createOrUpdateSubjectService.run({...form, areaId: props.areaId}, data?.id);
         emit('close');
@@ -83,6 +94,7 @@ export default defineComponent({
       title,
       currentThumbnail,
       save,
+      handleErrorImg,
     };
   },
 });

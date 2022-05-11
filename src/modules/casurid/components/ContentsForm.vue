@@ -66,13 +66,13 @@
               <AppFormField :form-control="v$.form.contentPdf">
                 <label for="index">Tabla de contenido</label>
                 <AppUploadFile input-id="index" v-model="v$.form.contentPdf.$model"
-                               :current-file="currentContentPdf"></AppUploadFile>
+                               :current-file="currentContentPdf" @update:error-file="handleErrorFile"></AppUploadFile>
               </AppFormField>
 
               <AppFormField :form-control="v$.form.contentZip">
                 <label for="urlLocation">Contenido</label>
                 <AppUploadFile input-id="urlLocation" v-model="v$.form.contentZip.$model"
-                               :current-file="currentContentZip"></AppUploadFile>
+                               :current-file="currentContentZip" @update:error-file="handleErrorFileZip"></AppUploadFile>
               </AppFormField>
 
               <AppFormField :form-control="v$.form.duration">
@@ -137,6 +137,11 @@ export default defineComponent({
     const currentContentZip = data?.urlLocation;
     const currentContentPdf = data?.index;
 
+    let errorFile = reactive({
+      file: '',
+      fileZip: '',
+    });
+
     const form = reactive({
       degreeId: data?.degreeId,
       subjectId: data?.subjectId,
@@ -176,6 +181,13 @@ export default defineComponent({
       loadingFilters.value = false;
     });
 
+    const handleErrorFile = (value: any) => {
+      errorFile.file = value;
+    };
+    const handleErrorFileZip = (value: any) => {
+      errorFile.fileZip = value;
+    };
+
     const save = async () => {
       let levelId = 0;
       if (form.degreeId) {
@@ -188,7 +200,7 @@ export default defineComponent({
 
       const formIsValid = await v$.value.$validate();
 
-      if (!formIsValid) return;
+      if (!formIsValid || errorFile.file || errorFile.fileZip) return;
 
       try {
         await createOrUpdateContentService.run({
@@ -215,6 +227,8 @@ export default defineComponent({
       currentContentZip,
       currentContentPdf,
       save,
+      handleErrorFile,
+      handleErrorFileZip,
     };
   },
 });

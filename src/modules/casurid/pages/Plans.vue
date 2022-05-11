@@ -41,7 +41,7 @@
                           <span class="tw-text-sm">{{ product.title }}</span>
                           <hr>
                           <div class="tw-flex tw-justify-between tw-items-center tw-gap-2">
-                            <span>{{ product.validityPeriod }} contenidos</span>
+                            <span>{{ product.cantContents }} contenidos</span>
 
                             <div class="tw-flex tw-gap-2">
                               <AppButtonEdit

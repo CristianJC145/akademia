@@ -1,82 +1,85 @@
 <template>
-  <AppBaseList
-      :title="title"
-      :subtitle="subtitle"
-      :routes="routes"
-  >
+  <AppBaseList :title="title" :routes="routes">
     <template v-slot:content>
       <AppLoading v-if="loading"></AppLoading>
 
       <template v-else>
         <div content class="flex flex-col gap-2.5">
           <h2 class="tw-text-lg tw-font-light">Áreas</h2>
-          <AppContainerNewRecord @click="openAreaModal">
-          </AppContainerNewRecord>
+
+          <AppContainerNewRecord @click="openAreaModal"></AppContainerNewRecord>
         </div>
 
         <AppAccordion class="mt-2" v-slot="{ accordionId }">
-          <AppAccordionItem
-              :accordion-id="accordionId"
-              v-for="area in areas.value"
-              :key="area.id"
+          <AppAccordionItem :accordion-id="accordionId"
+            v-for="area in areas.value" :key="area.id"
           >
-            <template v-slot:head>
-              {{ area.name }}
-            </template>
+            <template v-slot:head>{{ area.name }}</template>
+
             <template v-slot:content>
               <h6 class="tw-text-lg tw-font-light">Asignaturas</h6>
+              
               <div :class="{ 'grid-cards': area.subjects.length }">
                 <AppContainerNewRecord
-                    @click="openSubjectModal(area.id, null)"
+                  @click="openSubjectModal(area.id, null)"
                 ></AppContainerNewRecord>
+
                 <AppEmptyResponse v-if="!area.subjects.length"></AppEmptyResponse>
+
                 <div class="card" v-for="subject in area.subjects" :key="subject.id">
                   <div class="card-body">
                     <span class="tw-text-sm">{{ subject.name }}</span>
                     <hr/>
+
                     <div class="tw-flex tw-justify-end tw-gap-2">
                       <AppButtonEdit
-                          @click="openSubjectModal(area.id, subject)"
+                        @click="openSubjectModal(area.id, subject)"
                       ></AppButtonEdit>
+
                       <AppButtonDelete
-                          @click="openConfirmDelete(entitySubject, subject)"
+                        @click="openConfirmDelete(entitySubject, subject)"
                       ></AppButtonDelete>
                     </div>
                   </div>
                 </div>
               </div>
               <hr>
+
               <div class="tw-flex tw-justify-end tw-gap-2">
                 <AppButtonEdit @click="openAreaModal(area)"></AppButtonEdit>
+
                 <AppButtonDelete
-                    @click="openConfirmDelete(entityArea, area)"
-                    v-if="!area.subjects.length"
+                  @click="openConfirmDelete(entityArea, area)"
+                  v-if="!area.subjects.length"
                 ></AppButtonDelete>
               </div>
             </template>
           </AppAccordionItem>
         </AppAccordion>
       </template>
+
       <AppModal v-model="areaModal">
         <AreaForm
-            v-if="areaModal"
-            :data="currentArea.value"
-            @close="closeAreaModal"
+          v-if="areaModal"
+          :data="currentArea.value"
+          @close="closeAreaModal"
         ></AreaForm>
       </AppModal>
+
       <AppModal v-model="subjectModal">
         <SubjectForm
-            v-if="subjectModal"
-            :data="currentSubject.value"
-            @close="closeSubjectModal"
-            :area-id="currentAreaId"
+          v-if="subjectModal"
+          :data="currentSubject.value"
+          @close="closeSubjectModal"
+          :area-id="currentAreaId"
         ></SubjectForm>
       </AppModal>
+
       <AppModal v-model="modalDelete">
         <AppConfirmDeleteModal
-            v-if="modalDelete"
-            :entity="currentEntity"
-            @confirmDelete="confirmDelete"
+          v-if="modalDelete"
+          :entity="currentEntity"
+          @confirmDelete="confirmDelete"
         ></AppConfirmDeleteModal>
       </AppModal>
     </template>
@@ -128,7 +131,6 @@ export default defineComponent({
   },
   setup() {
     const title = 'Áreas y Asignaturas';
-    const subtitle = 'Administra las Áreas y Asignaturas que usarás en la configuración de tus Plan de estudios';
     const routes = [
       {
         name: title,
@@ -203,7 +205,6 @@ export default defineComponent({
     };
     return {
       title,
-      subtitle,
       routes,
       areas,
       areaModal,

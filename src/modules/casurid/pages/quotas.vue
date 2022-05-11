@@ -74,12 +74,12 @@
         <template v-slot:body="{ data }">
           <template v-for="content in data" :key="content.id">
             <tr>
-              <td>{{ content.institutionName }}</td>
-              <td>{{ content.code }}</td>
-              <td>{{ content.createDate }}</td>
-              <td>{{ content.totalPurchase }}</td>
-              <td>{{ content.totalPaid }}</td>
-              <td>{{ content.status }}</td>
+              <td>{{ content.clientInstitution }}</td>
+              <td>{{ content.codeQuote }}</td>
+              <td>{{ content.dueDate }}</td>
+              <td>{{ content.quoteValue }}</td>
+              <td>{{ content.PendingValue }}</td>
+              <td>{{ content.statusQuote }}</td>
               <td class="d-flex gap-2">
                 <router-link to="#" class="btn btn-outline-primary"
                   v-tooltip="'Pagar'"
@@ -108,7 +108,6 @@ import AppDatatable from '../../../shared/components/AppDatatable.vue';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 
 import {GetInvoicesForSelectService} from '../services/getInvoicesForSelect.service';
-import {GetStatusInstitutionsService} from '../services/getStatusInstitutions.service';
 import {GetQuotasWithPaginationService} from '../services/getQuotasWithPagination.service';
 import {GetInstitutionsForSelectService} from '../services/getInstitutionsForSelect.service';
 import {GetStartAndEndDateMonthService} from '../../../shared/services/getStartAndEndDateMonth.service';
@@ -117,7 +116,6 @@ import {InvoiceDto} from '../dtos/invoice.dto';
 import {InstitutionDto} from '../dtos/institution.dto';
 
 const getInvoicesForSelectService = new GetInvoicesForSelectService();
-const getStatusInstitutionsService = new GetStatusInstitutionsService();
 const getStartAndEndDateMonthService = new GetStartAndEndDateMonthService();
 const getInstitutionsForSelectService = new GetInstitutionsForSelectService();
 
@@ -160,7 +158,10 @@ export default defineComponent({
         invoices.value = res.data;
       });
 
-      status.value = await getStatusInstitutionsService.run();
+      status.value = [
+        {id: 'paid', name: 'Pagado'},
+        {id: 'pending', name: 'Pendiente'}
+      ];
 
       const rangeDate = getStartAndEndDateMonthService.run();
       dateSince.value = rangeDate.startDate;
@@ -170,12 +171,13 @@ export default defineComponent({
     });
 
     const params = computed(() => {
+      console.log(statusId.value)
       return {
         status: statusId.value,
-        invoice: invoiceId.value, // como se filtra por ese campo?
+        invoiceId: invoiceId.value,
         dateSince: dateSince.value,
         dateUntil: dateUntil.value,
-        institutionIdClient: institutionId.value, //no esta funcionando este filtro
+        institutionIdClient: institutionId.value,
       }
     });
 

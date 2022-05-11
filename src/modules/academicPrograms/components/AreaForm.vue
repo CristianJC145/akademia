@@ -14,7 +14,8 @@
 
         <AppFormField :form-control="v$.form.file">
           <label for="file">Imagen</label>
-          <AppUploadImage input-id="file" v-model="v$.form.file.$model" :current-thumbnail="currentThumbnail"></AppUploadImage>
+          <AppUploadImage input-id="file" v-model="v$.form.file.$model" :current-thumbnail="currentThumbnail" 
+            @update:error-img="handleErrorImg"></AppUploadImage>
         </AppFormField>
       </template>
 
@@ -34,7 +35,7 @@ import AppFormField from '../../../shared/components/AppFormField.vue';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import {CreateOrUpdateAreaService} from '../services/createOrUpdateArea.service';
 import {useVuelidate} from '@vuelidate/core';
-import {required} from '@vuelidate/validators';
+import {maxLength, required} from '@vuelidate/validators';
 import AppUploadImage from '../../../shared/components/AppUploadImage.vue';
 
 const createOrUpdateAreaService = new CreateOrUpdateAreaService();
@@ -54,6 +55,10 @@ export default defineComponent({
     
     const currentThumbnail = data?.thumbnail;
 
+    let errorImg = reactive({
+      value: '',
+    });
+    
     const form = reactive({
       name: data?.name ?? null,
       abbreviation: data?.abbreviation ?? null,
@@ -63,14 +68,18 @@ export default defineComponent({
     const v$ = useVuelidate({
       form: {
         name: {required},
-        abbreviation: {},
+        abbreviation: {maxLength: maxLength(10)},
         file: {},
       },
     }, {form});
 
+    const handleErrorImg = (value: any) => {
+      errorImg.value = value;
+    };
+
     const save = async () => {
       const formIsValid = await v$.value.$validate();
-      if (!formIsValid) return;
+      if (!formIsValid || errorImg.value) return;
       try {
         await createOrUpdateAreaService.run(form, data?.id);
         emit('close');
@@ -82,6 +91,7 @@ export default defineComponent({
       v$,
       currentThumbnail,
       save,
+      handleErrorImg,
     };
   },
 });

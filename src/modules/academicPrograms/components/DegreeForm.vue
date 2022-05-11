@@ -14,8 +14,8 @@
 
         <AppFormField :form-control="v$.form.file">
           <label for="file">Imagen</label>
-          <AppUploadImage input-id="file" v-model="v$.form.file.$model"
-                          :current-thumbnail="currentThumbnail"></AppUploadImage>
+          <AppUploadImage input-id="file" v-model="v$.form.file.$model" :current-thumbnail="currentThumbnail" 
+            @update:error-img="handleErrorImg"></AppUploadImage>
         </AppFormField>
       </template>
 
@@ -32,7 +32,7 @@
 import {defineComponent, reactive} from 'vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
-import {required} from '@vuelidate/validators';
+import {maxLength, required} from '@vuelidate/validators';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import AppUploadImage from '../../../shared/components/AppUploadImage.vue';
 
@@ -56,6 +56,10 @@ export default defineComponent({
 
     const currentThumbnail = data?.thumbnail;
 
+    let errorImg = reactive({
+      value: '',
+    });
+
     const form = reactive({
       name: data?.name ?? null,
       abbreviation: data?.abbreviation ?? null,
@@ -65,15 +69,19 @@ export default defineComponent({
     const v$ = useVuelidate({
       form: {
         name: {required},
-        abbreviation: {},
+        abbreviation: {maxLength: maxLength(10)},
         file: {},
       },
     }, {form});
 
+    const handleErrorImg = (value: any) => {
+      errorImg.value = value;
+    };
+
     const save = async () => {
       const formIsValid = await v$.value.$validate();
 
-      if (!formIsValid) return;
+      if (!formIsValid || errorImg.value) return;
 
       try {
         await createOrUpdateDegreeService.run({...form, levelId: props.levelId}, data?.id);
@@ -88,6 +96,7 @@ export default defineComponent({
       title,
       currentThumbnail,
       save,
+      handleErrorImg,
     };
   },
 });

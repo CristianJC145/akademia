@@ -6,13 +6,13 @@ interface IParams extends ParamsPaginationDto {
     status: string;
     dateSince: string;
     dateUntil: string;
-    invoice: number;
+    invoiceId: number;
     institutionIdClient: number;
 }
 
 export class GetQuotasWithPaginationService {
     run(params?: IParams) {
-        return axios.get(`${services.casurid}/payments/invoices`, {
+        return axios.get(`${services.casurid}/payments/admin/invoices-quotes`, {
             params,
         }).then(response => response.data);
     }
