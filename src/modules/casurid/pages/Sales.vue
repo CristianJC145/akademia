@@ -173,8 +173,7 @@ export default defineComponent({
         status: statusId.value,
         dateSince: dateSince.value,
         dateUntil: dateUntil.value,
-        // TODO: Filtro de institution no funciona
-        institutionId: institutionId.value,
+        institutionIdClient: institutionId.value,
       };
     });
 

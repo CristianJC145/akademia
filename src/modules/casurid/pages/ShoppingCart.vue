@@ -254,17 +254,7 @@ export default defineComponent({
     const saveQuote = async () => {
       await paymentRegisterService.run({
         invoice: {
-          // TODO: Quitar
-          totalValue: total.value,
-          // TODO: Quitar
-          totalDiscount: 0,
-          // TODO: Quitar
-          totalPurchase: total.value,
           isQuote: true,
-          // TODO: Quitar
-          totalPaid: 0,
-          // TODO: Quitar
-          isCredit: false,
         },
       });
       await router.push('/shopping');
