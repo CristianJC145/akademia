@@ -23,7 +23,7 @@ import {defineComponent, reactive} from 'vue';
 import AppFormField from './AppFormField.vue';
 import AppIcon from './AppIcon.vue';
 import {useVuelidate} from '@vuelidate/core';
-import {required} from '@vuelidate/validators';
+import {required} from '../plugins/vuelidate.plugin';
 import {LoginService} from '../../modules/auth/services/login.service';
 
 const loginService = new LoginService();

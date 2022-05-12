@@ -3,7 +3,7 @@
     <slot></slot>
     <small class="text-danger" v-if="formControl && formControl.$errors.length">
       <!-- {{ formControl.$errors[0].$message }}    -->
-      {{ getTranslation(formControl.$errors[0].$message) }}
+      {{ formControl.$errors[0].$message }}
     </small>
   </div>
 </template>
