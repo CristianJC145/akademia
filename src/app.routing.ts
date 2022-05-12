@@ -53,6 +53,7 @@ const appRouting: RouteRecordRaw[] = [
                 path: '/access',
                 component: AppLayout,
                 children: accessRouting,
+                beforeEnter: [authGuard],
             },
             // Auth Module
             {
