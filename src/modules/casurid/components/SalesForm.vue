@@ -159,17 +159,16 @@ export default defineComponent({
           invoice: {
             observations: data.value.observations,
             totalDiscount: data.value.totalDiscount,
-            // TODO: quitar
-            totalPurchase: total.value,
-            // TODO: quitar
-            totalValue: subtotal.value,
             isCredit: data.value.isCredit,
-            // TODO: quitar
-            institutionId: data.value.institutionId,
-            // TODO: quitar
-            userId: data.value.userId,
           },
-          details: [],
+          details: data.value.details.map((detail) => ({
+            id: detail.id,
+            description: detail.description,
+            invoiceId: detail.invoiceId,
+            productId: detail.productId,
+            quantity: detail.quantity,
+            unitValue: detail.unitValue,
+          })),
         }, data.value.id);
 
         await router.push({
