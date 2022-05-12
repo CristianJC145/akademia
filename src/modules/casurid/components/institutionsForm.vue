@@ -67,8 +67,8 @@
             </div>
 
             <div class="form-row" v-if="!fromProfile">
-              <AppFormField :form-control="v$.form.institution.email">
-                <label for="municipalityId">Estado</label>
+              <AppFormField :form-control="v$.form.institution.active">
+                <label>Estado</label>
                 <v-select
                     v-model="v$.form.institution.active.$model"
                     class="tw-flex-1"

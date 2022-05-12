@@ -2,7 +2,8 @@
   <div class="mb-3 tw-flex-1" ref="main">
     <slot></slot>
     <small class="text-danger" v-if="formControl && formControl.$errors.length">
-      {{ formControl.$errors[0].$message }}
+      <!-- {{ formControl.$errors[0].$message }}    -->
+      {{ getTranslation(formControl.$errors[0].$message) }}
     </small>
   </div>
 </template>
@@ -18,6 +19,37 @@ interface IData {
 
 export default defineComponent({
   props: ['formControl'],
+  emits: ['errMessage'],
+
+  setup() {
+    const getTranslation = (error: any) => {
+      let errMessage = '';
+
+      const dictionary = [
+        {errorMsg: 'Value is required', translated: 'Este campo es requerido'},
+        {errorMsg: 'The maximum length allowed is 10', translated: 'La longitud máxima permitida es de 10 caracteres'},
+        {errorMsg: 'Value must be numeric', translated: 'El valor debe ser numérico'},
+        {errorMsg: 'The value is not a valid URL address', translated: 'El valor no es una dirección URL válida'},
+      ];
+
+      dictionary.forEach((err) => {
+        if (err.errorMsg == error) {
+          errMessage = err.translated;
+        }
+      });
+
+      if (!errMessage.length && error.length) {
+        errMessage = error;
+      }
+
+      return errMessage;
+    };
+
+    return {
+      getTranslation,
+    }
+  },
+
   data(): IData {
     return {
       hasError: false,
@@ -27,6 +59,7 @@ export default defineComponent({
   },
   watch: {
     'formControl.$error'(value) {
+      console.log(this.formControl.$errors);
       if (!this.control) {
         return;
       }
