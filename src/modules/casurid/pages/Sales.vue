@@ -79,7 +79,7 @@
             <td>
               <div class="tw-flex tw-gap-2">
                 <AppButtonEdit :to="{ name: 'casurid.salesEdit', params: { saleId: sale.id } }"></AppButtonEdit>
-                <button v-if="sale.status !== 'Pagada' && sale.PendingValue > 0" class="btn btn-outline-primary"
+                <button v-if="!sale.isCredit && sale.status !== 'Pagada' && sale.PendingValue > 0" class="btn btn-outline-primary"
                         type="button"
                         v-tooltip="'Pagar'" @click="showPaymentModal(sale)">
                   <AppIcon icon="dollar-sign"></AppIcon>
@@ -116,7 +116,7 @@ import {useMeta} from 'vue-meta';
 import AppIcon from '../../../shared/components/AppIcon.vue';
 import {SaleDto} from '../dtos/sale.dto';
 import AppModal from '../../../shared/components/AppModal.vue';
-import AddPaymentFromAdmin from '../components/addPaymentFormAdmin.vue';
+import AddPaymentFromAdmin from '../components/addPaymentFromAdmin.vue';
 import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
 import Payment from '../components/Payment.vue';
 

@@ -4,14 +4,6 @@ import {services} from '../../../shared/constant/services';
 
 interface IPaymentRegisterService {
     invoice: {
-        // TODO: Quitar
-        code?: string;
-        // TODO: Quitar
-        totalValue: number;
-        // TODO: Quitar
-        totalDiscount: number;
-        // TODO: Quitar
-        totalPurchase: number;
         isCredit?: boolean;
         isQuote: boolean;
         totalPaid?: number;

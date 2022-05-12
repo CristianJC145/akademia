@@ -74,20 +74,23 @@ import AppBreadCrumbs from '../../../shared/components/AppBreadCrumbs.vue';
 import AppFormField from '../../../shared/components/AppFormField.vue';
 import AppFormModal from '../../../shared/components/AppFormModal.vue';
 import {useI18n} from 'vue-i18n';
-import {PaymentRegisterService} from '../services/paymentRegister.service';
 import AppButtonLoading from '../../../shared/components/AppButtonLoading.vue';
 import {useRouter} from 'vue-router';
+import {SaleDto} from '../dtos/sale.dto';
+import {AddPaymentFromAdminService} from '../services/addPaymentFromAdmin.service';
 
-const paymentRegisterService = new PaymentRegisterService();
+const addPaymentFromAdminService = new AddPaymentFromAdminService();
 
 export default defineComponent({
-  name: 'Payment',
+  name: 'AddPaymentFromAdmin',
   components: {AppButtonLoading, AppFormModal, AppBreadCrumbs, AppFormField},
-  props: ['total'],
+  props: ['sale'],
   emits: ['close'],
-  setup({total}, {emit}) {
+  setup(props, {emit}) {
     const DEFAULT_METHOD_CREDIT = 'Crédito';
     const DEFAULT_METHOD_COUNTED = 'Contado';
+    const sale: SaleDto = props.sale;
+    const total = sale.totalValue;
 
     const term = ref(6);
     const initialFee = ref(0);
@@ -113,10 +116,10 @@ export default defineComponent({
     const toPay = async () => {
       loading.value = true;
       try {
-        await paymentRegisterService.run({
+        await addPaymentFromAdminService.run({
           invoice: {
+            id: sale.id,
             isCredit: paymentMethod.value === DEFAULT_METHOD_CREDIT,
-            isQuote: false,
             totalPaid: paymentMethod.value === DEFAULT_METHOD_CREDIT ? initialFee.value : total,
           },
           quotes: paymentMethod.value === DEFAULT_METHOD_CREDIT ? term.value : null,
@@ -124,7 +127,6 @@ export default defineComponent({
           payDay: paymentMethod.value === DEFAULT_METHOD_CREDIT ? payDay.value : null,
         });
         await emit('close');
-        await router.push('/shopping');
       } catch (e) {
       }
       loading.value = false;

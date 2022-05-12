@@ -5,11 +5,11 @@ interface IAddPaymentFromAdminService {
     invoice: {
         id: number;
         totalPaid: number;
-        isCredit: number;
+        isCredit: boolean;
     };
-    quotes?: number;
-    valueQuote?: number;
-    payDay?: number;
+    quotes: number | null;
+    valueQuote: number | null;
+    payDay: number | null;
 }
 
 export class AddPaymentFromAdminService {
