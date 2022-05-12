@@ -5,6 +5,7 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref} from 'vue';
+import {useMeta} from 'vue-meta';
 
 import {useRoute} from 'vue-router';
 import AppLoading from '../../../shared/components/AppLoading.vue';
@@ -20,6 +21,9 @@ export default defineComponent({
 
   setup() {
     const title = 'Editar Institución';
+    useMeta({
+      title: title,
+    });
 
     const routes = [
       {

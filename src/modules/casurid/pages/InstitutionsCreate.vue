@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
+import {useMeta} from 'vue-meta';
 
 import AppBaseList from '../../../shared/components/AppBaseList.vue';
 import AppBackButton from '../../../shared/components/AppBackButton.vue';
@@ -18,6 +19,9 @@ export default defineComponent({
 
   setup() {
     const title = 'Nueva Institución';
+    useMeta({
+      title: title,
+    });
 
     const routes = [
       {

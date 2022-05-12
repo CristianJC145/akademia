@@ -74,6 +74,7 @@ import AppConfirmDeleteModal from '../../../shared/components/AppConfirmDeleteMo
 import {DegreeDto} from '../dtos/degree.dto';
 import DegreeForm from '../components/DegreeForm.vue';
 import {DeleteDegreeService} from '../services/deleteDegree.service';
+import {useMeta} from 'vue-meta';
 
 
 const getLevelsWithDegreesService = new GetLevelsWithDegreesService();
@@ -93,6 +94,9 @@ export default defineComponent({
   },
   setup() {
     const title = 'Niveles y grados';
+    useMeta({
+      title: title,
+    });
 
     const routes = [
       {
