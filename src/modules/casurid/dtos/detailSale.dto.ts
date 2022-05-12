@@ -9,7 +9,7 @@ export interface DetailSaleDto extends TimestampDto{
     quantity: number | null;
     unitValue: number | null;
     percentDiscount?: number;
-    totalValue: number | null;
+    totalValue?: number | null;
     productName?: string;
     validityPeriod?: number;
 }
