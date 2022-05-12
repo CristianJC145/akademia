@@ -81,7 +81,7 @@ import {useRouter} from 'vue-router';
 const paymentRegisterService = new PaymentRegisterService();
 
 export default defineComponent({
-  name: 'Payment.vue',
+  name: 'Payment',
   components: {AppButtonLoading, AppFormModal, AppBreadCrumbs, AppFormField},
   props: ['total'],
   emits: ['close'],

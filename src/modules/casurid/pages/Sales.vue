@@ -118,6 +118,7 @@ import {SaleDto} from '../dtos/sale.dto';
 import AppModal from '../../../shared/components/AppModal.vue';
 import AddPaymentFromAdmin from '../components/addPaymentFormAdmin.vue';
 import {UpdateDatatableService} from '../../../shared/services/updateDatatable.service';
+import Payment from '../components/Payment.vue';
 
 const getStatusInstitutionsService = new GetStatusInstitutionsService();
 const getStartAndEndDateMonthService = new GetStartAndEndDateMonthService();
@@ -127,6 +128,7 @@ const updateDatatableService = new UpdateDatatableService();
 export default defineComponent({
   name: 'Sales',
   components: {
+    Payment,
     AddPaymentFromAdmin,
     AppModal, AppIcon, AppButtonEdit, AppLoading, AppFormField, AppDatatable, AppBaseList,
   },
