@@ -44,10 +44,9 @@ export default defineComponent({
         }
       } else {
         await router.push({
-          name: 'casurid.shoppingCart',
+          name: 'casurid.register',
           query: {
-            quantity: amount.value,
-            productId: product.id,
+            redirectURL: `/shopping-cart?quantity=${amount.value}&productId=${product.id}`,
           },
         });
       }
