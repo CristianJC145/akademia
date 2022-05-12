@@ -1,7 +1,9 @@
 <template>
   <input type="file" class="form-control" @change="changeFile" :id="inputId"/>
 
-  <small class="text-danger">{{ errorMessage.value }}</small> <br>  
+  <small class="text-danger">{{ errorMessage.value }}</small> 
+  
+  <br v-if="currentFile && errorMessage.value">
 
   <a :href="currentFile" target="_blank" v-if="currentFile">
     <small>Ver archivo actual</small>
