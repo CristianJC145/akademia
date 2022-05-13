@@ -4,6 +4,6 @@ import {ProfileDto} from '../../../shared/dto/profile.dto';
 
 export class GetRoleRelatedDataFormService {
     async run() {
-        return axios.get<ProfileDto[]>(`${services.users}/access/roles-related-data-form`).then(response => response.data);
+        return axios.get<{ profiles: ProfileDto[] }>(`${services.users}/access/roles-related-data-form`).then(response => response.data);
     }
 }

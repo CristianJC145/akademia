@@ -20,7 +20,6 @@ interface IData {
 export default defineComponent({
   props: ['formControl'],
   emits: ['errMessage'],
-
   setup() {
     const getTranslation = (error: any) => {
       let errMessage = '';
@@ -47,9 +46,8 @@ export default defineComponent({
 
     return {
       getTranslation,
-    }
+    };
   },
-
   data(): IData {
     return {
       hasError: false,
