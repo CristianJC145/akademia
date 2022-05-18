@@ -1,3 +1,11 @@
+:root{
+  --main-color: #027581;
+  --main-gradient: linear-gradient(to right,  #f7506d, #f98046);
+  --color-dark: #1D2231;
+  --text-grey: #8390A2;
+  --front-bg: #f2f1f5;
+  --front-color: #f7506d;
+}
 @layer components {
   /*Cards*/
   .card-hover:hover {

@@ -10,7 +10,75 @@
 /*Bootstrap 5*/
 @import 'bootstrap/scss/bootstrap.scss';
 
-
 body {
   background-color: #F1F5F9;
+}
+.table-bordered > :not(caption) > * > * {
+ border-width: 0px;
+}
+.table > :not(:first-child) {
+  border-top: 1.6px solid #efefef;; 
+}
+.table thead tr th{
+  padding: 1rem 0.5rem;
+}
+.table-bordered thead{
+  border-color:transparent;
+}
+thead th{
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6rem 1rem;
+  color: #64748b;
+  border-color:transparent;
+}
+tbody td{
+  border-top-style: 1px solid #fff;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+td{
+  border-width: 0px;
+  padding: .6rem 1rem;
+  font-size: .9rem;
+  color: #222;
+}
+.flex-md-row{
+  padding: 1rem 1.5rem;
+}
+.flex-md-row span{
+  color: #93a2b7;;
+}
+.v-select{
+  border-radius: 10%;
+  cursor: pointer !important;
+}
+.vs--searchable .vs__dropdown-toggle {
+  border-radius: 10px;
+}
+div.vs__actions{
+  transform: translateX(-8px);
+}
+input.vs__search{
+
+  height: 40px;
+  background: none;
+  padding: 0 10px;
+  color: #93a2b7;
+}
+.btn-outline-primary{
+  color: #fb7185;;
+  border-color: transparent;
+}
+.btn-outline-primary:hover{
+  color: #fb7185;;
+  background-color: rgba(109, 165, 181, 0.253);
+  border-radius: 50%;
+  border-color: transparent;
+}
+
+@media (min-width: 768px){
+  .flex-md-row {
+      flex-direction: column !important;
+  }
 }

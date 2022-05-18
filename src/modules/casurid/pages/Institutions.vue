@@ -12,9 +12,9 @@
             :params="params"
         >
             <template v-slot:filters>
-                <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
+                <div class="d-flex flex-column flex-md-row gap-2">
                     <span>
-                        Filtros:
+                        Filtros
                     </span>
 
                     <v-select
